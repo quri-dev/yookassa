@@ -9,15 +9,23 @@ import (
 	"os"
 	"testing"
 
+	"github.com/joho/godotenv"
 	"github.com/wildwind123/yookassa/ogencl"
 )
 
 type C struct{}
 
+func init() {
+	err := godotenv.Load()
+	if err != nil {
+		slog.Error("cant load dot env")
+	}
+}
+
 func (c *C) BasicAuth(ctx context.Context, operationName string) (ogencl.BasicAuth, error) {
 	return ogencl.BasicAuth{
-		Username: "361728",
-		Password: "test_GSlobMkMJ_amUemttt3epjBLx_lUKrhFpYzkvQs_pE0",
+		Username: os.Getenv("YOOKASSA_USER"),
+		Password: os.Getenv("YOOKASSA_PASSWORD"),
 	}, nil
 }
 
@@ -87,7 +95,6 @@ func TestXxx(t *testing.T) {
 }
 
 func TestPaymentInfo(t *testing.T) {
-	t.Skip()
 	client := http.Client{
 		Transport: &LoggingTransport{
 			Logger: slog.Default(),
@@ -109,9 +116,4 @@ func TestPaymentInfo(t *testing.T) {
 		return
 	}
 	fmt.Println("response", r)
-}
-
-func TestArgs(t *testing.T) {
-	fmt.Println(os.Getenv("TEST_ENV_VAR"))
-	fmt.Println(os.Args)
 }
