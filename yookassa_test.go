@@ -6,6 +6,7 @@ import (
 	"log/slog"
 	"net/http"
 	"net/http/httputil"
+	"os"
 	"testing"
 
 	"github.com/wildwind123/yookassa/ogencl"
@@ -15,8 +16,8 @@ type C struct{}
 
 func (c *C) BasicAuth(ctx context.Context, operationName string) (ogencl.BasicAuth, error) {
 	return ogencl.BasicAuth{
-		// Username: "361728",
-		// Password: "test_GSlobMkMJ_amUemttt3epjBLx_lUKrhFpYzkvQs_pE0",
+		Username: "361728",
+		Password: "test_GSlobMkMJ_amUemttt3epjBLx_lUKrhFpYzkvQs_pE0",
 	}, nil
 }
 
@@ -108,4 +109,9 @@ func TestPaymentInfo(t *testing.T) {
 		return
 	}
 	fmt.Println("response", r)
+}
+
+func TestArgs(t *testing.T) {
+	fmt.Println(os.Getenv("TEST_ENV_VAR"))
+	fmt.Println(os.Args)
 }
