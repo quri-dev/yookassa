@@ -1,0 +1,221 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: yookassa
+
+tags:
+  - name: payment
+
+paths:
+  /v3/payments:
+    post:
+      security:
+        - basicAuth: []
+      parameters:
+        - $ref: "#/components/parameters/IdempotenceKey"
+      tags:
+        - payment
+      description: ""
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Payment"
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreatePaymentRes"
+  /v3/payments/{payment_id}:
+     parameters:
+       - $ref: "#/components/parameters/IdempotenceKey"
+       - in: path
+         name: payment_id
+         required: true
+         schema:
+          type: string
+     get:
+      security:
+        - basicAuth: []
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreatePaymentRes"         
+
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+  parameters:
+    IdempotenceKey:
+      in: header
+      required: true
+      description: "Ключ идемпотентности"
+      name: Idempotence-Key
+      schema:
+        type: string
+  schemas:
+    Payment:
+      type: object
+      required:
+        - amount
+      properties:
+        amount:
+          type: object
+          required: [currency, value]
+          description: |
+            Сумма платежа. Иногда партнеры ЮKassa берут с пользователя дополнительную комиссию, которая не входит в эту сумму.
+          properties:
+            currency:
+              description: |
+                Трехбуквенный код валюты в формате ISO-4217. Пример: RUB. Должен соответствовать валюте субаккаунта (recipient.gateway_id), если вы разделяете потоки платежей, и валюте аккаунта (shopId в личном кабинете), если не разделяете.
+              type: string
+              enum:
+                - RUB
+            value:
+              description: |
+                Сумма в выбранной валюте. Всегда дробное значение. Разделитель дробной части — точка, разделитель тысяч отсутствует. Количество знаков после точки зависит от выбранной валюты. Пример: 1000.00.
+              type: string
+        confirmation:
+          oneOf:
+            - $ref: "#/components/schemas/PaymentConfirmationEmbedded"
+        capture:
+          description: |
+            Автоматический прием  поступившего платежа.
+          type: boolean
+          default: false
+        description:
+          type: string
+          description: |
+            Описание транзакции (не более 128 символов), которое вы увидите в личном кабинете ЮKassa, а пользователь — при оплате. Например: «Оплата заказа № 72 для user@yoomoney.ru».
+        save_payment_method:
+          type: boolean
+          description: |
+            Сохранение платежных данных (с их помощью можно проводить повторные безакцептные списания ). Значение true инициирует создание многоразового payment_method.
+        payment_method_id:
+          description: |
+            Идентификатор сохраненного способа оплаты 
+          type: string
+
+    PaymentConfirmationEmbedded:
+      type: object
+      required:
+        - type
+      properties:
+        type:
+          description: |
+            Значение — embedded.
+            Код сценария подтверждения.
+          type: string
+          default: embedded
+          enum:
+            - embedded
+            - external
+        locale:
+          description: |
+            Язык интерфейса, писем и смс, которые будет видеть или получать пользователь. Формат соответствует ISO/IEC 15897. Возможные значения: ru_RU, en_US. Регистр важен.
+          type: string
+    CreatePaymentRes:
+      type: object
+      required: [id, status,amount, recipient, created_at,test,paid,refundable]
+      properties:
+        id: 
+          type: string
+        status: 
+          type: string
+        paid: 
+          type: boolean
+        amount: 
+          type: object
+          properties: 
+            value: 
+              type: string
+            currency: 
+              type: string
+        authorization_details: 
+          type: object
+          properties: 
+            rrn: 
+              type: string
+            auth_code: 
+              type: string
+            three_d_secure: 
+              type: object
+              properties: 
+                applied: 
+                  type: boolean
+        created_at: 
+          type: string
+          format: date-time
+        description: 
+          type: string
+        expires_at: 
+          type: string
+          format: date-time
+        metadata: 
+          type: object
+        payment_method: 
+          type: object
+          required:
+            - type
+            - id
+            - saved
+          properties: 
+            type: 
+              type: string
+            id: 
+              type: string
+            saved: 
+              type: boolean
+            card: 
+              type: object
+              properties: 
+                first6: 
+                  type: string
+                last4: 
+                  type: string
+                expiry_month: 
+                  type: string
+                expiry_year: 
+                  type: string
+                card_type: 
+                  type: string
+                card_product: 
+                  type: object
+                  properties: 
+                    code: 
+                      type: string
+                    name: 
+                      type: string
+                issuer_country: 
+                  type: string
+                issuer_name: 
+                  type: string
+            title: 
+              type: string
+        recipient: 
+          type: object
+          properties: 
+            account_id: 
+              type: string
+            gateway_id: 
+              type: string
+        refundable: 
+          type: boolean
+        test: 
+          type: boolean
+        income_amount: 
+          type: object
+          properties: 
+            value: 
+              type: string
+            currency: 
+              type: string
+
