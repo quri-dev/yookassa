@@ -9,8 +9,6 @@ generator:
       # Disables webhooks server generation
       - 'webhooks/server'
       # Disables validation of server responses
-      - 'server/response/validation'
-      # Disables OpenTelemetry integration
       - 'ogen/otel'
       # Disables stub Handler generation
       - 'ogen/unimplemented'
