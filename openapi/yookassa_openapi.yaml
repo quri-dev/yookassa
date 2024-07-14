@@ -103,6 +103,9 @@ components:
           description: |
             Идентификатор сохраненного способа оплаты 
           type: string
+        metadata:
+          type: object
+          additionalProperties: true
 
     PaymentConfirmationEmbedded:
       type: object

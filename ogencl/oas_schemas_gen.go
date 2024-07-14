@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/go-faster/errors"
+	"github.com/go-faster/jx"
 )
 
 type BasicAuth struct {
@@ -906,6 +907,52 @@ func (o OptPaymentConfirmation) Or(d PaymentConfirmation) PaymentConfirmation {
 	return d
 }
 
+// NewOptPaymentMetadata returns new OptPaymentMetadata with value set to v.
+func NewOptPaymentMetadata(v PaymentMetadata) OptPaymentMetadata {
+	return OptPaymentMetadata{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptPaymentMetadata is optional PaymentMetadata.
+type OptPaymentMetadata struct {
+	Value PaymentMetadata
+	Set   bool
+}
+
+// IsSet returns true if OptPaymentMetadata was set.
+func (o OptPaymentMetadata) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptPaymentMetadata) Reset() {
+	var v PaymentMetadata
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptPaymentMetadata) SetTo(v PaymentMetadata) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptPaymentMetadata) Get() (v PaymentMetadata, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptPaymentMetadata) Or(d PaymentMetadata) PaymentMetadata {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptString returns new OptString with value set to v.
 func NewOptString(v string) OptString {
 	return OptString{
@@ -971,7 +1018,8 @@ type Payment struct {
 	// payment_method.
 	SavePaymentMethod OptBool `json:"save_payment_method"`
 	// Идентификатор сохраненного способа оплаты.
-	PaymentMethodID OptString `json:"payment_method_id"`
+	PaymentMethodID OptString          `json:"payment_method_id"`
+	Metadata        OptPaymentMetadata `json:"metadata"`
 }
 
 // GetAmount returns the value of Amount.
@@ -1004,6 +1052,11 @@ func (s *Payment) GetPaymentMethodID() OptString {
 	return s.PaymentMethodID
 }
 
+// GetMetadata returns the value of Metadata.
+func (s *Payment) GetMetadata() OptPaymentMetadata {
+	return s.Metadata
+}
+
 // SetAmount sets the value of Amount.
 func (s *Payment) SetAmount(val PaymentAmount) {
 	s.Amount = val
@@ -1032,6 +1085,11 @@ func (s *Payment) SetSavePaymentMethod(val OptBool) {
 // SetPaymentMethodID sets the value of PaymentMethodID.
 func (s *Payment) SetPaymentMethodID(val OptString) {
 	s.PaymentMethodID = val
+}
+
+// SetMetadata sets the value of Metadata.
+func (s *Payment) SetMetadata(val OptPaymentMetadata) {
+	s.Metadata = val
 }
 
 // Сумма платежа. Иногда партнеры ЮKassa берут с
@@ -1220,4 +1278,15 @@ func (s *PaymentConfirmationEmbeddedType) UnmarshalText(data []byte) error {
 	default:
 		return errors.Errorf("invalid value: %q", data)
 	}
+}
+
+type PaymentMetadata map[string]jx.Raw
+
+func (s *PaymentMetadata) init() PaymentMetadata {
+	m := *s
+	if m == nil {
+		m = map[string]jx.Raw{}
+		*s = m
+	}
+	return m
 }

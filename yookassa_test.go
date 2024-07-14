@@ -9,6 +9,7 @@ import (
 	"os"
 	"testing"
 
+	"github.com/go-faster/jx"
 	"github.com/joho/godotenv"
 	"github.com/wildwind123/yookassa/ogencl"
 )
@@ -84,8 +85,11 @@ func TestXxx(t *testing.T) {
 		Capture: ogencl.NewOptBool(true),
 		// Description:       ogencl.OptString{},
 		SavePaymentMethod: ogencl.NewOptBool(true),
+		Metadata: ogencl.NewOptPaymentMetadata(ogencl.PaymentMetadata{
+			"user_id": jx.Raw("123"),
+		}),
 	}, ogencl.V3PaymentsPostParams{
-		IdempotenceKey: "asdfas",
+		IdempotenceKey: "foo_45",
 	})
 	if err != nil {
 		t.Error(err)
