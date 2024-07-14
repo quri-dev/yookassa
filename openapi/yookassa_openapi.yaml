@@ -221,4 +221,13 @@ components:
               type: string
             currency: 
               type: string
-
+        confirmation: 
+          type: object
+          required:
+            - type
+          properties:
+            type:
+              type: string
+              enum : [embedded]
+            confirmation_token:
+              type: string

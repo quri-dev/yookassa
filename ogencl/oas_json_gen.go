@@ -91,9 +91,15 @@ func (s *CreatePaymentRes) encodeFields(e *jx.Encoder) {
 			s.IncomeAmount.Encode(e)
 		}
 	}
+	{
+		if s.Confirmation.Set {
+			e.FieldStart("confirmation")
+			s.Confirmation.Encode(e)
+		}
+	}
 }
 
-var jsonFieldsNameOfCreatePaymentRes = [14]string{
+var jsonFieldsNameOfCreatePaymentRes = [15]string{
 	0:  "id",
 	1:  "status",
 	2:  "paid",
@@ -108,6 +114,7 @@ var jsonFieldsNameOfCreatePaymentRes = [14]string{
 	11: "refundable",
 	12: "test",
 	13: "income_amount",
+	14: "confirmation",
 }
 
 // Decode decodes CreatePaymentRes from json.
@@ -272,6 +279,16 @@ func (s *CreatePaymentRes) Decode(d *jx.Decoder) error {
 				return nil
 			}(); err != nil {
 				return errors.Wrap(err, "decode field \"income_amount\"")
+			}
+		case "confirmation":
+			if err := func() error {
+				s.Confirmation.Reset()
+				if err := s.Confirmation.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"confirmation\"")
 			}
 		default:
 			return d.Skip()
@@ -566,6 +583,155 @@ func (s *CreatePaymentResAuthorizationDetailsThreeDSecure) MarshalJSON() ([]byte
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
 func (s *CreatePaymentResAuthorizationDetailsThreeDSecure) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *CreatePaymentResConfirmation) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *CreatePaymentResConfirmation) encodeFields(e *jx.Encoder) {
+	{
+		e.FieldStart("type")
+		s.Type.Encode(e)
+	}
+	{
+		if s.ConfirmationToken.Set {
+			e.FieldStart("confirmation_token")
+			s.ConfirmationToken.Encode(e)
+		}
+	}
+}
+
+var jsonFieldsNameOfCreatePaymentResConfirmation = [2]string{
+	0: "type",
+	1: "confirmation_token",
+}
+
+// Decode decodes CreatePaymentResConfirmation from json.
+func (s *CreatePaymentResConfirmation) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode CreatePaymentResConfirmation to nil")
+	}
+	var requiredBitSet [1]uint8
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "type":
+			requiredBitSet[0] |= 1 << 0
+			if err := func() error {
+				if err := s.Type.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"type\"")
+			}
+		case "confirmation_token":
+			if err := func() error {
+				s.ConfirmationToken.Reset()
+				if err := s.ConfirmationToken.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"confirmation_token\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode CreatePaymentResConfirmation")
+	}
+	// Validate required fields.
+	var failures []validate.FieldError
+	for i, mask := range [1]uint8{
+		0b00000001,
+	} {
+		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
+			// Mask only required fields and check equality to mask using XOR.
+			//
+			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
+			// Bits of fields which would be set are actually bits of missed fields.
+			missed := bits.OnesCount8(result)
+			for bitN := 0; bitN < missed; bitN++ {
+				bitIdx := bits.TrailingZeros8(result)
+				fieldIdx := i*8 + bitIdx
+				var name string
+				if fieldIdx < len(jsonFieldsNameOfCreatePaymentResConfirmation) {
+					name = jsonFieldsNameOfCreatePaymentResConfirmation[fieldIdx]
+				} else {
+					name = strconv.Itoa(fieldIdx)
+				}
+				failures = append(failures, validate.FieldError{
+					Name:  name,
+					Error: validate.ErrFieldRequired,
+				})
+				// Reset bit.
+				result &^= 1 << bitIdx
+			}
+		}
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *CreatePaymentResConfirmation) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *CreatePaymentResConfirmation) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes CreatePaymentResConfirmationType as json.
+func (s CreatePaymentResConfirmationType) Encode(e *jx.Encoder) {
+	e.Str(string(s))
+}
+
+// Decode decodes CreatePaymentResConfirmationType from json.
+func (s *CreatePaymentResConfirmationType) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode CreatePaymentResConfirmationType to nil")
+	}
+	v, err := d.StrBytes()
+	if err != nil {
+		return err
+	}
+	// Try to use constant string.
+	switch CreatePaymentResConfirmationType(v) {
+	case CreatePaymentResConfirmationTypeEmbedded:
+		*s = CreatePaymentResConfirmationTypeEmbedded
+	default:
+		*s = CreatePaymentResConfirmationType(v)
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s CreatePaymentResConfirmationType) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *CreatePaymentResConfirmationType) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -1297,6 +1463,39 @@ func (s OptCreatePaymentResAuthorizationDetailsThreeDSecure) MarshalJSON() ([]by
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
 func (s *OptCreatePaymentResAuthorizationDetailsThreeDSecure) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes CreatePaymentResConfirmation as json.
+func (o OptCreatePaymentResConfirmation) Encode(e *jx.Encoder) {
+	if !o.Set {
+		return
+	}
+	o.Value.Encode(e)
+}
+
+// Decode decodes CreatePaymentResConfirmation from json.
+func (o *OptCreatePaymentResConfirmation) Decode(d *jx.Decoder) error {
+	if o == nil {
+		return errors.New("invalid: unable to decode OptCreatePaymentResConfirmation to nil")
+	}
+	o.Set = true
+	if err := o.Value.Decode(d); err != nil {
+		return err
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s OptCreatePaymentResConfirmation) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *OptCreatePaymentResConfirmation) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }

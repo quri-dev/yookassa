@@ -55,14 +55,13 @@ func TestXxx(t *testing.T) {
 				Type: ogencl.PaymentConfirmationEmbeddedTypeEmbedded,
 			},
 		}),
-		Capture: ogencl.NewOptBool(true),
-		// Description:       ogencl.OptString{},
+		Capture:           ogencl.NewOptBool(true),
 		SavePaymentMethod: ogencl.NewOptBool(true),
 		Metadata: ogencl.NewOptPaymentMetadata(ogencl.PaymentMetadata{
 			"user_id": jx.Raw("123"),
 		}),
 	}, ogencl.V3PaymentsPostParams{
-		IdempotenceKey: "foo_45",
+		IdempotenceKey: "foo_456_2",
 	})
 	if err != nil {
 		t.Error(err)

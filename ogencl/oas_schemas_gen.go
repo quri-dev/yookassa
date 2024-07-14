@@ -50,6 +50,7 @@ type CreatePaymentRes struct {
 	Refundable           bool                                    `json:"refundable"`
 	Test                 bool                                    `json:"test"`
 	IncomeAmount         OptCreatePaymentResIncomeAmount         `json:"income_amount"`
+	Confirmation         OptCreatePaymentResConfirmation         `json:"confirmation"`
 }
 
 // GetID returns the value of ID.
@@ -122,6 +123,11 @@ func (s *CreatePaymentRes) GetIncomeAmount() OptCreatePaymentResIncomeAmount {
 	return s.IncomeAmount
 }
 
+// GetConfirmation returns the value of Confirmation.
+func (s *CreatePaymentRes) GetConfirmation() OptCreatePaymentResConfirmation {
+	return s.Confirmation
+}
+
 // SetID sets the value of ID.
 func (s *CreatePaymentRes) SetID(val string) {
 	s.ID = val
@@ -190,6 +196,11 @@ func (s *CreatePaymentRes) SetTest(val bool) {
 // SetIncomeAmount sets the value of IncomeAmount.
 func (s *CreatePaymentRes) SetIncomeAmount(val OptCreatePaymentResIncomeAmount) {
 	s.IncomeAmount = val
+}
+
+// SetConfirmation sets the value of Confirmation.
+func (s *CreatePaymentRes) SetConfirmation(val OptCreatePaymentResConfirmation) {
+	s.Confirmation = val
 }
 
 type CreatePaymentResAmount struct {
@@ -265,6 +276,65 @@ func (s *CreatePaymentResAuthorizationDetailsThreeDSecure) GetApplied() OptBool 
 // SetApplied sets the value of Applied.
 func (s *CreatePaymentResAuthorizationDetailsThreeDSecure) SetApplied(val OptBool) {
 	s.Applied = val
+}
+
+type CreatePaymentResConfirmation struct {
+	Type              CreatePaymentResConfirmationType `json:"type"`
+	ConfirmationToken OptString                        `json:"confirmation_token"`
+}
+
+// GetType returns the value of Type.
+func (s *CreatePaymentResConfirmation) GetType() CreatePaymentResConfirmationType {
+	return s.Type
+}
+
+// GetConfirmationToken returns the value of ConfirmationToken.
+func (s *CreatePaymentResConfirmation) GetConfirmationToken() OptString {
+	return s.ConfirmationToken
+}
+
+// SetType sets the value of Type.
+func (s *CreatePaymentResConfirmation) SetType(val CreatePaymentResConfirmationType) {
+	s.Type = val
+}
+
+// SetConfirmationToken sets the value of ConfirmationToken.
+func (s *CreatePaymentResConfirmation) SetConfirmationToken(val OptString) {
+	s.ConfirmationToken = val
+}
+
+type CreatePaymentResConfirmationType string
+
+const (
+	CreatePaymentResConfirmationTypeEmbedded CreatePaymentResConfirmationType = "embedded"
+)
+
+// AllValues returns all CreatePaymentResConfirmationType values.
+func (CreatePaymentResConfirmationType) AllValues() []CreatePaymentResConfirmationType {
+	return []CreatePaymentResConfirmationType{
+		CreatePaymentResConfirmationTypeEmbedded,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s CreatePaymentResConfirmationType) MarshalText() ([]byte, error) {
+	switch s {
+	case CreatePaymentResConfirmationTypeEmbedded:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *CreatePaymentResConfirmationType) UnmarshalText(data []byte) error {
+	switch CreatePaymentResConfirmationType(data) {
+	case CreatePaymentResConfirmationTypeEmbedded:
+		*s = CreatePaymentResConfirmationTypeEmbedded
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
 }
 
 type CreatePaymentResIncomeAmount struct {
@@ -625,6 +695,52 @@ func (o OptCreatePaymentResAuthorizationDetailsThreeDSecure) Get() (v CreatePaym
 
 // Or returns value if set, or given parameter if does not.
 func (o OptCreatePaymentResAuthorizationDetailsThreeDSecure) Or(d CreatePaymentResAuthorizationDetailsThreeDSecure) CreatePaymentResAuthorizationDetailsThreeDSecure {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptCreatePaymentResConfirmation returns new OptCreatePaymentResConfirmation with value set to v.
+func NewOptCreatePaymentResConfirmation(v CreatePaymentResConfirmation) OptCreatePaymentResConfirmation {
+	return OptCreatePaymentResConfirmation{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCreatePaymentResConfirmation is optional CreatePaymentResConfirmation.
+type OptCreatePaymentResConfirmation struct {
+	Value CreatePaymentResConfirmation
+	Set   bool
+}
+
+// IsSet returns true if OptCreatePaymentResConfirmation was set.
+func (o OptCreatePaymentResConfirmation) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCreatePaymentResConfirmation) Reset() {
+	var v CreatePaymentResConfirmation
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCreatePaymentResConfirmation) SetTo(v CreatePaymentResConfirmation) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCreatePaymentResConfirmation) Get() (v CreatePaymentResConfirmation, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCreatePaymentResConfirmation) Or(d CreatePaymentResConfirmation) CreatePaymentResConfirmation {
 	if v, ok := o.Get(); ok {
 		return v
 	}
