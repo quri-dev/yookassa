@@ -977,6 +977,52 @@ func (o OptDateTime) Or(d time.Time) time.Time {
 	return d
 }
 
+// NewOptInt returns new OptInt with value set to v.
+func NewOptInt(v int) OptInt {
+	return OptInt{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptInt is optional int.
+type OptInt struct {
+	Value int
+	Set   bool
+}
+
+// IsSet returns true if OptInt was set.
+func (o OptInt) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptInt) Reset() {
+	var v int
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptInt) SetTo(v int) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptInt) Get() (v int, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptInt) Or(d int) int {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptPaymentConfirmation returns new OptPaymentConfirmation with value set to v.
 func NewOptPaymentConfirmation(v PaymentConfirmation) OptPaymentConfirmation {
 	return OptPaymentConfirmation{
@@ -1405,4 +1451,51 @@ func (s *PaymentMetadata) init() PaymentMetadata {
 		*s = m
 	}
 	return m
+}
+
+type V3PaymentsGetOK struct {
+	Limit      OptInt    `json:"limit"`
+	NextCursor OptString `json:"next_cursor"`
+	Type       OptString `json:"type"`
+	Items      []Payment `json:"items"`
+}
+
+// GetLimit returns the value of Limit.
+func (s *V3PaymentsGetOK) GetLimit() OptInt {
+	return s.Limit
+}
+
+// GetNextCursor returns the value of NextCursor.
+func (s *V3PaymentsGetOK) GetNextCursor() OptString {
+	return s.NextCursor
+}
+
+// GetType returns the value of Type.
+func (s *V3PaymentsGetOK) GetType() OptString {
+	return s.Type
+}
+
+// GetItems returns the value of Items.
+func (s *V3PaymentsGetOK) GetItems() []Payment {
+	return s.Items
+}
+
+// SetLimit sets the value of Limit.
+func (s *V3PaymentsGetOK) SetLimit(val OptInt) {
+	s.Limit = val
+}
+
+// SetNextCursor sets the value of NextCursor.
+func (s *V3PaymentsGetOK) SetNextCursor(val OptString) {
+	s.NextCursor = val
+}
+
+// SetType sets the value of Type.
+func (s *V3PaymentsGetOK) SetType(val OptString) {
+	s.Type = val
+}
+
+// SetItems sets the value of Items.
+func (s *V3PaymentsGetOK) SetItems(val []Payment) {
+	s.Items = val
 }
