@@ -6,14 +6,8 @@ import (
 	"context"
 	"net/url"
 	"strings"
-	"time"
 
 	"github.com/go-faster/errors"
-	"go.opentelemetry.io/otel/attribute"
-	"go.opentelemetry.io/otel/codes"
-	"go.opentelemetry.io/otel/metric"
-	semconv "go.opentelemetry.io/otel/semconv/v1.19.0"
-	"go.opentelemetry.io/otel/trace"
 
 	"github.com/ogen-go/ogen/conv"
 	ht "github.com/ogen-go/ogen/http"
@@ -88,39 +82,7 @@ func (c *Client) V3PaymentsPaymentIDGet(ctx context.Context, params V3PaymentsPa
 }
 
 func (c *Client) sendV3PaymentsPaymentIDGet(ctx context.Context, params V3PaymentsPaymentIDGetParams) (res *CreatePaymentRes, err error) {
-	otelAttrs := []attribute.KeyValue{
-		semconv.HTTPMethodKey.String("GET"),
-		semconv.HTTPRouteKey.String("/v3/payments/{payment_id}"),
-	}
 
-	// Run stopwatch.
-	startTime := time.Now()
-	defer func() {
-		// Use floating point division here for higher precision (instead of Millisecond method).
-		elapsedDuration := time.Since(startTime)
-		c.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), metric.WithAttributes(otelAttrs...))
-	}()
-
-	// Increment request counter.
-	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
-
-	// Start a span for this request.
-	ctx, span := c.cfg.Tracer.Start(ctx, "V3PaymentsPaymentIDGet",
-		trace.WithAttributes(otelAttrs...),
-		clientSpanKind,
-	)
-	// Track stage for error reporting.
-	var stage string
-	defer func() {
-		if err != nil {
-			span.RecordError(err)
-			span.SetStatus(codes.Error, stage)
-			c.errors.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
-		}
-		span.End()
-	}()
-
-	stage = "BuildURL"
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [2]string
 	pathParts[0] = "/v3/payments/"
@@ -144,13 +106,11 @@ func (c *Client) sendV3PaymentsPaymentIDGet(ctx context.Context, params V3Paymen
 	}
 	uri.AddPathParts(u, pathParts[:]...)
 
-	stage = "EncodeRequest"
 	r, err := ht.NewRequest(ctx, "GET", u)
 	if err != nil {
 		return res, errors.Wrap(err, "create request")
 	}
 
-	stage = "EncodeHeaderParams"
 	h := uri.NewHeaderEncoder(r.Header)
 	{
 		cfg := uri.HeaderParameterEncodingConfig{
@@ -168,7 +128,7 @@ func (c *Client) sendV3PaymentsPaymentIDGet(ctx context.Context, params V3Paymen
 		type bitset = [1]uint8
 		var satisfied bitset
 		{
-			stage = "Security:BasicAuth"
+
 			switch err := c.securityBasicAuth(ctx, "V3PaymentsPaymentIDGet", r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
@@ -197,14 +157,12 @@ func (c *Client) sendV3PaymentsPaymentIDGet(ctx context.Context, params V3Paymen
 		}
 	}
 
-	stage = "SendRequest"
 	resp, err := c.cfg.Client.Do(r)
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
 	defer resp.Body.Close()
 
-	stage = "DecodeResponse"
 	result, err := decodeV3PaymentsPaymentIDGetResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
@@ -222,45 +180,12 @@ func (c *Client) V3PaymentsPost(ctx context.Context, request *Payment, params V3
 }
 
 func (c *Client) sendV3PaymentsPost(ctx context.Context, request *Payment, params V3PaymentsPostParams) (res *CreatePaymentRes, err error) {
-	otelAttrs := []attribute.KeyValue{
-		semconv.HTTPMethodKey.String("POST"),
-		semconv.HTTPRouteKey.String("/v3/payments"),
-	}
 
-	// Run stopwatch.
-	startTime := time.Now()
-	defer func() {
-		// Use floating point division here for higher precision (instead of Millisecond method).
-		elapsedDuration := time.Since(startTime)
-		c.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), metric.WithAttributes(otelAttrs...))
-	}()
-
-	// Increment request counter.
-	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
-
-	// Start a span for this request.
-	ctx, span := c.cfg.Tracer.Start(ctx, "V3PaymentsPost",
-		trace.WithAttributes(otelAttrs...),
-		clientSpanKind,
-	)
-	// Track stage for error reporting.
-	var stage string
-	defer func() {
-		if err != nil {
-			span.RecordError(err)
-			span.SetStatus(codes.Error, stage)
-			c.errors.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
-		}
-		span.End()
-	}()
-
-	stage = "BuildURL"
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [1]string
 	pathParts[0] = "/v3/payments"
 	uri.AddPathParts(u, pathParts[:]...)
 
-	stage = "EncodeRequest"
 	r, err := ht.NewRequest(ctx, "POST", u)
 	if err != nil {
 		return res, errors.Wrap(err, "create request")
@@ -269,7 +194,6 @@ func (c *Client) sendV3PaymentsPost(ctx context.Context, request *Payment, param
 		return res, errors.Wrap(err, "encode request")
 	}
 
-	stage = "EncodeHeaderParams"
 	h := uri.NewHeaderEncoder(r.Header)
 	{
 		cfg := uri.HeaderParameterEncodingConfig{
@@ -287,7 +211,7 @@ func (c *Client) sendV3PaymentsPost(ctx context.Context, request *Payment, param
 		type bitset = [1]uint8
 		var satisfied bitset
 		{
-			stage = "Security:BasicAuth"
+
 			switch err := c.securityBasicAuth(ctx, "V3PaymentsPost", r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
@@ -316,14 +240,12 @@ func (c *Client) sendV3PaymentsPost(ctx context.Context, request *Payment, param
 		}
 	}
 
-	stage = "SendRequest"
 	resp, err := c.cfg.Client.Do(r)
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
 	defer resp.Body.Close()
 
-	stage = "DecodeResponse"
 	result, err := decodeV3PaymentsPostResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
