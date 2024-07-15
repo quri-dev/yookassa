@@ -173,7 +173,7 @@ components:
         id: 
           type: string
         status: 
-          type: string
+          $ref : "#/components/schemas/PaymentStatus"
         paid: 
           type: boolean
         amount: 
@@ -272,3 +272,10 @@ components:
               enum : [embedded]
             confirmation_token:
               type: string
+    PaymentStatus:
+      type: string
+      enum:
+        - pending
+        - waiting_for_capture
+        - succeeded
+        - canceled
