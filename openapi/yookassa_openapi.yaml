@@ -196,6 +196,7 @@ components:
           format: date-time
         metadata: 
           type: object
+          additionalProperties: true
         payment_method: 
           type: object
           required:
