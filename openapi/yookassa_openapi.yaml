@@ -64,7 +64,6 @@ paths:
                 $ref: "#/components/schemas/CreatePaymentRes"
   /v3/payments/{payment_id}:
      parameters:
-       - $ref: "#/components/parameters/IdempotenceKey"
        - in: path
          name: payment_id
          required: true

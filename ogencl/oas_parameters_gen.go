@@ -10,9 +10,7 @@ type V3PaymentsGetParams struct {
 
 // V3PaymentsPaymentIDGetParams is parameters of GET /v3/payments/{payment_id} operation.
 type V3PaymentsPaymentIDGetParams struct {
-	// Ключ идемпотентности.
-	IdempotenceKey string
-	PaymentID      string
+	PaymentID string
 }
 
 // V3PaymentsPostParams is parameters of POST /v3/payments operation.

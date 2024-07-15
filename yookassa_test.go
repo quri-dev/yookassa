@@ -94,26 +94,3 @@ func TestPaymentInfo(t *testing.T) {
 	}
 	fmt.Println("response", r)
 }
-
-func TestPayments(t *testing.T) {
-	t.Skip()
-	client := http.Client{
-		Transport: &LoggingTransport{
-			Logger: slog.Default(),
-			Level:  slog.LevelDebug,
-		},
-	}
-	ogenCl, err := ogencl.NewClient("https://api.yookassa.ru", &C{}, ogencl.WithClient(&client))
-	if err != nil {
-		t.Error(err)
-		return
-	}
-	ctx := context.Background()
-
-	r, err := ogenCl.V3PaymentsGet(ctx)
-	if err != nil {
-		t.Errorf("%+v", err)
-		return
-	}
-	fmt.Println("response", r)
-}
