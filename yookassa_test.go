@@ -57,7 +57,7 @@ func TestXxx(t *testing.T) {
 		}),
 		Capture:           ogencl.NewOptBool(true),
 		SavePaymentMethod: ogencl.NewOptBool(true),
-		Metadata: ogencl.NewOptPaymentMetadata(ogencl.PaymentMetadata{
+		Metadata: ogencl.NewOptMetadata(ogencl.Metadata{
 			"user_id": jx.Raw("123"),
 		}),
 	}, ogencl.V3PaymentsPostParams{

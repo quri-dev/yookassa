@@ -44,7 +44,7 @@ type CreatePaymentRes struct {
 	CreatedAt            time.Time                               `json:"created_at"`
 	Description          OptString                               `json:"description"`
 	ExpiresAt            OptDateTime                             `json:"expires_at"`
-	Metadata             OptCreatePaymentResMetadata             `json:"metadata"`
+	Metadata             OptMetadata                             `json:"metadata"`
 	PaymentMethod        OptCreatePaymentResPaymentMethod        `json:"payment_method"`
 	Recipient            CreatePaymentResRecipient               `json:"recipient"`
 	Refundable           bool                                    `json:"refundable"`
@@ -94,7 +94,7 @@ func (s *CreatePaymentRes) GetExpiresAt() OptDateTime {
 }
 
 // GetMetadata returns the value of Metadata.
-func (s *CreatePaymentRes) GetMetadata() OptCreatePaymentResMetadata {
+func (s *CreatePaymentRes) GetMetadata() OptMetadata {
 	return s.Metadata
 }
 
@@ -169,7 +169,7 @@ func (s *CreatePaymentRes) SetExpiresAt(val OptDateTime) {
 }
 
 // SetMetadata sets the value of Metadata.
-func (s *CreatePaymentRes) SetMetadata(val OptCreatePaymentResMetadata) {
+func (s *CreatePaymentRes) SetMetadata(val OptMetadata) {
 	s.Metadata = val
 }
 
@@ -360,17 +360,6 @@ func (s *CreatePaymentResIncomeAmount) SetValue(val OptString) {
 // SetCurrency sets the value of Currency.
 func (s *CreatePaymentResIncomeAmount) SetCurrency(val OptString) {
 	s.Currency = val
-}
-
-type CreatePaymentResMetadata map[string]jx.Raw
-
-func (s *CreatePaymentResMetadata) init() CreatePaymentResMetadata {
-	m := *s
-	if m == nil {
-		m = map[string]jx.Raw{}
-		*s = m
-	}
-	return m
 }
 
 type CreatePaymentResPaymentMethod struct {
@@ -570,6 +559,18 @@ func (s *CreatePaymentResRecipient) SetAccountID(val OptString) {
 // SetGatewayID sets the value of GatewayID.
 func (s *CreatePaymentResRecipient) SetGatewayID(val OptString) {
 	s.GatewayID = val
+}
+
+// Ref: #/components/schemas/Metadata
+type Metadata map[string]jx.Raw
+
+func (s *Metadata) init() Metadata {
+	m := *s
+	if m == nil {
+		m = map[string]jx.Raw{}
+		*s = m
+	}
+	return m
 }
 
 // NewOptBool returns new OptBool with value set to v.
@@ -796,52 +797,6 @@ func (o OptCreatePaymentResIncomeAmount) Get() (v CreatePaymentResIncomeAmount, 
 
 // Or returns value if set, or given parameter if does not.
 func (o OptCreatePaymentResIncomeAmount) Or(d CreatePaymentResIncomeAmount) CreatePaymentResIncomeAmount {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptCreatePaymentResMetadata returns new OptCreatePaymentResMetadata with value set to v.
-func NewOptCreatePaymentResMetadata(v CreatePaymentResMetadata) OptCreatePaymentResMetadata {
-	return OptCreatePaymentResMetadata{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptCreatePaymentResMetadata is optional CreatePaymentResMetadata.
-type OptCreatePaymentResMetadata struct {
-	Value CreatePaymentResMetadata
-	Set   bool
-}
-
-// IsSet returns true if OptCreatePaymentResMetadata was set.
-func (o OptCreatePaymentResMetadata) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptCreatePaymentResMetadata) Reset() {
-	var v CreatePaymentResMetadata
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptCreatePaymentResMetadata) SetTo(v CreatePaymentResMetadata) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptCreatePaymentResMetadata) Get() (v CreatePaymentResMetadata, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptCreatePaymentResMetadata) Or(d CreatePaymentResMetadata) CreatePaymentResMetadata {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -1078,6 +1033,52 @@ func (o OptInt) Or(d int) int {
 	return d
 }
 
+// NewOptMetadata returns new OptMetadata with value set to v.
+func NewOptMetadata(v Metadata) OptMetadata {
+	return OptMetadata{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptMetadata is optional Metadata.
+type OptMetadata struct {
+	Value Metadata
+	Set   bool
+}
+
+// IsSet returns true if OptMetadata was set.
+func (o OptMetadata) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptMetadata) Reset() {
+	var v Metadata
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptMetadata) SetTo(v Metadata) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptMetadata) Get() (v Metadata, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptMetadata) Or(d Metadata) Metadata {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptPaymentConfirmation returns new OptPaymentConfirmation with value set to v.
 func NewOptPaymentConfirmation(v PaymentConfirmation) OptPaymentConfirmation {
 	return OptPaymentConfirmation{
@@ -1118,52 +1119,6 @@ func (o OptPaymentConfirmation) Get() (v PaymentConfirmation, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptPaymentConfirmation) Or(d PaymentConfirmation) PaymentConfirmation {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptPaymentMetadata returns new OptPaymentMetadata with value set to v.
-func NewOptPaymentMetadata(v PaymentMetadata) OptPaymentMetadata {
-	return OptPaymentMetadata{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptPaymentMetadata is optional PaymentMetadata.
-type OptPaymentMetadata struct {
-	Value PaymentMetadata
-	Set   bool
-}
-
-// IsSet returns true if OptPaymentMetadata was set.
-func (o OptPaymentMetadata) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptPaymentMetadata) Reset() {
-	var v PaymentMetadata
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptPaymentMetadata) SetTo(v PaymentMetadata) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptPaymentMetadata) Get() (v PaymentMetadata, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptPaymentMetadata) Or(d PaymentMetadata) PaymentMetadata {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -1235,8 +1190,8 @@ type Payment struct {
 	// payment_method.
 	SavePaymentMethod OptBool `json:"save_payment_method"`
 	// Идентификатор сохраненного способа оплаты.
-	PaymentMethodID OptString          `json:"payment_method_id"`
-	Metadata        OptPaymentMetadata `json:"metadata"`
+	PaymentMethodID OptString   `json:"payment_method_id"`
+	Metadata        OptMetadata `json:"metadata"`
 }
 
 // GetAmount returns the value of Amount.
@@ -1270,7 +1225,7 @@ func (s *Payment) GetPaymentMethodID() OptString {
 }
 
 // GetMetadata returns the value of Metadata.
-func (s *Payment) GetMetadata() OptPaymentMetadata {
+func (s *Payment) GetMetadata() OptMetadata {
 	return s.Metadata
 }
 
@@ -1305,7 +1260,7 @@ func (s *Payment) SetPaymentMethodID(val OptString) {
 }
 
 // SetMetadata sets the value of Metadata.
-func (s *Payment) SetMetadata(val OptPaymentMetadata) {
+func (s *Payment) SetMetadata(val OptMetadata) {
 	s.Metadata = val
 }
 
@@ -1495,17 +1450,6 @@ func (s *PaymentConfirmationEmbeddedType) UnmarshalText(data []byte) error {
 	default:
 		return errors.Errorf("invalid value: %q", data)
 	}
-}
-
-type PaymentMetadata map[string]jx.Raw
-
-func (s *PaymentMetadata) init() PaymentMetadata {
-	m := *s
-	if m == nil {
-		m = map[string]jx.Raw{}
-		*s = m
-	}
-	return m
 }
 
 // Ref: #/components/schemas/PaymentStatus

@@ -12,11 +12,11 @@ paths:
       parameters:
         - name: cursor
           in: query
-          schema: 
+          schema:
             type: string
         - name: limit
           in: query
-          schema: 
+          schema:
             type: integer
       security:
         - basicAuth: []
@@ -63,13 +63,13 @@ paths:
               schema:
                 $ref: "#/components/schemas/CreatePaymentRes"
   /v3/payments/{payment_id}:
-     parameters:
-       - in: path
-         name: payment_id
-         required: true
-         schema:
+    parameters:
+      - in: path
+        name: payment_id
+        required: true
+        schema:
           type: string
-     get:
+    get:
       security:
         - basicAuth: []
       responses:
@@ -78,7 +78,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CreatePaymentRes"         
+                $ref: "#/components/schemas/CreatePaymentRes"
 
 components:
   securitySchemes:
@@ -133,11 +133,10 @@ components:
             Сохранение платежных данных (с их помощью можно проводить повторные безакцептные списания ). Значение true инициирует создание многоразового payment_method.
         payment_method_id:
           description: |
-            Идентификатор сохраненного способа оплаты 
+            Идентификатор сохраненного способа оплаты
           type: string
         metadata:
-          type: object
-          additionalProperties: true
+          $ref: "#/components/schemas/Metadata"
 
     PaymentConfirmationEmbedded:
       type: object
@@ -159,109 +158,109 @@ components:
           type: string
     CreatePaymentRes:
       type: object
-      required: [id, status,amount, recipient, created_at,test,paid,refundable]
+      required:
+        [id, status, amount, recipient, created_at, test, paid, refundable]
       properties:
-        id: 
+        id:
           type: string
-        status: 
-          $ref : "#/components/schemas/PaymentStatus"
-        paid: 
+        status:
+          $ref: "#/components/schemas/PaymentStatus"
+        paid:
           type: boolean
-        amount: 
+        amount:
           type: object
-          properties: 
-            value: 
+          properties:
+            value:
               type: string
-            currency: 
+            currency:
               type: string
-        authorization_details: 
+        authorization_details:
           type: object
-          properties: 
-            rrn: 
+          properties:
+            rrn:
               type: string
-            auth_code: 
+            auth_code:
               type: string
-            three_d_secure: 
+            three_d_secure:
               type: object
-              properties: 
-                applied: 
+              properties:
+                applied:
                   type: boolean
-        created_at: 
+        created_at:
           type: string
           format: date-time
-        description: 
+        description:
           type: string
-        expires_at: 
+        expires_at:
           type: string
           format: date-time
-        metadata: 
-          type: object
-          additionalProperties: true
-        payment_method: 
+        metadata:
+          $ref: "#/components/schemas/Metadata"
+        payment_method:
           type: object
           required:
             - type
             - id
             - saved
-          properties: 
-            type: 
+          properties:
+            type:
               type: string
-            id: 
+            id:
               type: string
-            saved: 
+            saved:
               type: boolean
-            card: 
+            card:
               type: object
-              properties: 
-                first6: 
+              properties:
+                first6:
                   type: string
-                last4: 
+                last4:
                   type: string
-                expiry_month: 
+                expiry_month:
                   type: string
-                expiry_year: 
+                expiry_year:
                   type: string
-                card_type: 
+                card_type:
                   type: string
-                card_product: 
+                card_product:
                   type: object
-                  properties: 
-                    code: 
+                  properties:
+                    code:
                       type: string
-                    name: 
+                    name:
                       type: string
-                issuer_country: 
+                issuer_country:
                   type: string
-                issuer_name: 
+                issuer_name:
                   type: string
-            title: 
+            title:
               type: string
-        recipient: 
+        recipient:
           type: object
-          properties: 
-            account_id: 
+          properties:
+            account_id:
               type: string
-            gateway_id: 
+            gateway_id:
               type: string
-        refundable: 
+        refundable:
           type: boolean
-        test: 
+        test:
           type: boolean
-        income_amount: 
+        income_amount:
           type: object
-          properties: 
-            value: 
+          properties:
+            value:
               type: string
-            currency: 
+            currency:
               type: string
-        confirmation: 
+        confirmation:
           type: object
           required:
             - type
           properties:
             type:
               type: string
-              enum : [embedded]
+              enum: [embedded]
             confirmation_token:
               type: string
     PaymentStatus:
@@ -271,3 +270,6 @@ components:
         - waiting_for_capture
         - succeeded
         - canceled
+    Metadata:
+      type: object
+      additionalProperties: true
