@@ -2,6 +2,12 @@
 
 package ogencl
 
+// V3PaymentsGetParams is parameters of GET /v3/payments operation.
+type V3PaymentsGetParams struct {
+	Cursor OptString
+	Limit  OptInt
+}
+
 // V3PaymentsPaymentIDGetParams is parameters of GET /v3/payments/{payment_id} operation.
 type V3PaymentsPaymentIDGetParams struct {
 	// Ключ идемпотентности.

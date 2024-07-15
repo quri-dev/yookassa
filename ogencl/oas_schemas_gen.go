@@ -37,7 +37,7 @@ func (s *BasicAuth) SetPassword(val string) {
 // Ref: #/components/schemas/CreatePaymentRes
 type CreatePaymentRes struct {
 	ID                   string                                  `json:"id"`
-	Status               string                                  `json:"status"`
+	Status               PaymentStatus                           `json:"status"`
 	Paid                 bool                                    `json:"paid"`
 	Amount               CreatePaymentResAmount                  `json:"amount"`
 	AuthorizationDetails OptCreatePaymentResAuthorizationDetails `json:"authorization_details"`
@@ -59,7 +59,7 @@ func (s *CreatePaymentRes) GetID() string {
 }
 
 // GetStatus returns the value of Status.
-func (s *CreatePaymentRes) GetStatus() string {
+func (s *CreatePaymentRes) GetStatus() PaymentStatus {
 	return s.Status
 }
 
@@ -134,7 +134,7 @@ func (s *CreatePaymentRes) SetID(val string) {
 }
 
 // SetStatus sets the value of Status.
-func (s *CreatePaymentRes) SetStatus(val string) {
+func (s *CreatePaymentRes) SetStatus(val PaymentStatus) {
 	s.Status = val
 }
 
@@ -1451,6 +1451,62 @@ func (s *PaymentMetadata) init() PaymentMetadata {
 		*s = m
 	}
 	return m
+}
+
+// Ref: #/components/schemas/PaymentStatus
+type PaymentStatus string
+
+const (
+	PaymentStatusPending           PaymentStatus = "pending"
+	PaymentStatusWaitingForCapture PaymentStatus = "waiting_for_capture"
+	PaymentStatusSucceeded         PaymentStatus = "succeeded"
+	PaymentStatusCanceled          PaymentStatus = "canceled"
+)
+
+// AllValues returns all PaymentStatus values.
+func (PaymentStatus) AllValues() []PaymentStatus {
+	return []PaymentStatus{
+		PaymentStatusPending,
+		PaymentStatusWaitingForCapture,
+		PaymentStatusSucceeded,
+		PaymentStatusCanceled,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s PaymentStatus) MarshalText() ([]byte, error) {
+	switch s {
+	case PaymentStatusPending:
+		return []byte(s), nil
+	case PaymentStatusWaitingForCapture:
+		return []byte(s), nil
+	case PaymentStatusSucceeded:
+		return []byte(s), nil
+	case PaymentStatusCanceled:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *PaymentStatus) UnmarshalText(data []byte) error {
+	switch PaymentStatus(data) {
+	case PaymentStatusPending:
+		*s = PaymentStatusPending
+		return nil
+	case PaymentStatusWaitingForCapture:
+		*s = PaymentStatusWaitingForCapture
+		return nil
+	case PaymentStatusSucceeded:
+		*s = PaymentStatusSucceeded
+		return nil
+	case PaymentStatusCanceled:
+		*s = PaymentStatusCanceled
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
 }
 
 type V3PaymentsGetOK struct {

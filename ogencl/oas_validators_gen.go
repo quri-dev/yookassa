@@ -17,6 +17,17 @@ func (s *CreatePaymentRes) Validate() error {
 
 	var failures []validate.FieldError
 	if err := func() error {
+		if err := s.Status.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "status",
+			Error: err,
+		})
+	}
+	if err := func() error {
 		if value, ok := s.Confirmation.Get(); ok {
 			if err := func() error {
 				if err := value.Validate(); err != nil {
@@ -185,6 +196,21 @@ func (s PaymentConfirmationEmbeddedType) Validate() error {
 	case "embedded":
 		return nil
 	case "external":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
+func (s PaymentStatus) Validate() error {
+	switch s {
+	case "pending":
+		return nil
+	case "waiting_for_capture":
+		return nil
+	case "succeeded":
+		return nil
+	case "canceled":
 		return nil
 	default:
 		return errors.Errorf("invalid value: %v", s)

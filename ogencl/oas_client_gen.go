@@ -20,7 +20,7 @@ type Invoker interface {
 	// V3PaymentsGet invokes GET /v3/payments operation.
 	//
 	// GET /v3/payments
-	V3PaymentsGet(ctx context.Context) (*V3PaymentsGetOK, error)
+	V3PaymentsGet(ctx context.Context, params V3PaymentsGetParams) (*V3PaymentsGetOK, error)
 	// V3PaymentsPaymentIDGet invokes GET /v3/payments/{payment_id} operation.
 	//
 	// GET /v3/payments/{payment_id}
@@ -80,17 +80,54 @@ func (c *Client) requestURL(ctx context.Context) *url.URL {
 // V3PaymentsGet invokes GET /v3/payments operation.
 //
 // GET /v3/payments
-func (c *Client) V3PaymentsGet(ctx context.Context) (*V3PaymentsGetOK, error) {
-	res, err := c.sendV3PaymentsGet(ctx)
+func (c *Client) V3PaymentsGet(ctx context.Context, params V3PaymentsGetParams) (*V3PaymentsGetOK, error) {
+	res, err := c.sendV3PaymentsGet(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendV3PaymentsGet(ctx context.Context) (res *V3PaymentsGetOK, err error) {
+func (c *Client) sendV3PaymentsGet(ctx context.Context, params V3PaymentsGetParams) (res *V3PaymentsGetOK, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [1]string
 	pathParts[0] = "/v3/payments"
 	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "cursor" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "cursor",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Cursor.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "limit" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "limit",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Limit.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
 
 	r, err := ht.NewRequest(ctx, "GET", u)
 	if err != nil {
