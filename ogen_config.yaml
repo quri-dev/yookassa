@@ -7,7 +7,7 @@ generator:
       # Disables webhooks client generation
       - 'webhooks/client'
       # Disables webhooks server generation
-      - 'webhooks/server'
+      # - 'webhooks/server'
       # Disables validation of server responses
       - 'ogen/otel'
       # Disables stub Handler generation

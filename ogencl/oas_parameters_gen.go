@@ -2,10 +2,132 @@
 
 package ogencl
 
+import (
+	"net/http"
+	"net/url"
+
+	"github.com/go-faster/errors"
+
+	"github.com/ogen-go/ogen/conv"
+	"github.com/ogen-go/ogen/middleware"
+	"github.com/ogen-go/ogen/ogenerrors"
+	"github.com/ogen-go/ogen/uri"
+	"github.com/ogen-go/ogen/validate"
+)
+
 // V3PaymentsGetParams is parameters of GET /v3/payments operation.
 type V3PaymentsGetParams struct {
 	Cursor OptString
 	Limit  OptInt
+}
+
+func unpackV3PaymentsGetParams(packed middleware.Parameters) (params V3PaymentsGetParams) {
+	{
+		key := middleware.ParameterKey{
+			Name: "cursor",
+			In:   "query",
+		}
+		if v, ok := packed[key]; ok {
+			params.Cursor = v.(OptString)
+		}
+	}
+	{
+		key := middleware.ParameterKey{
+			Name: "limit",
+			In:   "query",
+		}
+		if v, ok := packed[key]; ok {
+			params.Limit = v.(OptInt)
+		}
+	}
+	return params
+}
+
+func decodeV3PaymentsGetParams(args [0]string, argsEscaped bool, r *http.Request) (params V3PaymentsGetParams, _ error) {
+	q := uri.NewQueryDecoder(r.URL.Query())
+	// Decode query: cursor.
+	if err := func() error {
+		cfg := uri.QueryParameterDecodingConfig{
+			Name:    "cursor",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.HasParam(cfg); err == nil {
+			if err := q.DecodeParam(cfg, func(d uri.Decoder) error {
+				var paramsDotCursorVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					paramsDotCursorVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				params.Cursor.SetTo(paramsDotCursorVal)
+				return nil
+			}); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		return params, &ogenerrors.DecodeParamError{
+			Name: "cursor",
+			In:   "query",
+			Err:  err,
+		}
+	}
+	// Decode query: limit.
+	if err := func() error {
+		cfg := uri.QueryParameterDecodingConfig{
+			Name:    "limit",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.HasParam(cfg); err == nil {
+			if err := q.DecodeParam(cfg, func(d uri.Decoder) error {
+				var paramsDotLimitVal int
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToInt(val)
+					if err != nil {
+						return err
+					}
+
+					paramsDotLimitVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				params.Limit.SetTo(paramsDotLimitVal)
+				return nil
+			}); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		return params, &ogenerrors.DecodeParamError{
+			Name: "limit",
+			In:   "query",
+			Err:  err,
+		}
+	}
+	return params, nil
 }
 
 // V3PaymentsPaymentIDGetParams is parameters of GET /v3/payments/{payment_id} operation.
@@ -13,8 +135,118 @@ type V3PaymentsPaymentIDGetParams struct {
 	PaymentID string
 }
 
+func unpackV3PaymentsPaymentIDGetParams(packed middleware.Parameters) (params V3PaymentsPaymentIDGetParams) {
+	{
+		key := middleware.ParameterKey{
+			Name: "payment_id",
+			In:   "path",
+		}
+		params.PaymentID = packed[key].(string)
+	}
+	return params
+}
+
+func decodeV3PaymentsPaymentIDGetParams(args [1]string, argsEscaped bool, r *http.Request) (params V3PaymentsPaymentIDGetParams, _ error) {
+	// Decode path: payment_id.
+	if err := func() error {
+		param := args[0]
+		if argsEscaped {
+			unescaped, err := url.PathUnescape(args[0])
+			if err != nil {
+				return errors.Wrap(err, "unescape path")
+			}
+			param = unescaped
+		}
+		if len(param) > 0 {
+			d := uri.NewPathDecoder(uri.PathDecoderConfig{
+				Param:   "payment_id",
+				Value:   param,
+				Style:   uri.PathStyleSimple,
+				Explode: false,
+			})
+
+			if err := func() error {
+				val, err := d.DecodeValue()
+				if err != nil {
+					return err
+				}
+
+				c, err := conv.ToString(val)
+				if err != nil {
+					return err
+				}
+
+				params.PaymentID = c
+				return nil
+			}(); err != nil {
+				return err
+			}
+		} else {
+			return validate.ErrFieldRequired
+		}
+		return nil
+	}(); err != nil {
+		return params, &ogenerrors.DecodeParamError{
+			Name: "payment_id",
+			In:   "path",
+			Err:  err,
+		}
+	}
+	return params, nil
+}
+
 // V3PaymentsPostParams is parameters of POST /v3/payments operation.
 type V3PaymentsPostParams struct {
 	// Ключ идемпотентности.
 	IdempotenceKey string
+}
+
+func unpackV3PaymentsPostParams(packed middleware.Parameters) (params V3PaymentsPostParams) {
+	{
+		key := middleware.ParameterKey{
+			Name: "Idempotence-Key",
+			In:   "header",
+		}
+		params.IdempotenceKey = packed[key].(string)
+	}
+	return params
+}
+
+func decodeV3PaymentsPostParams(args [0]string, argsEscaped bool, r *http.Request) (params V3PaymentsPostParams, _ error) {
+	h := uri.NewHeaderDecoder(r.Header)
+	// Decode header: Idempotence-Key.
+	if err := func() error {
+		cfg := uri.HeaderParameterDecodingConfig{
+			Name:    "Idempotence-Key",
+			Explode: false,
+		}
+		if err := h.HasParam(cfg); err == nil {
+			if err := h.DecodeParam(cfg, func(d uri.Decoder) error {
+				val, err := d.DecodeValue()
+				if err != nil {
+					return err
+				}
+
+				c, err := conv.ToString(val)
+				if err != nil {
+					return err
+				}
+
+				params.IdempotenceKey = c
+				return nil
+			}); err != nil {
+				return err
+			}
+		} else {
+			return validate.ErrFieldRequired
+		}
+		return nil
+	}(); err != nil {
+		return params, &ogenerrors.DecodeParamError{
+			Name: "Idempotence-Key",
+			In:   "header",
+			Err:  err,
+		}
+	}
+	return params, nil
 }

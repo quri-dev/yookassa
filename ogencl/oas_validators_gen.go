@@ -253,3 +253,78 @@ func (s *V3PaymentsGetOK) Validate() error {
 	}
 	return nil
 }
+
+func (s *YookassaHookPostReq) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Type.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "type",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := s.Event.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "event",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := s.Object.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "object",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s YookassaHookPostReqEvent) Validate() error {
+	switch s {
+	case "payment.waiting_for_capture":
+		return nil
+	case "payment.succeeded":
+		return nil
+	case "payment.canceled":
+		return nil
+	case "refund.succeeded":
+		return nil
+	case "payout.succeeded":
+		return nil
+	case "payout.canceled":
+		return nil
+	case "deal.closed":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
+func (s YookassaHookPostReqType) Validate() error {
+	switch s {
+	case "notification":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}

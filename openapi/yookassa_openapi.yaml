@@ -1,11 +1,37 @@
-openapi: "3.0.0"
+openapi: "3.1.0"
 info:
   version: 1.0.0
   title: yookassa
 
 tags:
   - name: payment
-
+webhooks:
+  # Each webhook needs a name
+  yookassa_hook:
+    # This is a Path Item Object, the only difference is that the request is initiated by the API provider
+    post:
+      description: A new pet is born, let's come and discover it in Petstore.
+      
+      requestBody:
+        required: true
+        description: 'https://yookassa.ru/developers/using-api/webhooks#events'
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [type,event,object]
+              properties:
+                type:
+                  type: string
+                  enum: [notification]
+                event:
+                  type: string
+                  enum: [payment.waiting_for_capture,payment.succeeded,payment.canceled,refund.succeeded,payout.succeeded,payout.canceled,deal.closed]
+                object:
+                  $ref : "#/components/schemas/Payment"
+      responses:
+        "200":
+          description: Return a 200 status to indicate that the data was received successfully
 paths:
   /v3/payments:
     get:

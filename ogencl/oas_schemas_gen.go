@@ -1554,3 +1554,152 @@ func (s *V3PaymentsGetOK) SetType(val OptString) {
 func (s *V3PaymentsGetOK) SetItems(val []Payment) {
 	s.Items = val
 }
+
+// YookassaHookPostOK is response for YookassaHookPost operation.
+type YookassaHookPostOK struct{}
+
+type YookassaHookPostReq struct {
+	Type   YookassaHookPostReqType  `json:"type"`
+	Event  YookassaHookPostReqEvent `json:"event"`
+	Object Payment                  `json:"object"`
+}
+
+// GetType returns the value of Type.
+func (s *YookassaHookPostReq) GetType() YookassaHookPostReqType {
+	return s.Type
+}
+
+// GetEvent returns the value of Event.
+func (s *YookassaHookPostReq) GetEvent() YookassaHookPostReqEvent {
+	return s.Event
+}
+
+// GetObject returns the value of Object.
+func (s *YookassaHookPostReq) GetObject() Payment {
+	return s.Object
+}
+
+// SetType sets the value of Type.
+func (s *YookassaHookPostReq) SetType(val YookassaHookPostReqType) {
+	s.Type = val
+}
+
+// SetEvent sets the value of Event.
+func (s *YookassaHookPostReq) SetEvent(val YookassaHookPostReqEvent) {
+	s.Event = val
+}
+
+// SetObject sets the value of Object.
+func (s *YookassaHookPostReq) SetObject(val Payment) {
+	s.Object = val
+}
+
+type YookassaHookPostReqEvent string
+
+const (
+	YookassaHookPostReqEventPaymentWaitingForCapture YookassaHookPostReqEvent = "payment.waiting_for_capture"
+	YookassaHookPostReqEventPaymentSucceeded         YookassaHookPostReqEvent = "payment.succeeded"
+	YookassaHookPostReqEventPaymentCanceled          YookassaHookPostReqEvent = "payment.canceled"
+	YookassaHookPostReqEventRefundSucceeded          YookassaHookPostReqEvent = "refund.succeeded"
+	YookassaHookPostReqEventPayoutSucceeded          YookassaHookPostReqEvent = "payout.succeeded"
+	YookassaHookPostReqEventPayoutCanceled           YookassaHookPostReqEvent = "payout.canceled"
+	YookassaHookPostReqEventDealClosed               YookassaHookPostReqEvent = "deal.closed"
+)
+
+// AllValues returns all YookassaHookPostReqEvent values.
+func (YookassaHookPostReqEvent) AllValues() []YookassaHookPostReqEvent {
+	return []YookassaHookPostReqEvent{
+		YookassaHookPostReqEventPaymentWaitingForCapture,
+		YookassaHookPostReqEventPaymentSucceeded,
+		YookassaHookPostReqEventPaymentCanceled,
+		YookassaHookPostReqEventRefundSucceeded,
+		YookassaHookPostReqEventPayoutSucceeded,
+		YookassaHookPostReqEventPayoutCanceled,
+		YookassaHookPostReqEventDealClosed,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s YookassaHookPostReqEvent) MarshalText() ([]byte, error) {
+	switch s {
+	case YookassaHookPostReqEventPaymentWaitingForCapture:
+		return []byte(s), nil
+	case YookassaHookPostReqEventPaymentSucceeded:
+		return []byte(s), nil
+	case YookassaHookPostReqEventPaymentCanceled:
+		return []byte(s), nil
+	case YookassaHookPostReqEventRefundSucceeded:
+		return []byte(s), nil
+	case YookassaHookPostReqEventPayoutSucceeded:
+		return []byte(s), nil
+	case YookassaHookPostReqEventPayoutCanceled:
+		return []byte(s), nil
+	case YookassaHookPostReqEventDealClosed:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *YookassaHookPostReqEvent) UnmarshalText(data []byte) error {
+	switch YookassaHookPostReqEvent(data) {
+	case YookassaHookPostReqEventPaymentWaitingForCapture:
+		*s = YookassaHookPostReqEventPaymentWaitingForCapture
+		return nil
+	case YookassaHookPostReqEventPaymentSucceeded:
+		*s = YookassaHookPostReqEventPaymentSucceeded
+		return nil
+	case YookassaHookPostReqEventPaymentCanceled:
+		*s = YookassaHookPostReqEventPaymentCanceled
+		return nil
+	case YookassaHookPostReqEventRefundSucceeded:
+		*s = YookassaHookPostReqEventRefundSucceeded
+		return nil
+	case YookassaHookPostReqEventPayoutSucceeded:
+		*s = YookassaHookPostReqEventPayoutSucceeded
+		return nil
+	case YookassaHookPostReqEventPayoutCanceled:
+		*s = YookassaHookPostReqEventPayoutCanceled
+		return nil
+	case YookassaHookPostReqEventDealClosed:
+		*s = YookassaHookPostReqEventDealClosed
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type YookassaHookPostReqType string
+
+const (
+	YookassaHookPostReqTypeNotification YookassaHookPostReqType = "notification"
+)
+
+// AllValues returns all YookassaHookPostReqType values.
+func (YookassaHookPostReqType) AllValues() []YookassaHookPostReqType {
+	return []YookassaHookPostReqType{
+		YookassaHookPostReqTypeNotification,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s YookassaHookPostReqType) MarshalText() ([]byte, error) {
+	switch s {
+	case YookassaHookPostReqTypeNotification:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *YookassaHookPostReqType) UnmarshalText(data []byte) error {
+	switch YookassaHookPostReqType(data) {
+	case YookassaHookPostReqTypeNotification:
+		*s = YookassaHookPostReqTypeNotification
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
