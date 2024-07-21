@@ -28,7 +28,9 @@ webhooks:
                   type: string
                   enum: [payment.waiting_for_capture,payment.succeeded,payment.canceled,refund.succeeded,payout.succeeded,payout.canceled,deal.closed]
                 object:
-                  $ref : "#/components/schemas/Payment"
+                  oneOf:
+                   - $ref : "#/components/schemas/ReqPayment"
+                   - $ref : "#/components/schemas/Payment"
       responses:
         "200":
           description: Return a 200 status to indicate that the data was received successfully
@@ -80,14 +82,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Payment"
+              $ref: "#/components/schemas/ReqPayment"
       responses:
         "200":
           description: ""
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CreatePaymentRes"
+                $ref: "#/components/schemas/Payment"
   /v3/payments/{payment_id}:
     parameters:
       - in: path
@@ -104,7 +106,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CreatePaymentRes"
+                $ref: "#/components/schemas/Payment"
 
 components:
   securitySchemes:
@@ -120,7 +122,7 @@ components:
       schema:
         type: string
   schemas:
-    Payment:
+    ReqPayment:
       type: object
       required:
         - amount
@@ -182,7 +184,7 @@ components:
           description: |
             Язык интерфейса, писем и смс, которые будет видеть или получать пользователь. Формат соответствует ISO/IEC 15897. Возможные значения: ru_RU, en_US. Регистр важен.
           type: string
-    CreatePaymentRes:
+    Payment:
       type: object
       required:
         [id, status, amount, recipient, created_at, test, paid, refundable]

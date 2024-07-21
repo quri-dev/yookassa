@@ -64,7 +64,7 @@ func decodeV3PaymentsGetResponse(resp *http.Response) (res *V3PaymentsGetOK, _ e
 	return res, validate.UnexpectedStatusCode(resp.StatusCode)
 }
 
-func decodeV3PaymentsPaymentIDGetResponse(resp *http.Response) (res *CreatePaymentRes, _ error) {
+func decodeV3PaymentsPaymentIDGetResponse(resp *http.Response) (res *Payment, _ error) {
 	switch resp.StatusCode {
 	case 200:
 		// Code 200.
@@ -80,7 +80,7 @@ func decodeV3PaymentsPaymentIDGetResponse(resp *http.Response) (res *CreatePayme
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response CreatePaymentRes
+			var response Payment
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -114,7 +114,7 @@ func decodeV3PaymentsPaymentIDGetResponse(resp *http.Response) (res *CreatePayme
 	return res, validate.UnexpectedStatusCode(resp.StatusCode)
 }
 
-func decodeV3PaymentsPostResponse(resp *http.Response) (res *CreatePaymentRes, _ error) {
+func decodeV3PaymentsPostResponse(resp *http.Response) (res *Payment, _ error) {
 	switch resp.StatusCode {
 	case 200:
 		// Code 200.
@@ -130,7 +130,7 @@ func decodeV3PaymentsPostResponse(resp *http.Response) (res *CreatePaymentRes, _
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response CreatePaymentRes
+			var response Payment
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err

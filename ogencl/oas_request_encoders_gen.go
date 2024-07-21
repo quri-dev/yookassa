@@ -12,7 +12,7 @@ import (
 )
 
 func encodeV3PaymentsPostRequest(
-	req *Payment,
+	req *ReqPayment,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"

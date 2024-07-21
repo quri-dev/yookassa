@@ -10,7 +10,7 @@ import (
 	"github.com/ogen-go/ogen/validate"
 )
 
-func (s *CreatePaymentRes) Validate() error {
+func (s *Payment) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
 	}
@@ -51,7 +51,7 @@ func (s *CreatePaymentRes) Validate() error {
 	return nil
 }
 
-func (s *CreatePaymentResConfirmation) Validate() error {
+func (s *PaymentConfirmation) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
 	}
@@ -74,7 +74,41 @@ func (s *CreatePaymentResConfirmation) Validate() error {
 	return nil
 }
 
-func (s CreatePaymentResConfirmationType) Validate() error {
+func (s *PaymentConfirmationEmbedded) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Type.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "type",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s PaymentConfirmationEmbeddedType) Validate() error {
+	switch s {
+	case "embedded":
+		return nil
+	case "external":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
+func (s PaymentConfirmationType) Validate() error {
 	switch s {
 	case "embedded":
 		return nil
@@ -83,7 +117,22 @@ func (s CreatePaymentResConfirmationType) Validate() error {
 	}
 }
 
-func (s *Payment) Validate() error {
+func (s PaymentStatus) Validate() error {
+	switch s {
+	case "pending":
+		return nil
+	case "waiting_for_capture":
+		return nil
+	case "succeeded":
+		return nil
+	case "canceled":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
+func (s *ReqPayment) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
 	}
@@ -124,7 +173,7 @@ func (s *Payment) Validate() error {
 	return nil
 }
 
-func (s *PaymentAmount) Validate() error {
+func (s *ReqPaymentAmount) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
 	}
@@ -147,7 +196,7 @@ func (s *PaymentAmount) Validate() error {
 	return nil
 }
 
-func (s PaymentAmountCurrency) Validate() error {
+func (s ReqPaymentAmountCurrency) Validate() error {
 	switch s {
 	case "RUB":
 		return nil
@@ -156,64 +205,15 @@ func (s PaymentAmountCurrency) Validate() error {
 	}
 }
 
-func (s PaymentConfirmation) Validate() error {
+func (s ReqPaymentConfirmation) Validate() error {
 	switch s.Type {
-	case PaymentConfirmationEmbeddedPaymentConfirmation:
+	case PaymentConfirmationEmbeddedReqPaymentConfirmation:
 		if err := s.PaymentConfirmationEmbedded.Validate(); err != nil {
 			return err
 		}
 		return nil
 	default:
 		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
-func (s *PaymentConfirmationEmbedded) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if err := s.Type.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "type",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s PaymentConfirmationEmbeddedType) Validate() error {
-	switch s {
-	case "embedded":
-		return nil
-	case "external":
-		return nil
-	default:
-		return errors.Errorf("invalid value: %v", s)
-	}
-}
-
-func (s PaymentStatus) Validate() error {
-	switch s {
-	case "pending":
-		return nil
-	case "waiting_for_capture":
-		return nil
-	case "succeeded":
-		return nil
-	case "canceled":
-		return nil
-	default:
-		return errors.Errorf("invalid value: %v", s)
 	}
 }
 
@@ -317,6 +317,23 @@ func (s YookassaHookPostReqEvent) Validate() error {
 		return nil
 	default:
 		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
+func (s YookassaHookPostReqObject) Validate() error {
+	switch s.Type {
+	case ReqPaymentYookassaHookPostReqObject:
+		if err := s.ReqPayment.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case PaymentYookassaHookPostReqObject:
+		if err := s.Payment.Validate(); err != nil {
+			return err
+		}
+		return nil
+	default:
+		return errors.Errorf("invalid type %q", s.Type)
 	}
 }
 

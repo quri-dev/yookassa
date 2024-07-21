@@ -3,17 +3,17 @@
 package ogencl
 
 // setDefaults set default value of fields.
-func (s *Payment) setDefaults() {
-	{
-		val := bool(false)
-		s.Capture.SetTo(val)
-	}
-}
-
-// setDefaults set default value of fields.
 func (s *PaymentConfirmationEmbedded) setDefaults() {
 	{
 		val := PaymentConfirmationEmbeddedType("embedded")
 		s.Type = val
+	}
+}
+
+// setDefaults set default value of fields.
+func (s *ReqPayment) setDefaults() {
+	{
+		val := bool(false)
+		s.Capture.SetTo(val)
 	}
 }

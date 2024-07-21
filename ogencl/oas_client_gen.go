@@ -24,11 +24,11 @@ type Invoker interface {
 	// V3PaymentsPaymentIDGet invokes GET /v3/payments/{payment_id} operation.
 	//
 	// GET /v3/payments/{payment_id}
-	V3PaymentsPaymentIDGet(ctx context.Context, params V3PaymentsPaymentIDGetParams) (*CreatePaymentRes, error)
+	V3PaymentsPaymentIDGet(ctx context.Context, params V3PaymentsPaymentIDGetParams) (*Payment, error)
 	// V3PaymentsPost invokes POST /v3/payments operation.
 	//
 	// POST /v3/payments
-	V3PaymentsPost(ctx context.Context, request *Payment, params V3PaymentsPostParams) (*CreatePaymentRes, error)
+	V3PaymentsPost(ctx context.Context, request *ReqPayment, params V3PaymentsPostParams) (*Payment, error)
 }
 
 // Client implements OAS client.
@@ -184,12 +184,12 @@ func (c *Client) sendV3PaymentsGet(ctx context.Context, params V3PaymentsGetPara
 // V3PaymentsPaymentIDGet invokes GET /v3/payments/{payment_id} operation.
 //
 // GET /v3/payments/{payment_id}
-func (c *Client) V3PaymentsPaymentIDGet(ctx context.Context, params V3PaymentsPaymentIDGetParams) (*CreatePaymentRes, error) {
+func (c *Client) V3PaymentsPaymentIDGet(ctx context.Context, params V3PaymentsPaymentIDGetParams) (*Payment, error) {
 	res, err := c.sendV3PaymentsPaymentIDGet(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendV3PaymentsPaymentIDGet(ctx context.Context, params V3PaymentsPaymentIDGetParams) (res *CreatePaymentRes, err error) {
+func (c *Client) sendV3PaymentsPaymentIDGet(ctx context.Context, params V3PaymentsPaymentIDGetParams) (res *Payment, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [2]string
@@ -269,12 +269,12 @@ func (c *Client) sendV3PaymentsPaymentIDGet(ctx context.Context, params V3Paymen
 // V3PaymentsPost invokes POST /v3/payments operation.
 //
 // POST /v3/payments
-func (c *Client) V3PaymentsPost(ctx context.Context, request *Payment, params V3PaymentsPostParams) (*CreatePaymentRes, error) {
+func (c *Client) V3PaymentsPost(ctx context.Context, request *ReqPayment, params V3PaymentsPostParams) (*Payment, error) {
 	res, err := c.sendV3PaymentsPost(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendV3PaymentsPost(ctx context.Context, request *Payment, params V3PaymentsPostParams) (res *CreatePaymentRes, err error) {
+func (c *Client) sendV3PaymentsPost(ctx context.Context, request *ReqPayment, params V3PaymentsPostParams) (res *Payment, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [1]string

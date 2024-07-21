@@ -34,533 +34,6 @@ func (s *BasicAuth) SetPassword(val string) {
 	s.Password = val
 }
 
-// Ref: #/components/schemas/CreatePaymentRes
-type CreatePaymentRes struct {
-	ID                   string                                  `json:"id"`
-	Status               PaymentStatus                           `json:"status"`
-	Paid                 bool                                    `json:"paid"`
-	Amount               CreatePaymentResAmount                  `json:"amount"`
-	AuthorizationDetails OptCreatePaymentResAuthorizationDetails `json:"authorization_details"`
-	CreatedAt            time.Time                               `json:"created_at"`
-	Description          OptString                               `json:"description"`
-	ExpiresAt            OptDateTime                             `json:"expires_at"`
-	Metadata             OptMetadata                             `json:"metadata"`
-	PaymentMethod        OptCreatePaymentResPaymentMethod        `json:"payment_method"`
-	Recipient            CreatePaymentResRecipient               `json:"recipient"`
-	Refundable           bool                                    `json:"refundable"`
-	Test                 bool                                    `json:"test"`
-	IncomeAmount         OptCreatePaymentResIncomeAmount         `json:"income_amount"`
-	Confirmation         OptCreatePaymentResConfirmation         `json:"confirmation"`
-}
-
-// GetID returns the value of ID.
-func (s *CreatePaymentRes) GetID() string {
-	return s.ID
-}
-
-// GetStatus returns the value of Status.
-func (s *CreatePaymentRes) GetStatus() PaymentStatus {
-	return s.Status
-}
-
-// GetPaid returns the value of Paid.
-func (s *CreatePaymentRes) GetPaid() bool {
-	return s.Paid
-}
-
-// GetAmount returns the value of Amount.
-func (s *CreatePaymentRes) GetAmount() CreatePaymentResAmount {
-	return s.Amount
-}
-
-// GetAuthorizationDetails returns the value of AuthorizationDetails.
-func (s *CreatePaymentRes) GetAuthorizationDetails() OptCreatePaymentResAuthorizationDetails {
-	return s.AuthorizationDetails
-}
-
-// GetCreatedAt returns the value of CreatedAt.
-func (s *CreatePaymentRes) GetCreatedAt() time.Time {
-	return s.CreatedAt
-}
-
-// GetDescription returns the value of Description.
-func (s *CreatePaymentRes) GetDescription() OptString {
-	return s.Description
-}
-
-// GetExpiresAt returns the value of ExpiresAt.
-func (s *CreatePaymentRes) GetExpiresAt() OptDateTime {
-	return s.ExpiresAt
-}
-
-// GetMetadata returns the value of Metadata.
-func (s *CreatePaymentRes) GetMetadata() OptMetadata {
-	return s.Metadata
-}
-
-// GetPaymentMethod returns the value of PaymentMethod.
-func (s *CreatePaymentRes) GetPaymentMethod() OptCreatePaymentResPaymentMethod {
-	return s.PaymentMethod
-}
-
-// GetRecipient returns the value of Recipient.
-func (s *CreatePaymentRes) GetRecipient() CreatePaymentResRecipient {
-	return s.Recipient
-}
-
-// GetRefundable returns the value of Refundable.
-func (s *CreatePaymentRes) GetRefundable() bool {
-	return s.Refundable
-}
-
-// GetTest returns the value of Test.
-func (s *CreatePaymentRes) GetTest() bool {
-	return s.Test
-}
-
-// GetIncomeAmount returns the value of IncomeAmount.
-func (s *CreatePaymentRes) GetIncomeAmount() OptCreatePaymentResIncomeAmount {
-	return s.IncomeAmount
-}
-
-// GetConfirmation returns the value of Confirmation.
-func (s *CreatePaymentRes) GetConfirmation() OptCreatePaymentResConfirmation {
-	return s.Confirmation
-}
-
-// SetID sets the value of ID.
-func (s *CreatePaymentRes) SetID(val string) {
-	s.ID = val
-}
-
-// SetStatus sets the value of Status.
-func (s *CreatePaymentRes) SetStatus(val PaymentStatus) {
-	s.Status = val
-}
-
-// SetPaid sets the value of Paid.
-func (s *CreatePaymentRes) SetPaid(val bool) {
-	s.Paid = val
-}
-
-// SetAmount sets the value of Amount.
-func (s *CreatePaymentRes) SetAmount(val CreatePaymentResAmount) {
-	s.Amount = val
-}
-
-// SetAuthorizationDetails sets the value of AuthorizationDetails.
-func (s *CreatePaymentRes) SetAuthorizationDetails(val OptCreatePaymentResAuthorizationDetails) {
-	s.AuthorizationDetails = val
-}
-
-// SetCreatedAt sets the value of CreatedAt.
-func (s *CreatePaymentRes) SetCreatedAt(val time.Time) {
-	s.CreatedAt = val
-}
-
-// SetDescription sets the value of Description.
-func (s *CreatePaymentRes) SetDescription(val OptString) {
-	s.Description = val
-}
-
-// SetExpiresAt sets the value of ExpiresAt.
-func (s *CreatePaymentRes) SetExpiresAt(val OptDateTime) {
-	s.ExpiresAt = val
-}
-
-// SetMetadata sets the value of Metadata.
-func (s *CreatePaymentRes) SetMetadata(val OptMetadata) {
-	s.Metadata = val
-}
-
-// SetPaymentMethod sets the value of PaymentMethod.
-func (s *CreatePaymentRes) SetPaymentMethod(val OptCreatePaymentResPaymentMethod) {
-	s.PaymentMethod = val
-}
-
-// SetRecipient sets the value of Recipient.
-func (s *CreatePaymentRes) SetRecipient(val CreatePaymentResRecipient) {
-	s.Recipient = val
-}
-
-// SetRefundable sets the value of Refundable.
-func (s *CreatePaymentRes) SetRefundable(val bool) {
-	s.Refundable = val
-}
-
-// SetTest sets the value of Test.
-func (s *CreatePaymentRes) SetTest(val bool) {
-	s.Test = val
-}
-
-// SetIncomeAmount sets the value of IncomeAmount.
-func (s *CreatePaymentRes) SetIncomeAmount(val OptCreatePaymentResIncomeAmount) {
-	s.IncomeAmount = val
-}
-
-// SetConfirmation sets the value of Confirmation.
-func (s *CreatePaymentRes) SetConfirmation(val OptCreatePaymentResConfirmation) {
-	s.Confirmation = val
-}
-
-type CreatePaymentResAmount struct {
-	Value    OptString `json:"value"`
-	Currency OptString `json:"currency"`
-}
-
-// GetValue returns the value of Value.
-func (s *CreatePaymentResAmount) GetValue() OptString {
-	return s.Value
-}
-
-// GetCurrency returns the value of Currency.
-func (s *CreatePaymentResAmount) GetCurrency() OptString {
-	return s.Currency
-}
-
-// SetValue sets the value of Value.
-func (s *CreatePaymentResAmount) SetValue(val OptString) {
-	s.Value = val
-}
-
-// SetCurrency sets the value of Currency.
-func (s *CreatePaymentResAmount) SetCurrency(val OptString) {
-	s.Currency = val
-}
-
-type CreatePaymentResAuthorizationDetails struct {
-	Rrn          OptString                                           `json:"rrn"`
-	AuthCode     OptString                                           `json:"auth_code"`
-	ThreeDSecure OptCreatePaymentResAuthorizationDetailsThreeDSecure `json:"three_d_secure"`
-}
-
-// GetRrn returns the value of Rrn.
-func (s *CreatePaymentResAuthorizationDetails) GetRrn() OptString {
-	return s.Rrn
-}
-
-// GetAuthCode returns the value of AuthCode.
-func (s *CreatePaymentResAuthorizationDetails) GetAuthCode() OptString {
-	return s.AuthCode
-}
-
-// GetThreeDSecure returns the value of ThreeDSecure.
-func (s *CreatePaymentResAuthorizationDetails) GetThreeDSecure() OptCreatePaymentResAuthorizationDetailsThreeDSecure {
-	return s.ThreeDSecure
-}
-
-// SetRrn sets the value of Rrn.
-func (s *CreatePaymentResAuthorizationDetails) SetRrn(val OptString) {
-	s.Rrn = val
-}
-
-// SetAuthCode sets the value of AuthCode.
-func (s *CreatePaymentResAuthorizationDetails) SetAuthCode(val OptString) {
-	s.AuthCode = val
-}
-
-// SetThreeDSecure sets the value of ThreeDSecure.
-func (s *CreatePaymentResAuthorizationDetails) SetThreeDSecure(val OptCreatePaymentResAuthorizationDetailsThreeDSecure) {
-	s.ThreeDSecure = val
-}
-
-type CreatePaymentResAuthorizationDetailsThreeDSecure struct {
-	Applied OptBool `json:"applied"`
-}
-
-// GetApplied returns the value of Applied.
-func (s *CreatePaymentResAuthorizationDetailsThreeDSecure) GetApplied() OptBool {
-	return s.Applied
-}
-
-// SetApplied sets the value of Applied.
-func (s *CreatePaymentResAuthorizationDetailsThreeDSecure) SetApplied(val OptBool) {
-	s.Applied = val
-}
-
-type CreatePaymentResConfirmation struct {
-	Type              CreatePaymentResConfirmationType `json:"type"`
-	ConfirmationToken OptString                        `json:"confirmation_token"`
-}
-
-// GetType returns the value of Type.
-func (s *CreatePaymentResConfirmation) GetType() CreatePaymentResConfirmationType {
-	return s.Type
-}
-
-// GetConfirmationToken returns the value of ConfirmationToken.
-func (s *CreatePaymentResConfirmation) GetConfirmationToken() OptString {
-	return s.ConfirmationToken
-}
-
-// SetType sets the value of Type.
-func (s *CreatePaymentResConfirmation) SetType(val CreatePaymentResConfirmationType) {
-	s.Type = val
-}
-
-// SetConfirmationToken sets the value of ConfirmationToken.
-func (s *CreatePaymentResConfirmation) SetConfirmationToken(val OptString) {
-	s.ConfirmationToken = val
-}
-
-type CreatePaymentResConfirmationType string
-
-const (
-	CreatePaymentResConfirmationTypeEmbedded CreatePaymentResConfirmationType = "embedded"
-)
-
-// AllValues returns all CreatePaymentResConfirmationType values.
-func (CreatePaymentResConfirmationType) AllValues() []CreatePaymentResConfirmationType {
-	return []CreatePaymentResConfirmationType{
-		CreatePaymentResConfirmationTypeEmbedded,
-	}
-}
-
-// MarshalText implements encoding.TextMarshaler.
-func (s CreatePaymentResConfirmationType) MarshalText() ([]byte, error) {
-	switch s {
-	case CreatePaymentResConfirmationTypeEmbedded:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
-}
-
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *CreatePaymentResConfirmationType) UnmarshalText(data []byte) error {
-	switch CreatePaymentResConfirmationType(data) {
-	case CreatePaymentResConfirmationTypeEmbedded:
-		*s = CreatePaymentResConfirmationTypeEmbedded
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
-	}
-}
-
-type CreatePaymentResIncomeAmount struct {
-	Value    OptString `json:"value"`
-	Currency OptString `json:"currency"`
-}
-
-// GetValue returns the value of Value.
-func (s *CreatePaymentResIncomeAmount) GetValue() OptString {
-	return s.Value
-}
-
-// GetCurrency returns the value of Currency.
-func (s *CreatePaymentResIncomeAmount) GetCurrency() OptString {
-	return s.Currency
-}
-
-// SetValue sets the value of Value.
-func (s *CreatePaymentResIncomeAmount) SetValue(val OptString) {
-	s.Value = val
-}
-
-// SetCurrency sets the value of Currency.
-func (s *CreatePaymentResIncomeAmount) SetCurrency(val OptString) {
-	s.Currency = val
-}
-
-type CreatePaymentResPaymentMethod struct {
-	Type  string                               `json:"type"`
-	ID    string                               `json:"id"`
-	Saved bool                                 `json:"saved"`
-	Card  OptCreatePaymentResPaymentMethodCard `json:"card"`
-	Title OptString                            `json:"title"`
-}
-
-// GetType returns the value of Type.
-func (s *CreatePaymentResPaymentMethod) GetType() string {
-	return s.Type
-}
-
-// GetID returns the value of ID.
-func (s *CreatePaymentResPaymentMethod) GetID() string {
-	return s.ID
-}
-
-// GetSaved returns the value of Saved.
-func (s *CreatePaymentResPaymentMethod) GetSaved() bool {
-	return s.Saved
-}
-
-// GetCard returns the value of Card.
-func (s *CreatePaymentResPaymentMethod) GetCard() OptCreatePaymentResPaymentMethodCard {
-	return s.Card
-}
-
-// GetTitle returns the value of Title.
-func (s *CreatePaymentResPaymentMethod) GetTitle() OptString {
-	return s.Title
-}
-
-// SetType sets the value of Type.
-func (s *CreatePaymentResPaymentMethod) SetType(val string) {
-	s.Type = val
-}
-
-// SetID sets the value of ID.
-func (s *CreatePaymentResPaymentMethod) SetID(val string) {
-	s.ID = val
-}
-
-// SetSaved sets the value of Saved.
-func (s *CreatePaymentResPaymentMethod) SetSaved(val bool) {
-	s.Saved = val
-}
-
-// SetCard sets the value of Card.
-func (s *CreatePaymentResPaymentMethod) SetCard(val OptCreatePaymentResPaymentMethodCard) {
-	s.Card = val
-}
-
-// SetTitle sets the value of Title.
-func (s *CreatePaymentResPaymentMethod) SetTitle(val OptString) {
-	s.Title = val
-}
-
-type CreatePaymentResPaymentMethodCard struct {
-	First6        OptString                                       `json:"first6"`
-	Last4         OptString                                       `json:"last4"`
-	ExpiryMonth   OptString                                       `json:"expiry_month"`
-	ExpiryYear    OptString                                       `json:"expiry_year"`
-	CardType      OptString                                       `json:"card_type"`
-	CardProduct   OptCreatePaymentResPaymentMethodCardCardProduct `json:"card_product"`
-	IssuerCountry OptString                                       `json:"issuer_country"`
-	IssuerName    OptString                                       `json:"issuer_name"`
-}
-
-// GetFirst6 returns the value of First6.
-func (s *CreatePaymentResPaymentMethodCard) GetFirst6() OptString {
-	return s.First6
-}
-
-// GetLast4 returns the value of Last4.
-func (s *CreatePaymentResPaymentMethodCard) GetLast4() OptString {
-	return s.Last4
-}
-
-// GetExpiryMonth returns the value of ExpiryMonth.
-func (s *CreatePaymentResPaymentMethodCard) GetExpiryMonth() OptString {
-	return s.ExpiryMonth
-}
-
-// GetExpiryYear returns the value of ExpiryYear.
-func (s *CreatePaymentResPaymentMethodCard) GetExpiryYear() OptString {
-	return s.ExpiryYear
-}
-
-// GetCardType returns the value of CardType.
-func (s *CreatePaymentResPaymentMethodCard) GetCardType() OptString {
-	return s.CardType
-}
-
-// GetCardProduct returns the value of CardProduct.
-func (s *CreatePaymentResPaymentMethodCard) GetCardProduct() OptCreatePaymentResPaymentMethodCardCardProduct {
-	return s.CardProduct
-}
-
-// GetIssuerCountry returns the value of IssuerCountry.
-func (s *CreatePaymentResPaymentMethodCard) GetIssuerCountry() OptString {
-	return s.IssuerCountry
-}
-
-// GetIssuerName returns the value of IssuerName.
-func (s *CreatePaymentResPaymentMethodCard) GetIssuerName() OptString {
-	return s.IssuerName
-}
-
-// SetFirst6 sets the value of First6.
-func (s *CreatePaymentResPaymentMethodCard) SetFirst6(val OptString) {
-	s.First6 = val
-}
-
-// SetLast4 sets the value of Last4.
-func (s *CreatePaymentResPaymentMethodCard) SetLast4(val OptString) {
-	s.Last4 = val
-}
-
-// SetExpiryMonth sets the value of ExpiryMonth.
-func (s *CreatePaymentResPaymentMethodCard) SetExpiryMonth(val OptString) {
-	s.ExpiryMonth = val
-}
-
-// SetExpiryYear sets the value of ExpiryYear.
-func (s *CreatePaymentResPaymentMethodCard) SetExpiryYear(val OptString) {
-	s.ExpiryYear = val
-}
-
-// SetCardType sets the value of CardType.
-func (s *CreatePaymentResPaymentMethodCard) SetCardType(val OptString) {
-	s.CardType = val
-}
-
-// SetCardProduct sets the value of CardProduct.
-func (s *CreatePaymentResPaymentMethodCard) SetCardProduct(val OptCreatePaymentResPaymentMethodCardCardProduct) {
-	s.CardProduct = val
-}
-
-// SetIssuerCountry sets the value of IssuerCountry.
-func (s *CreatePaymentResPaymentMethodCard) SetIssuerCountry(val OptString) {
-	s.IssuerCountry = val
-}
-
-// SetIssuerName sets the value of IssuerName.
-func (s *CreatePaymentResPaymentMethodCard) SetIssuerName(val OptString) {
-	s.IssuerName = val
-}
-
-type CreatePaymentResPaymentMethodCardCardProduct struct {
-	Code OptString `json:"code"`
-	Name OptString `json:"name"`
-}
-
-// GetCode returns the value of Code.
-func (s *CreatePaymentResPaymentMethodCardCardProduct) GetCode() OptString {
-	return s.Code
-}
-
-// GetName returns the value of Name.
-func (s *CreatePaymentResPaymentMethodCardCardProduct) GetName() OptString {
-	return s.Name
-}
-
-// SetCode sets the value of Code.
-func (s *CreatePaymentResPaymentMethodCardCardProduct) SetCode(val OptString) {
-	s.Code = val
-}
-
-// SetName sets the value of Name.
-func (s *CreatePaymentResPaymentMethodCardCardProduct) SetName(val OptString) {
-	s.Name = val
-}
-
-type CreatePaymentResRecipient struct {
-	AccountID OptString `json:"account_id"`
-	GatewayID OptString `json:"gateway_id"`
-}
-
-// GetAccountID returns the value of AccountID.
-func (s *CreatePaymentResRecipient) GetAccountID() OptString {
-	return s.AccountID
-}
-
-// GetGatewayID returns the value of GatewayID.
-func (s *CreatePaymentResRecipient) GetGatewayID() OptString {
-	return s.GatewayID
-}
-
-// SetAccountID sets the value of AccountID.
-func (s *CreatePaymentResRecipient) SetAccountID(val OptString) {
-	s.AccountID = val
-}
-
-// SetGatewayID sets the value of GatewayID.
-func (s *CreatePaymentResRecipient) SetGatewayID(val OptString) {
-	s.GatewayID = val
-}
-
 // Ref: #/components/schemas/Metadata
 type Metadata map[string]jx.Raw
 
@@ -613,328 +86,6 @@ func (o OptBool) Get() (v bool, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptBool) Or(d bool) bool {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptCreatePaymentResAuthorizationDetails returns new OptCreatePaymentResAuthorizationDetails with value set to v.
-func NewOptCreatePaymentResAuthorizationDetails(v CreatePaymentResAuthorizationDetails) OptCreatePaymentResAuthorizationDetails {
-	return OptCreatePaymentResAuthorizationDetails{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptCreatePaymentResAuthorizationDetails is optional CreatePaymentResAuthorizationDetails.
-type OptCreatePaymentResAuthorizationDetails struct {
-	Value CreatePaymentResAuthorizationDetails
-	Set   bool
-}
-
-// IsSet returns true if OptCreatePaymentResAuthorizationDetails was set.
-func (o OptCreatePaymentResAuthorizationDetails) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptCreatePaymentResAuthorizationDetails) Reset() {
-	var v CreatePaymentResAuthorizationDetails
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptCreatePaymentResAuthorizationDetails) SetTo(v CreatePaymentResAuthorizationDetails) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptCreatePaymentResAuthorizationDetails) Get() (v CreatePaymentResAuthorizationDetails, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptCreatePaymentResAuthorizationDetails) Or(d CreatePaymentResAuthorizationDetails) CreatePaymentResAuthorizationDetails {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptCreatePaymentResAuthorizationDetailsThreeDSecure returns new OptCreatePaymentResAuthorizationDetailsThreeDSecure with value set to v.
-func NewOptCreatePaymentResAuthorizationDetailsThreeDSecure(v CreatePaymentResAuthorizationDetailsThreeDSecure) OptCreatePaymentResAuthorizationDetailsThreeDSecure {
-	return OptCreatePaymentResAuthorizationDetailsThreeDSecure{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptCreatePaymentResAuthorizationDetailsThreeDSecure is optional CreatePaymentResAuthorizationDetailsThreeDSecure.
-type OptCreatePaymentResAuthorizationDetailsThreeDSecure struct {
-	Value CreatePaymentResAuthorizationDetailsThreeDSecure
-	Set   bool
-}
-
-// IsSet returns true if OptCreatePaymentResAuthorizationDetailsThreeDSecure was set.
-func (o OptCreatePaymentResAuthorizationDetailsThreeDSecure) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptCreatePaymentResAuthorizationDetailsThreeDSecure) Reset() {
-	var v CreatePaymentResAuthorizationDetailsThreeDSecure
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptCreatePaymentResAuthorizationDetailsThreeDSecure) SetTo(v CreatePaymentResAuthorizationDetailsThreeDSecure) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptCreatePaymentResAuthorizationDetailsThreeDSecure) Get() (v CreatePaymentResAuthorizationDetailsThreeDSecure, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptCreatePaymentResAuthorizationDetailsThreeDSecure) Or(d CreatePaymentResAuthorizationDetailsThreeDSecure) CreatePaymentResAuthorizationDetailsThreeDSecure {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptCreatePaymentResConfirmation returns new OptCreatePaymentResConfirmation with value set to v.
-func NewOptCreatePaymentResConfirmation(v CreatePaymentResConfirmation) OptCreatePaymentResConfirmation {
-	return OptCreatePaymentResConfirmation{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptCreatePaymentResConfirmation is optional CreatePaymentResConfirmation.
-type OptCreatePaymentResConfirmation struct {
-	Value CreatePaymentResConfirmation
-	Set   bool
-}
-
-// IsSet returns true if OptCreatePaymentResConfirmation was set.
-func (o OptCreatePaymentResConfirmation) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptCreatePaymentResConfirmation) Reset() {
-	var v CreatePaymentResConfirmation
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptCreatePaymentResConfirmation) SetTo(v CreatePaymentResConfirmation) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptCreatePaymentResConfirmation) Get() (v CreatePaymentResConfirmation, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptCreatePaymentResConfirmation) Or(d CreatePaymentResConfirmation) CreatePaymentResConfirmation {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptCreatePaymentResIncomeAmount returns new OptCreatePaymentResIncomeAmount with value set to v.
-func NewOptCreatePaymentResIncomeAmount(v CreatePaymentResIncomeAmount) OptCreatePaymentResIncomeAmount {
-	return OptCreatePaymentResIncomeAmount{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptCreatePaymentResIncomeAmount is optional CreatePaymentResIncomeAmount.
-type OptCreatePaymentResIncomeAmount struct {
-	Value CreatePaymentResIncomeAmount
-	Set   bool
-}
-
-// IsSet returns true if OptCreatePaymentResIncomeAmount was set.
-func (o OptCreatePaymentResIncomeAmount) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptCreatePaymentResIncomeAmount) Reset() {
-	var v CreatePaymentResIncomeAmount
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptCreatePaymentResIncomeAmount) SetTo(v CreatePaymentResIncomeAmount) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptCreatePaymentResIncomeAmount) Get() (v CreatePaymentResIncomeAmount, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptCreatePaymentResIncomeAmount) Or(d CreatePaymentResIncomeAmount) CreatePaymentResIncomeAmount {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptCreatePaymentResPaymentMethod returns new OptCreatePaymentResPaymentMethod with value set to v.
-func NewOptCreatePaymentResPaymentMethod(v CreatePaymentResPaymentMethod) OptCreatePaymentResPaymentMethod {
-	return OptCreatePaymentResPaymentMethod{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptCreatePaymentResPaymentMethod is optional CreatePaymentResPaymentMethod.
-type OptCreatePaymentResPaymentMethod struct {
-	Value CreatePaymentResPaymentMethod
-	Set   bool
-}
-
-// IsSet returns true if OptCreatePaymentResPaymentMethod was set.
-func (o OptCreatePaymentResPaymentMethod) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptCreatePaymentResPaymentMethod) Reset() {
-	var v CreatePaymentResPaymentMethod
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptCreatePaymentResPaymentMethod) SetTo(v CreatePaymentResPaymentMethod) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptCreatePaymentResPaymentMethod) Get() (v CreatePaymentResPaymentMethod, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptCreatePaymentResPaymentMethod) Or(d CreatePaymentResPaymentMethod) CreatePaymentResPaymentMethod {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptCreatePaymentResPaymentMethodCard returns new OptCreatePaymentResPaymentMethodCard with value set to v.
-func NewOptCreatePaymentResPaymentMethodCard(v CreatePaymentResPaymentMethodCard) OptCreatePaymentResPaymentMethodCard {
-	return OptCreatePaymentResPaymentMethodCard{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptCreatePaymentResPaymentMethodCard is optional CreatePaymentResPaymentMethodCard.
-type OptCreatePaymentResPaymentMethodCard struct {
-	Value CreatePaymentResPaymentMethodCard
-	Set   bool
-}
-
-// IsSet returns true if OptCreatePaymentResPaymentMethodCard was set.
-func (o OptCreatePaymentResPaymentMethodCard) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptCreatePaymentResPaymentMethodCard) Reset() {
-	var v CreatePaymentResPaymentMethodCard
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptCreatePaymentResPaymentMethodCard) SetTo(v CreatePaymentResPaymentMethodCard) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptCreatePaymentResPaymentMethodCard) Get() (v CreatePaymentResPaymentMethodCard, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptCreatePaymentResPaymentMethodCard) Or(d CreatePaymentResPaymentMethodCard) CreatePaymentResPaymentMethodCard {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptCreatePaymentResPaymentMethodCardCardProduct returns new OptCreatePaymentResPaymentMethodCardCardProduct with value set to v.
-func NewOptCreatePaymentResPaymentMethodCardCardProduct(v CreatePaymentResPaymentMethodCardCardProduct) OptCreatePaymentResPaymentMethodCardCardProduct {
-	return OptCreatePaymentResPaymentMethodCardCardProduct{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptCreatePaymentResPaymentMethodCardCardProduct is optional CreatePaymentResPaymentMethodCardCardProduct.
-type OptCreatePaymentResPaymentMethodCardCardProduct struct {
-	Value CreatePaymentResPaymentMethodCardCardProduct
-	Set   bool
-}
-
-// IsSet returns true if OptCreatePaymentResPaymentMethodCardCardProduct was set.
-func (o OptCreatePaymentResPaymentMethodCardCardProduct) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptCreatePaymentResPaymentMethodCardCardProduct) Reset() {
-	var v CreatePaymentResPaymentMethodCardCardProduct
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptCreatePaymentResPaymentMethodCardCardProduct) SetTo(v CreatePaymentResPaymentMethodCardCardProduct) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptCreatePaymentResPaymentMethodCardCardProduct) Get() (v CreatePaymentResPaymentMethodCardCardProduct, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptCreatePaymentResPaymentMethodCardCardProduct) Or(d CreatePaymentResPaymentMethodCardCardProduct) CreatePaymentResPaymentMethodCardCardProduct {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -1079,6 +230,98 @@ func (o OptMetadata) Or(d Metadata) Metadata {
 	return d
 }
 
+// NewOptPaymentAuthorizationDetails returns new OptPaymentAuthorizationDetails with value set to v.
+func NewOptPaymentAuthorizationDetails(v PaymentAuthorizationDetails) OptPaymentAuthorizationDetails {
+	return OptPaymentAuthorizationDetails{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptPaymentAuthorizationDetails is optional PaymentAuthorizationDetails.
+type OptPaymentAuthorizationDetails struct {
+	Value PaymentAuthorizationDetails
+	Set   bool
+}
+
+// IsSet returns true if OptPaymentAuthorizationDetails was set.
+func (o OptPaymentAuthorizationDetails) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptPaymentAuthorizationDetails) Reset() {
+	var v PaymentAuthorizationDetails
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptPaymentAuthorizationDetails) SetTo(v PaymentAuthorizationDetails) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptPaymentAuthorizationDetails) Get() (v PaymentAuthorizationDetails, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptPaymentAuthorizationDetails) Or(d PaymentAuthorizationDetails) PaymentAuthorizationDetails {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptPaymentAuthorizationDetailsThreeDSecure returns new OptPaymentAuthorizationDetailsThreeDSecure with value set to v.
+func NewOptPaymentAuthorizationDetailsThreeDSecure(v PaymentAuthorizationDetailsThreeDSecure) OptPaymentAuthorizationDetailsThreeDSecure {
+	return OptPaymentAuthorizationDetailsThreeDSecure{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptPaymentAuthorizationDetailsThreeDSecure is optional PaymentAuthorizationDetailsThreeDSecure.
+type OptPaymentAuthorizationDetailsThreeDSecure struct {
+	Value PaymentAuthorizationDetailsThreeDSecure
+	Set   bool
+}
+
+// IsSet returns true if OptPaymentAuthorizationDetailsThreeDSecure was set.
+func (o OptPaymentAuthorizationDetailsThreeDSecure) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptPaymentAuthorizationDetailsThreeDSecure) Reset() {
+	var v PaymentAuthorizationDetailsThreeDSecure
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptPaymentAuthorizationDetailsThreeDSecure) SetTo(v PaymentAuthorizationDetailsThreeDSecure) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptPaymentAuthorizationDetailsThreeDSecure) Get() (v PaymentAuthorizationDetailsThreeDSecure, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptPaymentAuthorizationDetailsThreeDSecure) Or(d PaymentAuthorizationDetailsThreeDSecure) PaymentAuthorizationDetailsThreeDSecure {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptPaymentConfirmation returns new OptPaymentConfirmation with value set to v.
 func NewOptPaymentConfirmation(v PaymentConfirmation) OptPaymentConfirmation {
 	return OptPaymentConfirmation{
@@ -1119,6 +362,236 @@ func (o OptPaymentConfirmation) Get() (v PaymentConfirmation, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptPaymentConfirmation) Or(d PaymentConfirmation) PaymentConfirmation {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptPaymentIncomeAmount returns new OptPaymentIncomeAmount with value set to v.
+func NewOptPaymentIncomeAmount(v PaymentIncomeAmount) OptPaymentIncomeAmount {
+	return OptPaymentIncomeAmount{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptPaymentIncomeAmount is optional PaymentIncomeAmount.
+type OptPaymentIncomeAmount struct {
+	Value PaymentIncomeAmount
+	Set   bool
+}
+
+// IsSet returns true if OptPaymentIncomeAmount was set.
+func (o OptPaymentIncomeAmount) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptPaymentIncomeAmount) Reset() {
+	var v PaymentIncomeAmount
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptPaymentIncomeAmount) SetTo(v PaymentIncomeAmount) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptPaymentIncomeAmount) Get() (v PaymentIncomeAmount, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptPaymentIncomeAmount) Or(d PaymentIncomeAmount) PaymentIncomeAmount {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptPaymentPaymentMethod returns new OptPaymentPaymentMethod with value set to v.
+func NewOptPaymentPaymentMethod(v PaymentPaymentMethod) OptPaymentPaymentMethod {
+	return OptPaymentPaymentMethod{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptPaymentPaymentMethod is optional PaymentPaymentMethod.
+type OptPaymentPaymentMethod struct {
+	Value PaymentPaymentMethod
+	Set   bool
+}
+
+// IsSet returns true if OptPaymentPaymentMethod was set.
+func (o OptPaymentPaymentMethod) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptPaymentPaymentMethod) Reset() {
+	var v PaymentPaymentMethod
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptPaymentPaymentMethod) SetTo(v PaymentPaymentMethod) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptPaymentPaymentMethod) Get() (v PaymentPaymentMethod, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptPaymentPaymentMethod) Or(d PaymentPaymentMethod) PaymentPaymentMethod {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptPaymentPaymentMethodCard returns new OptPaymentPaymentMethodCard with value set to v.
+func NewOptPaymentPaymentMethodCard(v PaymentPaymentMethodCard) OptPaymentPaymentMethodCard {
+	return OptPaymentPaymentMethodCard{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptPaymentPaymentMethodCard is optional PaymentPaymentMethodCard.
+type OptPaymentPaymentMethodCard struct {
+	Value PaymentPaymentMethodCard
+	Set   bool
+}
+
+// IsSet returns true if OptPaymentPaymentMethodCard was set.
+func (o OptPaymentPaymentMethodCard) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptPaymentPaymentMethodCard) Reset() {
+	var v PaymentPaymentMethodCard
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptPaymentPaymentMethodCard) SetTo(v PaymentPaymentMethodCard) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptPaymentPaymentMethodCard) Get() (v PaymentPaymentMethodCard, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptPaymentPaymentMethodCard) Or(d PaymentPaymentMethodCard) PaymentPaymentMethodCard {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptPaymentPaymentMethodCardCardProduct returns new OptPaymentPaymentMethodCardCardProduct with value set to v.
+func NewOptPaymentPaymentMethodCardCardProduct(v PaymentPaymentMethodCardCardProduct) OptPaymentPaymentMethodCardCardProduct {
+	return OptPaymentPaymentMethodCardCardProduct{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptPaymentPaymentMethodCardCardProduct is optional PaymentPaymentMethodCardCardProduct.
+type OptPaymentPaymentMethodCardCardProduct struct {
+	Value PaymentPaymentMethodCardCardProduct
+	Set   bool
+}
+
+// IsSet returns true if OptPaymentPaymentMethodCardCardProduct was set.
+func (o OptPaymentPaymentMethodCardCardProduct) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptPaymentPaymentMethodCardCardProduct) Reset() {
+	var v PaymentPaymentMethodCardCardProduct
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptPaymentPaymentMethodCardCardProduct) SetTo(v PaymentPaymentMethodCardCardProduct) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptPaymentPaymentMethodCardCardProduct) Get() (v PaymentPaymentMethodCardCardProduct, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptPaymentPaymentMethodCardCardProduct) Or(d PaymentPaymentMethodCardCardProduct) PaymentPaymentMethodCardCardProduct {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptReqPaymentConfirmation returns new OptReqPaymentConfirmation with value set to v.
+func NewOptReqPaymentConfirmation(v ReqPaymentConfirmation) OptReqPaymentConfirmation {
+	return OptReqPaymentConfirmation{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptReqPaymentConfirmation is optional ReqPaymentConfirmation.
+type OptReqPaymentConfirmation struct {
+	Value ReqPaymentConfirmation
+	Set   bool
+}
+
+// IsSet returns true if OptReqPaymentConfirmation was set.
+func (o OptReqPaymentConfirmation) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptReqPaymentConfirmation) Reset() {
+	var v ReqPaymentConfirmation
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptReqPaymentConfirmation) SetTo(v ReqPaymentConfirmation) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptReqPaymentConfirmation) Get() (v ReqPaymentConfirmation, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptReqPaymentConfirmation) Or(d ReqPaymentConfirmation) ReqPaymentConfirmation {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -1173,25 +646,36 @@ func (o OptString) Or(d string) string {
 
 // Ref: #/components/schemas/Payment
 type Payment struct {
-	// Сумма платежа. Иногда партнеры ЮKassa берут с
-	// пользователя дополнительную комиссию, которая не
-	// входит в эту сумму.
-	Amount       PaymentAmount          `json:"amount"`
-	Confirmation OptPaymentConfirmation `json:"confirmation"`
-	// Автоматический прием  поступившего платежа.
-	Capture OptBool `json:"capture"`
-	// Описание транзакции (не более 128 символов), которое вы
-	// увидите в личном кабинете ЮKassa, а пользователь — при
-	// оплате. Например: «Оплата заказа № 72 для user@yoomoney.ru».
-	Description OptString `json:"description"`
-	// Сохранение платежных данных (с их помощью можно
-	// проводить повторные безакцептные списания ).
-	// Значение true инициирует создание многоразового
-	// payment_method.
-	SavePaymentMethod OptBool `json:"save_payment_method"`
-	// Идентификатор сохраненного способа оплаты.
-	PaymentMethodID OptString   `json:"payment_method_id"`
-	Metadata        OptMetadata `json:"metadata"`
+	ID                   string                         `json:"id"`
+	Status               PaymentStatus                  `json:"status"`
+	Paid                 bool                           `json:"paid"`
+	Amount               PaymentAmount                  `json:"amount"`
+	AuthorizationDetails OptPaymentAuthorizationDetails `json:"authorization_details"`
+	CreatedAt            time.Time                      `json:"created_at"`
+	Description          OptString                      `json:"description"`
+	ExpiresAt            OptDateTime                    `json:"expires_at"`
+	Metadata             OptMetadata                    `json:"metadata"`
+	PaymentMethod        OptPaymentPaymentMethod        `json:"payment_method"`
+	Recipient            PaymentRecipient               `json:"recipient"`
+	Refundable           bool                           `json:"refundable"`
+	Test                 bool                           `json:"test"`
+	IncomeAmount         OptPaymentIncomeAmount         `json:"income_amount"`
+	Confirmation         OptPaymentConfirmation         `json:"confirmation"`
+}
+
+// GetID returns the value of ID.
+func (s *Payment) GetID() string {
+	return s.ID
+}
+
+// GetStatus returns the value of Status.
+func (s *Payment) GetStatus() PaymentStatus {
+	return s.Status
+}
+
+// GetPaid returns the value of Paid.
+func (s *Payment) GetPaid() bool {
+	return s.Paid
 }
 
 // GetAmount returns the value of Amount.
@@ -1199,14 +683,14 @@ func (s *Payment) GetAmount() PaymentAmount {
 	return s.Amount
 }
 
-// GetConfirmation returns the value of Confirmation.
-func (s *Payment) GetConfirmation() OptPaymentConfirmation {
-	return s.Confirmation
+// GetAuthorizationDetails returns the value of AuthorizationDetails.
+func (s *Payment) GetAuthorizationDetails() OptPaymentAuthorizationDetails {
+	return s.AuthorizationDetails
 }
 
-// GetCapture returns the value of Capture.
-func (s *Payment) GetCapture() OptBool {
-	return s.Capture
+// GetCreatedAt returns the value of CreatedAt.
+func (s *Payment) GetCreatedAt() time.Time {
+	return s.CreatedAt
 }
 
 // GetDescription returns the value of Description.
@@ -1214,14 +698,9 @@ func (s *Payment) GetDescription() OptString {
 	return s.Description
 }
 
-// GetSavePaymentMethod returns the value of SavePaymentMethod.
-func (s *Payment) GetSavePaymentMethod() OptBool {
-	return s.SavePaymentMethod
-}
-
-// GetPaymentMethodID returns the value of PaymentMethodID.
-func (s *Payment) GetPaymentMethodID() OptString {
-	return s.PaymentMethodID
+// GetExpiresAt returns the value of ExpiresAt.
+func (s *Payment) GetExpiresAt() OptDateTime {
+	return s.ExpiresAt
 }
 
 // GetMetadata returns the value of Metadata.
@@ -1229,19 +708,64 @@ func (s *Payment) GetMetadata() OptMetadata {
 	return s.Metadata
 }
 
+// GetPaymentMethod returns the value of PaymentMethod.
+func (s *Payment) GetPaymentMethod() OptPaymentPaymentMethod {
+	return s.PaymentMethod
+}
+
+// GetRecipient returns the value of Recipient.
+func (s *Payment) GetRecipient() PaymentRecipient {
+	return s.Recipient
+}
+
+// GetRefundable returns the value of Refundable.
+func (s *Payment) GetRefundable() bool {
+	return s.Refundable
+}
+
+// GetTest returns the value of Test.
+func (s *Payment) GetTest() bool {
+	return s.Test
+}
+
+// GetIncomeAmount returns the value of IncomeAmount.
+func (s *Payment) GetIncomeAmount() OptPaymentIncomeAmount {
+	return s.IncomeAmount
+}
+
+// GetConfirmation returns the value of Confirmation.
+func (s *Payment) GetConfirmation() OptPaymentConfirmation {
+	return s.Confirmation
+}
+
+// SetID sets the value of ID.
+func (s *Payment) SetID(val string) {
+	s.ID = val
+}
+
+// SetStatus sets the value of Status.
+func (s *Payment) SetStatus(val PaymentStatus) {
+	s.Status = val
+}
+
+// SetPaid sets the value of Paid.
+func (s *Payment) SetPaid(val bool) {
+	s.Paid = val
+}
+
 // SetAmount sets the value of Amount.
 func (s *Payment) SetAmount(val PaymentAmount) {
 	s.Amount = val
 }
 
-// SetConfirmation sets the value of Confirmation.
-func (s *Payment) SetConfirmation(val OptPaymentConfirmation) {
-	s.Confirmation = val
+// SetAuthorizationDetails sets the value of AuthorizationDetails.
+func (s *Payment) SetAuthorizationDetails(val OptPaymentAuthorizationDetails) {
+	s.AuthorizationDetails = val
 }
 
-// SetCapture sets the value of Capture.
-func (s *Payment) SetCapture(val OptBool) {
-	s.Capture = val
+// SetCreatedAt sets the value of CreatedAt.
+func (s *Payment) SetCreatedAt(val time.Time) {
+	s.CreatedAt = val
 }
 
 // SetDescription sets the value of Description.
@@ -1249,14 +773,9 @@ func (s *Payment) SetDescription(val OptString) {
 	s.Description = val
 }
 
-// SetSavePaymentMethod sets the value of SavePaymentMethod.
-func (s *Payment) SetSavePaymentMethod(val OptBool) {
-	s.SavePaymentMethod = val
-}
-
-// SetPaymentMethodID sets the value of PaymentMethodID.
-func (s *Payment) SetPaymentMethodID(val OptString) {
-	s.PaymentMethodID = val
+// SetExpiresAt sets the value of ExpiresAt.
+func (s *Payment) SetExpiresAt(val OptDateTime) {
+	s.ExpiresAt = val
 }
 
 // SetMetadata sets the value of Metadata.
@@ -1264,118 +783,134 @@ func (s *Payment) SetMetadata(val OptMetadata) {
 	s.Metadata = val
 }
 
-// Сумма платежа. Иногда партнеры ЮKassa берут с
-// пользователя дополнительную комиссию, которая не
-// входит в эту сумму.
-type PaymentAmount struct {
-	// Трехбуквенный код валюты в формате ISO-4217. Пример: RUB.
-	// Должен соответствовать валюте субаккаунта (recipient.
-	// gateway_id), если вы разделяете потоки платежей, и валюте
-	// аккаунта (shopId в личном кабинете), если не разделяете.
-	Currency PaymentAmountCurrency `json:"currency"`
-	// Сумма в выбранной валюте. Всегда дробное значение.
-	// Разделитель дробной части — точка, разделитель тысяч
-	// отсутствует. Количество знаков после точки зависит
-	// от выбранной валюты. Пример: 1000.00.
-	Value string `json:"value"`
+// SetPaymentMethod sets the value of PaymentMethod.
+func (s *Payment) SetPaymentMethod(val OptPaymentPaymentMethod) {
+	s.PaymentMethod = val
 }
 
-// GetCurrency returns the value of Currency.
-func (s *PaymentAmount) GetCurrency() PaymentAmountCurrency {
-	return s.Currency
+// SetRecipient sets the value of Recipient.
+func (s *Payment) SetRecipient(val PaymentRecipient) {
+	s.Recipient = val
+}
+
+// SetRefundable sets the value of Refundable.
+func (s *Payment) SetRefundable(val bool) {
+	s.Refundable = val
+}
+
+// SetTest sets the value of Test.
+func (s *Payment) SetTest(val bool) {
+	s.Test = val
+}
+
+// SetIncomeAmount sets the value of IncomeAmount.
+func (s *Payment) SetIncomeAmount(val OptPaymentIncomeAmount) {
+	s.IncomeAmount = val
+}
+
+// SetConfirmation sets the value of Confirmation.
+func (s *Payment) SetConfirmation(val OptPaymentConfirmation) {
+	s.Confirmation = val
+}
+
+type PaymentAmount struct {
+	Value    OptString `json:"value"`
+	Currency OptString `json:"currency"`
 }
 
 // GetValue returns the value of Value.
-func (s *PaymentAmount) GetValue() string {
+func (s *PaymentAmount) GetValue() OptString {
 	return s.Value
 }
 
-// SetCurrency sets the value of Currency.
-func (s *PaymentAmount) SetCurrency(val PaymentAmountCurrency) {
-	s.Currency = val
+// GetCurrency returns the value of Currency.
+func (s *PaymentAmount) GetCurrency() OptString {
+	return s.Currency
 }
 
 // SetValue sets the value of Value.
-func (s *PaymentAmount) SetValue(val string) {
+func (s *PaymentAmount) SetValue(val OptString) {
 	s.Value = val
 }
 
-// Трехбуквенный код валюты в формате ISO-4217. Пример: RUB.
-// Должен соответствовать валюте субаккаунта (recipient.
-// gateway_id), если вы разделяете потоки платежей, и валюте
-// аккаунта (shopId в личном кабинете), если не разделяете.
-type PaymentAmountCurrency string
-
-const (
-	PaymentAmountCurrencyRUB PaymentAmountCurrency = "RUB"
-)
-
-// AllValues returns all PaymentAmountCurrency values.
-func (PaymentAmountCurrency) AllValues() []PaymentAmountCurrency {
-	return []PaymentAmountCurrency{
-		PaymentAmountCurrencyRUB,
-	}
+// SetCurrency sets the value of Currency.
+func (s *PaymentAmount) SetCurrency(val OptString) {
+	s.Currency = val
 }
 
-// MarshalText implements encoding.TextMarshaler.
-func (s PaymentAmountCurrency) MarshalText() ([]byte, error) {
-	switch s {
-	case PaymentAmountCurrencyRUB:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
+type PaymentAuthorizationDetails struct {
+	Rrn          OptString                                  `json:"rrn"`
+	AuthCode     OptString                                  `json:"auth_code"`
+	ThreeDSecure OptPaymentAuthorizationDetailsThreeDSecure `json:"three_d_secure"`
 }
 
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *PaymentAmountCurrency) UnmarshalText(data []byte) error {
-	switch PaymentAmountCurrency(data) {
-	case PaymentAmountCurrencyRUB:
-		*s = PaymentAmountCurrencyRUB
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
-	}
+// GetRrn returns the value of Rrn.
+func (s *PaymentAuthorizationDetails) GetRrn() OptString {
+	return s.Rrn
 }
 
-// PaymentConfirmation represents sum type.
+// GetAuthCode returns the value of AuthCode.
+func (s *PaymentAuthorizationDetails) GetAuthCode() OptString {
+	return s.AuthCode
+}
+
+// GetThreeDSecure returns the value of ThreeDSecure.
+func (s *PaymentAuthorizationDetails) GetThreeDSecure() OptPaymentAuthorizationDetailsThreeDSecure {
+	return s.ThreeDSecure
+}
+
+// SetRrn sets the value of Rrn.
+func (s *PaymentAuthorizationDetails) SetRrn(val OptString) {
+	s.Rrn = val
+}
+
+// SetAuthCode sets the value of AuthCode.
+func (s *PaymentAuthorizationDetails) SetAuthCode(val OptString) {
+	s.AuthCode = val
+}
+
+// SetThreeDSecure sets the value of ThreeDSecure.
+func (s *PaymentAuthorizationDetails) SetThreeDSecure(val OptPaymentAuthorizationDetailsThreeDSecure) {
+	s.ThreeDSecure = val
+}
+
+type PaymentAuthorizationDetailsThreeDSecure struct {
+	Applied OptBool `json:"applied"`
+}
+
+// GetApplied returns the value of Applied.
+func (s *PaymentAuthorizationDetailsThreeDSecure) GetApplied() OptBool {
+	return s.Applied
+}
+
+// SetApplied sets the value of Applied.
+func (s *PaymentAuthorizationDetailsThreeDSecure) SetApplied(val OptBool) {
+	s.Applied = val
+}
+
 type PaymentConfirmation struct {
-	Type                        PaymentConfirmationType // switch on this field
-	PaymentConfirmationEmbedded PaymentConfirmationEmbedded
+	Type              PaymentConfirmationType `json:"type"`
+	ConfirmationToken OptString               `json:"confirmation_token"`
 }
 
-// PaymentConfirmationType is oneOf type of PaymentConfirmation.
-type PaymentConfirmationType string
-
-// Possible values for PaymentConfirmationType.
-const (
-	PaymentConfirmationEmbeddedPaymentConfirmation PaymentConfirmationType = "PaymentConfirmationEmbedded"
-)
-
-// IsPaymentConfirmationEmbedded reports whether PaymentConfirmation is PaymentConfirmationEmbedded.
-func (s PaymentConfirmation) IsPaymentConfirmationEmbedded() bool {
-	return s.Type == PaymentConfirmationEmbeddedPaymentConfirmation
+// GetType returns the value of Type.
+func (s *PaymentConfirmation) GetType() PaymentConfirmationType {
+	return s.Type
 }
 
-// SetPaymentConfirmationEmbedded sets PaymentConfirmation to PaymentConfirmationEmbedded.
-func (s *PaymentConfirmation) SetPaymentConfirmationEmbedded(v PaymentConfirmationEmbedded) {
-	s.Type = PaymentConfirmationEmbeddedPaymentConfirmation
-	s.PaymentConfirmationEmbedded = v
+// GetConfirmationToken returns the value of ConfirmationToken.
+func (s *PaymentConfirmation) GetConfirmationToken() OptString {
+	return s.ConfirmationToken
 }
 
-// GetPaymentConfirmationEmbedded returns PaymentConfirmationEmbedded and true boolean if PaymentConfirmation is PaymentConfirmationEmbedded.
-func (s PaymentConfirmation) GetPaymentConfirmationEmbedded() (v PaymentConfirmationEmbedded, ok bool) {
-	if !s.IsPaymentConfirmationEmbedded() {
-		return v, false
-	}
-	return s.PaymentConfirmationEmbedded, true
+// SetType sets the value of Type.
+func (s *PaymentConfirmation) SetType(val PaymentConfirmationType) {
+	s.Type = val
 }
 
-// NewPaymentConfirmationEmbeddedPaymentConfirmation returns new PaymentConfirmation from PaymentConfirmationEmbedded.
-func NewPaymentConfirmationEmbeddedPaymentConfirmation(v PaymentConfirmationEmbedded) PaymentConfirmation {
-	var s PaymentConfirmation
-	s.SetPaymentConfirmationEmbedded(v)
-	return s
+// SetConfirmationToken sets the value of ConfirmationToken.
+func (s *PaymentConfirmation) SetConfirmationToken(val OptString) {
+	s.ConfirmationToken = val
 }
 
 // Ref: #/components/schemas/PaymentConfirmationEmbedded
@@ -1452,6 +987,264 @@ func (s *PaymentConfirmationEmbeddedType) UnmarshalText(data []byte) error {
 	}
 }
 
+type PaymentConfirmationType string
+
+const (
+	PaymentConfirmationTypeEmbedded PaymentConfirmationType = "embedded"
+)
+
+// AllValues returns all PaymentConfirmationType values.
+func (PaymentConfirmationType) AllValues() []PaymentConfirmationType {
+	return []PaymentConfirmationType{
+		PaymentConfirmationTypeEmbedded,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s PaymentConfirmationType) MarshalText() ([]byte, error) {
+	switch s {
+	case PaymentConfirmationTypeEmbedded:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *PaymentConfirmationType) UnmarshalText(data []byte) error {
+	switch PaymentConfirmationType(data) {
+	case PaymentConfirmationTypeEmbedded:
+		*s = PaymentConfirmationTypeEmbedded
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type PaymentIncomeAmount struct {
+	Value    OptString `json:"value"`
+	Currency OptString `json:"currency"`
+}
+
+// GetValue returns the value of Value.
+func (s *PaymentIncomeAmount) GetValue() OptString {
+	return s.Value
+}
+
+// GetCurrency returns the value of Currency.
+func (s *PaymentIncomeAmount) GetCurrency() OptString {
+	return s.Currency
+}
+
+// SetValue sets the value of Value.
+func (s *PaymentIncomeAmount) SetValue(val OptString) {
+	s.Value = val
+}
+
+// SetCurrency sets the value of Currency.
+func (s *PaymentIncomeAmount) SetCurrency(val OptString) {
+	s.Currency = val
+}
+
+type PaymentPaymentMethod struct {
+	Type  string                      `json:"type"`
+	ID    string                      `json:"id"`
+	Saved bool                        `json:"saved"`
+	Card  OptPaymentPaymentMethodCard `json:"card"`
+	Title OptString                   `json:"title"`
+}
+
+// GetType returns the value of Type.
+func (s *PaymentPaymentMethod) GetType() string {
+	return s.Type
+}
+
+// GetID returns the value of ID.
+func (s *PaymentPaymentMethod) GetID() string {
+	return s.ID
+}
+
+// GetSaved returns the value of Saved.
+func (s *PaymentPaymentMethod) GetSaved() bool {
+	return s.Saved
+}
+
+// GetCard returns the value of Card.
+func (s *PaymentPaymentMethod) GetCard() OptPaymentPaymentMethodCard {
+	return s.Card
+}
+
+// GetTitle returns the value of Title.
+func (s *PaymentPaymentMethod) GetTitle() OptString {
+	return s.Title
+}
+
+// SetType sets the value of Type.
+func (s *PaymentPaymentMethod) SetType(val string) {
+	s.Type = val
+}
+
+// SetID sets the value of ID.
+func (s *PaymentPaymentMethod) SetID(val string) {
+	s.ID = val
+}
+
+// SetSaved sets the value of Saved.
+func (s *PaymentPaymentMethod) SetSaved(val bool) {
+	s.Saved = val
+}
+
+// SetCard sets the value of Card.
+func (s *PaymentPaymentMethod) SetCard(val OptPaymentPaymentMethodCard) {
+	s.Card = val
+}
+
+// SetTitle sets the value of Title.
+func (s *PaymentPaymentMethod) SetTitle(val OptString) {
+	s.Title = val
+}
+
+type PaymentPaymentMethodCard struct {
+	First6        OptString                              `json:"first6"`
+	Last4         OptString                              `json:"last4"`
+	ExpiryMonth   OptString                              `json:"expiry_month"`
+	ExpiryYear    OptString                              `json:"expiry_year"`
+	CardType      OptString                              `json:"card_type"`
+	CardProduct   OptPaymentPaymentMethodCardCardProduct `json:"card_product"`
+	IssuerCountry OptString                              `json:"issuer_country"`
+	IssuerName    OptString                              `json:"issuer_name"`
+}
+
+// GetFirst6 returns the value of First6.
+func (s *PaymentPaymentMethodCard) GetFirst6() OptString {
+	return s.First6
+}
+
+// GetLast4 returns the value of Last4.
+func (s *PaymentPaymentMethodCard) GetLast4() OptString {
+	return s.Last4
+}
+
+// GetExpiryMonth returns the value of ExpiryMonth.
+func (s *PaymentPaymentMethodCard) GetExpiryMonth() OptString {
+	return s.ExpiryMonth
+}
+
+// GetExpiryYear returns the value of ExpiryYear.
+func (s *PaymentPaymentMethodCard) GetExpiryYear() OptString {
+	return s.ExpiryYear
+}
+
+// GetCardType returns the value of CardType.
+func (s *PaymentPaymentMethodCard) GetCardType() OptString {
+	return s.CardType
+}
+
+// GetCardProduct returns the value of CardProduct.
+func (s *PaymentPaymentMethodCard) GetCardProduct() OptPaymentPaymentMethodCardCardProduct {
+	return s.CardProduct
+}
+
+// GetIssuerCountry returns the value of IssuerCountry.
+func (s *PaymentPaymentMethodCard) GetIssuerCountry() OptString {
+	return s.IssuerCountry
+}
+
+// GetIssuerName returns the value of IssuerName.
+func (s *PaymentPaymentMethodCard) GetIssuerName() OptString {
+	return s.IssuerName
+}
+
+// SetFirst6 sets the value of First6.
+func (s *PaymentPaymentMethodCard) SetFirst6(val OptString) {
+	s.First6 = val
+}
+
+// SetLast4 sets the value of Last4.
+func (s *PaymentPaymentMethodCard) SetLast4(val OptString) {
+	s.Last4 = val
+}
+
+// SetExpiryMonth sets the value of ExpiryMonth.
+func (s *PaymentPaymentMethodCard) SetExpiryMonth(val OptString) {
+	s.ExpiryMonth = val
+}
+
+// SetExpiryYear sets the value of ExpiryYear.
+func (s *PaymentPaymentMethodCard) SetExpiryYear(val OptString) {
+	s.ExpiryYear = val
+}
+
+// SetCardType sets the value of CardType.
+func (s *PaymentPaymentMethodCard) SetCardType(val OptString) {
+	s.CardType = val
+}
+
+// SetCardProduct sets the value of CardProduct.
+func (s *PaymentPaymentMethodCard) SetCardProduct(val OptPaymentPaymentMethodCardCardProduct) {
+	s.CardProduct = val
+}
+
+// SetIssuerCountry sets the value of IssuerCountry.
+func (s *PaymentPaymentMethodCard) SetIssuerCountry(val OptString) {
+	s.IssuerCountry = val
+}
+
+// SetIssuerName sets the value of IssuerName.
+func (s *PaymentPaymentMethodCard) SetIssuerName(val OptString) {
+	s.IssuerName = val
+}
+
+type PaymentPaymentMethodCardCardProduct struct {
+	Code OptString `json:"code"`
+	Name OptString `json:"name"`
+}
+
+// GetCode returns the value of Code.
+func (s *PaymentPaymentMethodCardCardProduct) GetCode() OptString {
+	return s.Code
+}
+
+// GetName returns the value of Name.
+func (s *PaymentPaymentMethodCardCardProduct) GetName() OptString {
+	return s.Name
+}
+
+// SetCode sets the value of Code.
+func (s *PaymentPaymentMethodCardCardProduct) SetCode(val OptString) {
+	s.Code = val
+}
+
+// SetName sets the value of Name.
+func (s *PaymentPaymentMethodCardCardProduct) SetName(val OptString) {
+	s.Name = val
+}
+
+type PaymentRecipient struct {
+	AccountID OptString `json:"account_id"`
+	GatewayID OptString `json:"gateway_id"`
+}
+
+// GetAccountID returns the value of AccountID.
+func (s *PaymentRecipient) GetAccountID() OptString {
+	return s.AccountID
+}
+
+// GetGatewayID returns the value of GatewayID.
+func (s *PaymentRecipient) GetGatewayID() OptString {
+	return s.GatewayID
+}
+
+// SetAccountID sets the value of AccountID.
+func (s *PaymentRecipient) SetAccountID(val OptString) {
+	s.AccountID = val
+}
+
+// SetGatewayID sets the value of GatewayID.
+func (s *PaymentRecipient) SetGatewayID(val OptString) {
+	s.GatewayID = val
+}
+
 // Ref: #/components/schemas/PaymentStatus
 type PaymentStatus string
 
@@ -1508,6 +1301,213 @@ func (s *PaymentStatus) UnmarshalText(data []byte) error {
 	}
 }
 
+// Ref: #/components/schemas/ReqPayment
+type ReqPayment struct {
+	// Сумма платежа. Иногда партнеры ЮKassa берут с
+	// пользователя дополнительную комиссию, которая не
+	// входит в эту сумму.
+	Amount       ReqPaymentAmount          `json:"amount"`
+	Confirmation OptReqPaymentConfirmation `json:"confirmation"`
+	// Автоматический прием  поступившего платежа.
+	Capture OptBool `json:"capture"`
+	// Описание транзакции (не более 128 символов), которое вы
+	// увидите в личном кабинете ЮKassa, а пользователь — при
+	// оплате. Например: «Оплата заказа № 72 для user@yoomoney.ru».
+	Description OptString `json:"description"`
+	// Сохранение платежных данных (с их помощью можно
+	// проводить повторные безакцептные списания ).
+	// Значение true инициирует создание многоразового
+	// payment_method.
+	SavePaymentMethod OptBool `json:"save_payment_method"`
+	// Идентификатор сохраненного способа оплаты.
+	PaymentMethodID OptString   `json:"payment_method_id"`
+	Metadata        OptMetadata `json:"metadata"`
+}
+
+// GetAmount returns the value of Amount.
+func (s *ReqPayment) GetAmount() ReqPaymentAmount {
+	return s.Amount
+}
+
+// GetConfirmation returns the value of Confirmation.
+func (s *ReqPayment) GetConfirmation() OptReqPaymentConfirmation {
+	return s.Confirmation
+}
+
+// GetCapture returns the value of Capture.
+func (s *ReqPayment) GetCapture() OptBool {
+	return s.Capture
+}
+
+// GetDescription returns the value of Description.
+func (s *ReqPayment) GetDescription() OptString {
+	return s.Description
+}
+
+// GetSavePaymentMethod returns the value of SavePaymentMethod.
+func (s *ReqPayment) GetSavePaymentMethod() OptBool {
+	return s.SavePaymentMethod
+}
+
+// GetPaymentMethodID returns the value of PaymentMethodID.
+func (s *ReqPayment) GetPaymentMethodID() OptString {
+	return s.PaymentMethodID
+}
+
+// GetMetadata returns the value of Metadata.
+func (s *ReqPayment) GetMetadata() OptMetadata {
+	return s.Metadata
+}
+
+// SetAmount sets the value of Amount.
+func (s *ReqPayment) SetAmount(val ReqPaymentAmount) {
+	s.Amount = val
+}
+
+// SetConfirmation sets the value of Confirmation.
+func (s *ReqPayment) SetConfirmation(val OptReqPaymentConfirmation) {
+	s.Confirmation = val
+}
+
+// SetCapture sets the value of Capture.
+func (s *ReqPayment) SetCapture(val OptBool) {
+	s.Capture = val
+}
+
+// SetDescription sets the value of Description.
+func (s *ReqPayment) SetDescription(val OptString) {
+	s.Description = val
+}
+
+// SetSavePaymentMethod sets the value of SavePaymentMethod.
+func (s *ReqPayment) SetSavePaymentMethod(val OptBool) {
+	s.SavePaymentMethod = val
+}
+
+// SetPaymentMethodID sets the value of PaymentMethodID.
+func (s *ReqPayment) SetPaymentMethodID(val OptString) {
+	s.PaymentMethodID = val
+}
+
+// SetMetadata sets the value of Metadata.
+func (s *ReqPayment) SetMetadata(val OptMetadata) {
+	s.Metadata = val
+}
+
+// Сумма платежа. Иногда партнеры ЮKassa берут с
+// пользователя дополнительную комиссию, которая не
+// входит в эту сумму.
+type ReqPaymentAmount struct {
+	// Трехбуквенный код валюты в формате ISO-4217. Пример: RUB.
+	// Должен соответствовать валюте субаккаунта (recipient.
+	// gateway_id), если вы разделяете потоки платежей, и валюте
+	// аккаунта (shopId в личном кабинете), если не разделяете.
+	Currency ReqPaymentAmountCurrency `json:"currency"`
+	// Сумма в выбранной валюте. Всегда дробное значение.
+	// Разделитель дробной части — точка, разделитель тысяч
+	// отсутствует. Количество знаков после точки зависит
+	// от выбранной валюты. Пример: 1000.00.
+	Value string `json:"value"`
+}
+
+// GetCurrency returns the value of Currency.
+func (s *ReqPaymentAmount) GetCurrency() ReqPaymentAmountCurrency {
+	return s.Currency
+}
+
+// GetValue returns the value of Value.
+func (s *ReqPaymentAmount) GetValue() string {
+	return s.Value
+}
+
+// SetCurrency sets the value of Currency.
+func (s *ReqPaymentAmount) SetCurrency(val ReqPaymentAmountCurrency) {
+	s.Currency = val
+}
+
+// SetValue sets the value of Value.
+func (s *ReqPaymentAmount) SetValue(val string) {
+	s.Value = val
+}
+
+// Трехбуквенный код валюты в формате ISO-4217. Пример: RUB.
+// Должен соответствовать валюте субаккаунта (recipient.
+// gateway_id), если вы разделяете потоки платежей, и валюте
+// аккаунта (shopId в личном кабинете), если не разделяете.
+type ReqPaymentAmountCurrency string
+
+const (
+	ReqPaymentAmountCurrencyRUB ReqPaymentAmountCurrency = "RUB"
+)
+
+// AllValues returns all ReqPaymentAmountCurrency values.
+func (ReqPaymentAmountCurrency) AllValues() []ReqPaymentAmountCurrency {
+	return []ReqPaymentAmountCurrency{
+		ReqPaymentAmountCurrencyRUB,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ReqPaymentAmountCurrency) MarshalText() ([]byte, error) {
+	switch s {
+	case ReqPaymentAmountCurrencyRUB:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ReqPaymentAmountCurrency) UnmarshalText(data []byte) error {
+	switch ReqPaymentAmountCurrency(data) {
+	case ReqPaymentAmountCurrencyRUB:
+		*s = ReqPaymentAmountCurrencyRUB
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// ReqPaymentConfirmation represents sum type.
+type ReqPaymentConfirmation struct {
+	Type                        ReqPaymentConfirmationType // switch on this field
+	PaymentConfirmationEmbedded PaymentConfirmationEmbedded
+}
+
+// ReqPaymentConfirmationType is oneOf type of ReqPaymentConfirmation.
+type ReqPaymentConfirmationType string
+
+// Possible values for ReqPaymentConfirmationType.
+const (
+	PaymentConfirmationEmbeddedReqPaymentConfirmation ReqPaymentConfirmationType = "PaymentConfirmationEmbedded"
+)
+
+// IsPaymentConfirmationEmbedded reports whether ReqPaymentConfirmation is PaymentConfirmationEmbedded.
+func (s ReqPaymentConfirmation) IsPaymentConfirmationEmbedded() bool {
+	return s.Type == PaymentConfirmationEmbeddedReqPaymentConfirmation
+}
+
+// SetPaymentConfirmationEmbedded sets ReqPaymentConfirmation to PaymentConfirmationEmbedded.
+func (s *ReqPaymentConfirmation) SetPaymentConfirmationEmbedded(v PaymentConfirmationEmbedded) {
+	s.Type = PaymentConfirmationEmbeddedReqPaymentConfirmation
+	s.PaymentConfirmationEmbedded = v
+}
+
+// GetPaymentConfirmationEmbedded returns PaymentConfirmationEmbedded and true boolean if ReqPaymentConfirmation is PaymentConfirmationEmbedded.
+func (s ReqPaymentConfirmation) GetPaymentConfirmationEmbedded() (v PaymentConfirmationEmbedded, ok bool) {
+	if !s.IsPaymentConfirmationEmbedded() {
+		return v, false
+	}
+	return s.PaymentConfirmationEmbedded, true
+}
+
+// NewPaymentConfirmationEmbeddedReqPaymentConfirmation returns new ReqPaymentConfirmation from PaymentConfirmationEmbedded.
+func NewPaymentConfirmationEmbeddedReqPaymentConfirmation(v PaymentConfirmationEmbedded) ReqPaymentConfirmation {
+	var s ReqPaymentConfirmation
+	s.SetPaymentConfirmationEmbedded(v)
+	return s
+}
+
 type V3PaymentsGetOK struct {
 	Limit      OptInt    `json:"limit"`
 	NextCursor OptString `json:"next_cursor"`
@@ -1559,9 +1559,9 @@ func (s *V3PaymentsGetOK) SetItems(val []Payment) {
 type YookassaHookPostOK struct{}
 
 type YookassaHookPostReq struct {
-	Type   YookassaHookPostReqType  `json:"type"`
-	Event  YookassaHookPostReqEvent `json:"event"`
-	Object Payment                  `json:"object"`
+	Type   YookassaHookPostReqType   `json:"type"`
+	Event  YookassaHookPostReqEvent  `json:"event"`
+	Object YookassaHookPostReqObject `json:"object"`
 }
 
 // GetType returns the value of Type.
@@ -1575,7 +1575,7 @@ func (s *YookassaHookPostReq) GetEvent() YookassaHookPostReqEvent {
 }
 
 // GetObject returns the value of Object.
-func (s *YookassaHookPostReq) GetObject() Payment {
+func (s *YookassaHookPostReq) GetObject() YookassaHookPostReqObject {
 	return s.Object
 }
 
@@ -1590,7 +1590,7 @@ func (s *YookassaHookPostReq) SetEvent(val YookassaHookPostReqEvent) {
 }
 
 // SetObject sets the value of Object.
-func (s *YookassaHookPostReq) SetObject(val Payment) {
+func (s *YookassaHookPostReq) SetObject(val YookassaHookPostReqObject) {
 	s.Object = val
 }
 
@@ -1668,6 +1668,74 @@ func (s *YookassaHookPostReqEvent) UnmarshalText(data []byte) error {
 	default:
 		return errors.Errorf("invalid value: %q", data)
 	}
+}
+
+// YookassaHookPostReqObject represents sum type.
+type YookassaHookPostReqObject struct {
+	Type       YookassaHookPostReqObjectType // switch on this field
+	ReqPayment ReqPayment
+	Payment    Payment
+}
+
+// YookassaHookPostReqObjectType is oneOf type of YookassaHookPostReqObject.
+type YookassaHookPostReqObjectType string
+
+// Possible values for YookassaHookPostReqObjectType.
+const (
+	ReqPaymentYookassaHookPostReqObject YookassaHookPostReqObjectType = "ReqPayment"
+	PaymentYookassaHookPostReqObject    YookassaHookPostReqObjectType = "Payment"
+)
+
+// IsReqPayment reports whether YookassaHookPostReqObject is ReqPayment.
+func (s YookassaHookPostReqObject) IsReqPayment() bool {
+	return s.Type == ReqPaymentYookassaHookPostReqObject
+}
+
+// IsPayment reports whether YookassaHookPostReqObject is Payment.
+func (s YookassaHookPostReqObject) IsPayment() bool {
+	return s.Type == PaymentYookassaHookPostReqObject
+}
+
+// SetReqPayment sets YookassaHookPostReqObject to ReqPayment.
+func (s *YookassaHookPostReqObject) SetReqPayment(v ReqPayment) {
+	s.Type = ReqPaymentYookassaHookPostReqObject
+	s.ReqPayment = v
+}
+
+// GetReqPayment returns ReqPayment and true boolean if YookassaHookPostReqObject is ReqPayment.
+func (s YookassaHookPostReqObject) GetReqPayment() (v ReqPayment, ok bool) {
+	if !s.IsReqPayment() {
+		return v, false
+	}
+	return s.ReqPayment, true
+}
+
+// NewReqPaymentYookassaHookPostReqObject returns new YookassaHookPostReqObject from ReqPayment.
+func NewReqPaymentYookassaHookPostReqObject(v ReqPayment) YookassaHookPostReqObject {
+	var s YookassaHookPostReqObject
+	s.SetReqPayment(v)
+	return s
+}
+
+// SetPayment sets YookassaHookPostReqObject to Payment.
+func (s *YookassaHookPostReqObject) SetPayment(v Payment) {
+	s.Type = PaymentYookassaHookPostReqObject
+	s.Payment = v
+}
+
+// GetPayment returns Payment and true boolean if YookassaHookPostReqObject is Payment.
+func (s YookassaHookPostReqObject) GetPayment() (v Payment, ok bool) {
+	if !s.IsPayment() {
+		return v, false
+	}
+	return s.Payment, true
+}
+
+// NewPaymentYookassaHookPostReqObject returns new YookassaHookPostReqObject from Payment.
+func NewPaymentYookassaHookPostReqObject(v Payment) YookassaHookPostReqObject {
+	var s YookassaHookPostReqObject
+	s.SetPayment(v)
+	return s
 }
 
 type YookassaHookPostReqType string
