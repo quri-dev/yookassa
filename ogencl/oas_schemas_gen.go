@@ -3,11 +3,16 @@
 package ogencl
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/go-faster/errors"
 	"github.com/go-faster/jx"
 )
+
+func (s *YookassaErrorStatusCode) Error() string {
+	return fmt.Sprintf("code %d: %+v", s.StatusCode, s.Response)
+}
 
 // Сумма платежа. Иногда партнеры ЮKassa берут с
 // пользователя дополнительную комиссию, которая не
@@ -1611,6 +1616,193 @@ func (s *V3PaymentsGetOK) SetType(val OptString) {
 // SetItems sets the value of Items.
 func (s *V3PaymentsGetOK) SetItems(val []Payment) {
 	s.Items = val
+}
+
+type YookassaError struct {
+	Type        YookassaErrorType `json:"type"`
+	ID          string            `json:"id"`
+	Code        YookassaErrorCode `json:"code"`
+	Description OptString         `json:"description"`
+	Parameter   OptString         `json:"parameter"`
+}
+
+// GetType returns the value of Type.
+func (s *YookassaError) GetType() YookassaErrorType {
+	return s.Type
+}
+
+// GetID returns the value of ID.
+func (s *YookassaError) GetID() string {
+	return s.ID
+}
+
+// GetCode returns the value of Code.
+func (s *YookassaError) GetCode() YookassaErrorCode {
+	return s.Code
+}
+
+// GetDescription returns the value of Description.
+func (s *YookassaError) GetDescription() OptString {
+	return s.Description
+}
+
+// GetParameter returns the value of Parameter.
+func (s *YookassaError) GetParameter() OptString {
+	return s.Parameter
+}
+
+// SetType sets the value of Type.
+func (s *YookassaError) SetType(val YookassaErrorType) {
+	s.Type = val
+}
+
+// SetID sets the value of ID.
+func (s *YookassaError) SetID(val string) {
+	s.ID = val
+}
+
+// SetCode sets the value of Code.
+func (s *YookassaError) SetCode(val YookassaErrorCode) {
+	s.Code = val
+}
+
+// SetDescription sets the value of Description.
+func (s *YookassaError) SetDescription(val OptString) {
+	s.Description = val
+}
+
+// SetParameter sets the value of Parameter.
+func (s *YookassaError) SetParameter(val OptString) {
+	s.Parameter = val
+}
+
+type YookassaErrorCode string
+
+const (
+	YookassaErrorCodeInvalidRequest      YookassaErrorCode = "invalid_request"
+	YookassaErrorCodeInvalidCredentials  YookassaErrorCode = "invalid_credentials"
+	YookassaErrorCodeForbidden           YookassaErrorCode = "forbidden"
+	YookassaErrorCodeNotFound            YookassaErrorCode = "not_found"
+	YookassaErrorCodeTooManyRequests     YookassaErrorCode = "too_many_requests"
+	YookassaErrorCodeInternalServerError YookassaErrorCode = "internal_server_error"
+)
+
+// AllValues returns all YookassaErrorCode values.
+func (YookassaErrorCode) AllValues() []YookassaErrorCode {
+	return []YookassaErrorCode{
+		YookassaErrorCodeInvalidRequest,
+		YookassaErrorCodeInvalidCredentials,
+		YookassaErrorCodeForbidden,
+		YookassaErrorCodeNotFound,
+		YookassaErrorCodeTooManyRequests,
+		YookassaErrorCodeInternalServerError,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s YookassaErrorCode) MarshalText() ([]byte, error) {
+	switch s {
+	case YookassaErrorCodeInvalidRequest:
+		return []byte(s), nil
+	case YookassaErrorCodeInvalidCredentials:
+		return []byte(s), nil
+	case YookassaErrorCodeForbidden:
+		return []byte(s), nil
+	case YookassaErrorCodeNotFound:
+		return []byte(s), nil
+	case YookassaErrorCodeTooManyRequests:
+		return []byte(s), nil
+	case YookassaErrorCodeInternalServerError:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *YookassaErrorCode) UnmarshalText(data []byte) error {
+	switch YookassaErrorCode(data) {
+	case YookassaErrorCodeInvalidRequest:
+		*s = YookassaErrorCodeInvalidRequest
+		return nil
+	case YookassaErrorCodeInvalidCredentials:
+		*s = YookassaErrorCodeInvalidCredentials
+		return nil
+	case YookassaErrorCodeForbidden:
+		*s = YookassaErrorCodeForbidden
+		return nil
+	case YookassaErrorCodeNotFound:
+		*s = YookassaErrorCodeNotFound
+		return nil
+	case YookassaErrorCodeTooManyRequests:
+		*s = YookassaErrorCodeTooManyRequests
+		return nil
+	case YookassaErrorCodeInternalServerError:
+		*s = YookassaErrorCodeInternalServerError
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// YookassaErrorStatusCode wraps YookassaError with StatusCode.
+type YookassaErrorStatusCode struct {
+	StatusCode int
+	Response   YookassaError
+}
+
+// GetStatusCode returns the value of StatusCode.
+func (s *YookassaErrorStatusCode) GetStatusCode() int {
+	return s.StatusCode
+}
+
+// GetResponse returns the value of Response.
+func (s *YookassaErrorStatusCode) GetResponse() YookassaError {
+	return s.Response
+}
+
+// SetStatusCode sets the value of StatusCode.
+func (s *YookassaErrorStatusCode) SetStatusCode(val int) {
+	s.StatusCode = val
+}
+
+// SetResponse sets the value of Response.
+func (s *YookassaErrorStatusCode) SetResponse(val YookassaError) {
+	s.Response = val
+}
+
+type YookassaErrorType string
+
+const (
+	YookassaErrorTypeError YookassaErrorType = "error"
+)
+
+// AllValues returns all YookassaErrorType values.
+func (YookassaErrorType) AllValues() []YookassaErrorType {
+	return []YookassaErrorType{
+		YookassaErrorTypeError,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s YookassaErrorType) MarshalText() ([]byte, error) {
+	switch s {
+	case YookassaErrorTypeError:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *YookassaErrorType) UnmarshalText(data []byte) error {
+	switch YookassaErrorType(data) {
+	case YookassaErrorTypeError:
+		*s = YookassaErrorTypeError
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
 }
 
 // YookassaHookPostOK is response for YookassaHookPost operation.

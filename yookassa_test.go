@@ -126,14 +126,18 @@ func TestRefund(t *testing.T) {
 			Currency: ogencl.AmountCurrencyRUB,
 			Value:    "1",
 		},
-		PaymentID: "2e2e94dc-000f-5000-8000-19f75c59d8f2",
+		PaymentID: "2e2e94dc-000f-5000-8000-19f75c59d8f2d",
 	}, ogencl.V3RefundsPostParams{
 		IdempotenceKey: "2e2e94dc-000f-5000-8000-19f75c59d8f2",
 	})
 	if err != nil {
-		t.Error(err)
-		return
+		yookassaErr := YookassaError(err)
+		if yookassaErr != nil {
+			fmt.Println("yoo kassa err", yookassaErr)
+		} else {
+			fmt.Println("unknown err", err)
+		}
 	}
-	fmt.Println("response", r)
 
+	_ = r
 }

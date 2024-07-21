@@ -78,6 +78,8 @@ paths:
                     type: array
                     items:
                       $ref: "#/components/schemas/Payment"
+        default:
+          $ref: "#/components/responses/YookassaError"
     post:
       security:
         - basicAuth: []
@@ -99,6 +101,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Payment"
+        default:
+          $ref: "#/components/responses/YookassaError"
   /v3/payments/{payment_id}:
     parameters:
       - in: path
@@ -116,8 +120,9 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Payment"
+        default:
+          $ref: "#/components/responses/YookassaError"
   /v3/refunds:
-
     post:
       security:
         - basicAuth: []
@@ -136,11 +141,43 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/RefundPayment"
+        default:
+          $ref: "#/components/responses/YookassaError"
 components:
   securitySchemes:
     basicAuth:
       type: http
       scheme: basic
+  responses:
+    YookassaError:
+      required: true
+      content:
+        application/json:
+         schema:
+          type: object
+          required: [type, id, code]
+          properties:
+            type:
+              type: string
+              enum:
+                - error
+            id:
+              type: string
+            code:
+              type: string
+              enum:
+                [
+                  invalid_request,
+                  invalid_credentials,
+                  forbidden,
+                  not_found,
+                  too_many_requests,
+                  internal_server_error,
+                ]
+            description:
+              type: string
+            parameter:
+              type: string
   parameters:
     IdempotenceKey:
       in: header

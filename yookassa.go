@@ -4,6 +4,9 @@ import (
 	"log/slog"
 	"net/http"
 	"net/http/httputil"
+
+	"github.com/go-faster/errors"
+	"github.com/wildwind123/yookassa/ogencl"
 )
 
 type LoggingTransport struct {
@@ -30,4 +33,24 @@ func (s *LoggingTransport) RoundTrip(r *http.Request) (*http.Response, error) {
 	}
 
 	return resp, err
+}
+
+func YookassaError(err error) *ogencl.YookassaErrorStatusCode {
+	if err == nil {
+		return nil
+	}
+	unwrappedErr := errors.Unwrap(err)
+	if unwrappedErr == nil {
+		return nil
+	}
+	unwrappedErr1 := errors.Unwrap(unwrappedErr)
+	if unwrappedErr1 == nil {
+		return nil
+	}
+
+	yookassaErr, ok := unwrappedErr1.(*ogencl.YookassaErrorStatusCode)
+	if !ok {
+		return nil
+	}
+	return yookassaErr
 }
