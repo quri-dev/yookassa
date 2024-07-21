@@ -1,0 +1,14 @@
+{
+    "type" : "notification",
+    "event" : "refund.succeeded",
+    "object" : {
+      "id" : "2e2db44e-0015-5000-a000-16b05ebe6795",
+      "payment_id" : "2e2db2bc-000f-5000-a000-153add441476",
+      "status" : "succeeded",
+      "created_at" : "2024-07-20T11:33:34.948Z",
+      "amount" : {
+        "value" : "1.00",
+        "currency" : "RUB"
+      }
+    }
+  }

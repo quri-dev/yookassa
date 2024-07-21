@@ -29,7 +29,7 @@ webhooks:
                   enum: [payment.waiting_for_capture,payment.succeeded,payment.canceled,refund.succeeded,payout.succeeded,payout.canceled,deal.closed]
                 object:
                   oneOf:
-                   - $ref : "#/components/schemas/ReqPayment"
+                   - $ref : "#/components/schemas/RefundPayment"
                    - $ref : "#/components/schemas/Payment"
       responses:
         "200":
@@ -197,6 +197,7 @@ components:
           type: boolean
         amount:
           type: object
+          required: [value, currency]
           properties:
             value:
               type: string
@@ -301,3 +302,24 @@ components:
     Metadata:
       type: object
       additionalProperties: true
+    RefundPayment:
+      type: object
+      required: [id,payment_id,status,created_at,amount]
+      properties:
+        id:
+          type: string
+        payment_id:
+          type: string
+        status:
+          $ref: "#/components/schemas/PaymentStatus"
+        created_at:
+          type: string
+          format: date-time
+        amount:
+          type: object
+          required: [value, currency]
+          properties:
+            value:
+              type: string
+            currency:
+              type: string

@@ -44,13 +44,13 @@ func TestXxx(t *testing.T) {
 	}
 	ctx := context.Background()
 
-	r, err := ogenCl.V3PaymentsPost(ctx, &ogencl.Payment{
-		Amount: ogencl.PaymentAmount{
-			Currency: ogencl.PaymentAmountCurrencyRUB,
+	r, err := ogenCl.V3PaymentsPost(ctx, &ogencl.ReqPayment{
+		Amount: ogencl.ReqPaymentAmount{
+			Currency: ogencl.ReqPaymentAmountCurrencyRUB,
 			Value:    "100",
 		},
-		Confirmation: ogencl.NewOptPaymentConfirmation(ogencl.PaymentConfirmation{
-			Type: ogencl.PaymentConfirmationEmbeddedPaymentConfirmation,
+		Confirmation: ogencl.NewOptReqPaymentConfirmation(ogencl.ReqPaymentConfirmation{
+			Type: ogencl.PaymentConfirmationEmbeddedReqPaymentConfirmation,
 			PaymentConfirmationEmbedded: ogencl.PaymentConfirmationEmbedded{
 				Type: ogencl.PaymentConfirmationEmbeddedTypeEmbedded,
 			},
@@ -93,4 +93,15 @@ func TestPaymentInfo(t *testing.T) {
 		return
 	}
 	fmt.Println("response", r)
+}
+
+func TestInfo(t *testing.T) {
+	b, _ := os.ReadFile("fixture/refund.success.json")
+
+	d := ogencl.YookassaHookPostReq{}
+	err := d.UnmarshalJSON(b)
+
+	if err != nil {
+		t.Error(err)
+	}
 }

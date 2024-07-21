@@ -132,6 +132,29 @@ func (s PaymentStatus) Validate() error {
 	}
 }
 
+func (s *RefundPayment) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Status.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "status",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
 func (s *ReqPayment) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
@@ -322,8 +345,8 @@ func (s YookassaHookPostReqEvent) Validate() error {
 
 func (s YookassaHookPostReqObject) Validate() error {
 	switch s.Type {
-	case ReqPaymentYookassaHookPostReqObject:
-		if err := s.ReqPayment.Validate(); err != nil {
+	case RefundPaymentYookassaHookPostReqObject:
+		if err := s.RefundPayment.Validate(); err != nil {
 			return err
 		}
 		return nil

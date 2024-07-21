@@ -814,27 +814,27 @@ func (s *Payment) SetConfirmation(val OptPaymentConfirmation) {
 }
 
 type PaymentAmount struct {
-	Value    OptString `json:"value"`
-	Currency OptString `json:"currency"`
+	Value    string `json:"value"`
+	Currency string `json:"currency"`
 }
 
 // GetValue returns the value of Value.
-func (s *PaymentAmount) GetValue() OptString {
+func (s *PaymentAmount) GetValue() string {
 	return s.Value
 }
 
 // GetCurrency returns the value of Currency.
-func (s *PaymentAmount) GetCurrency() OptString {
+func (s *PaymentAmount) GetCurrency() string {
 	return s.Currency
 }
 
 // SetValue sets the value of Value.
-func (s *PaymentAmount) SetValue(val OptString) {
+func (s *PaymentAmount) SetValue(val string) {
 	s.Value = val
 }
 
 // SetCurrency sets the value of Currency.
-func (s *PaymentAmount) SetCurrency(val OptString) {
+func (s *PaymentAmount) SetCurrency(val string) {
 	s.Currency = val
 }
 
@@ -1301,6 +1301,90 @@ func (s *PaymentStatus) UnmarshalText(data []byte) error {
 	}
 }
 
+// Ref: #/components/schemas/RefundPayment
+type RefundPayment struct {
+	ID        string              `json:"id"`
+	PaymentID string              `json:"payment_id"`
+	Status    PaymentStatus       `json:"status"`
+	CreatedAt time.Time           `json:"created_at"`
+	Amount    RefundPaymentAmount `json:"amount"`
+}
+
+// GetID returns the value of ID.
+func (s *RefundPayment) GetID() string {
+	return s.ID
+}
+
+// GetPaymentID returns the value of PaymentID.
+func (s *RefundPayment) GetPaymentID() string {
+	return s.PaymentID
+}
+
+// GetStatus returns the value of Status.
+func (s *RefundPayment) GetStatus() PaymentStatus {
+	return s.Status
+}
+
+// GetCreatedAt returns the value of CreatedAt.
+func (s *RefundPayment) GetCreatedAt() time.Time {
+	return s.CreatedAt
+}
+
+// GetAmount returns the value of Amount.
+func (s *RefundPayment) GetAmount() RefundPaymentAmount {
+	return s.Amount
+}
+
+// SetID sets the value of ID.
+func (s *RefundPayment) SetID(val string) {
+	s.ID = val
+}
+
+// SetPaymentID sets the value of PaymentID.
+func (s *RefundPayment) SetPaymentID(val string) {
+	s.PaymentID = val
+}
+
+// SetStatus sets the value of Status.
+func (s *RefundPayment) SetStatus(val PaymentStatus) {
+	s.Status = val
+}
+
+// SetCreatedAt sets the value of CreatedAt.
+func (s *RefundPayment) SetCreatedAt(val time.Time) {
+	s.CreatedAt = val
+}
+
+// SetAmount sets the value of Amount.
+func (s *RefundPayment) SetAmount(val RefundPaymentAmount) {
+	s.Amount = val
+}
+
+type RefundPaymentAmount struct {
+	Value    string `json:"value"`
+	Currency string `json:"currency"`
+}
+
+// GetValue returns the value of Value.
+func (s *RefundPaymentAmount) GetValue() string {
+	return s.Value
+}
+
+// GetCurrency returns the value of Currency.
+func (s *RefundPaymentAmount) GetCurrency() string {
+	return s.Currency
+}
+
+// SetValue sets the value of Value.
+func (s *RefundPaymentAmount) SetValue(val string) {
+	s.Value = val
+}
+
+// SetCurrency sets the value of Currency.
+func (s *RefundPaymentAmount) SetCurrency(val string) {
+	s.Currency = val
+}
+
 // Ref: #/components/schemas/ReqPayment
 type ReqPayment struct {
 	// Сумма платежа. Иногда партнеры ЮKassa берут с
@@ -1672,9 +1756,9 @@ func (s *YookassaHookPostReqEvent) UnmarshalText(data []byte) error {
 
 // YookassaHookPostReqObject represents sum type.
 type YookassaHookPostReqObject struct {
-	Type       YookassaHookPostReqObjectType // switch on this field
-	ReqPayment ReqPayment
-	Payment    Payment
+	Type          YookassaHookPostReqObjectType // switch on this field
+	RefundPayment RefundPayment
+	Payment       Payment
 }
 
 // YookassaHookPostReqObjectType is oneOf type of YookassaHookPostReqObject.
@@ -1682,13 +1766,13 @@ type YookassaHookPostReqObjectType string
 
 // Possible values for YookassaHookPostReqObjectType.
 const (
-	ReqPaymentYookassaHookPostReqObject YookassaHookPostReqObjectType = "ReqPayment"
-	PaymentYookassaHookPostReqObject    YookassaHookPostReqObjectType = "Payment"
+	RefundPaymentYookassaHookPostReqObject YookassaHookPostReqObjectType = "RefundPayment"
+	PaymentYookassaHookPostReqObject       YookassaHookPostReqObjectType = "Payment"
 )
 
-// IsReqPayment reports whether YookassaHookPostReqObject is ReqPayment.
-func (s YookassaHookPostReqObject) IsReqPayment() bool {
-	return s.Type == ReqPaymentYookassaHookPostReqObject
+// IsRefundPayment reports whether YookassaHookPostReqObject is RefundPayment.
+func (s YookassaHookPostReqObject) IsRefundPayment() bool {
+	return s.Type == RefundPaymentYookassaHookPostReqObject
 }
 
 // IsPayment reports whether YookassaHookPostReqObject is Payment.
@@ -1696,24 +1780,24 @@ func (s YookassaHookPostReqObject) IsPayment() bool {
 	return s.Type == PaymentYookassaHookPostReqObject
 }
 
-// SetReqPayment sets YookassaHookPostReqObject to ReqPayment.
-func (s *YookassaHookPostReqObject) SetReqPayment(v ReqPayment) {
-	s.Type = ReqPaymentYookassaHookPostReqObject
-	s.ReqPayment = v
+// SetRefundPayment sets YookassaHookPostReqObject to RefundPayment.
+func (s *YookassaHookPostReqObject) SetRefundPayment(v RefundPayment) {
+	s.Type = RefundPaymentYookassaHookPostReqObject
+	s.RefundPayment = v
 }
 
-// GetReqPayment returns ReqPayment and true boolean if YookassaHookPostReqObject is ReqPayment.
-func (s YookassaHookPostReqObject) GetReqPayment() (v ReqPayment, ok bool) {
-	if !s.IsReqPayment() {
+// GetRefundPayment returns RefundPayment and true boolean if YookassaHookPostReqObject is RefundPayment.
+func (s YookassaHookPostReqObject) GetRefundPayment() (v RefundPayment, ok bool) {
+	if !s.IsRefundPayment() {
 		return v, false
 	}
-	return s.ReqPayment, true
+	return s.RefundPayment, true
 }
 
-// NewReqPaymentYookassaHookPostReqObject returns new YookassaHookPostReqObject from ReqPayment.
-func NewReqPaymentYookassaHookPostReqObject(v ReqPayment) YookassaHookPostReqObject {
+// NewRefundPaymentYookassaHookPostReqObject returns new YookassaHookPostReqObject from RefundPayment.
+func NewRefundPaymentYookassaHookPostReqObject(v RefundPayment) YookassaHookPostReqObject {
 	var s YookassaHookPostReqObject
-	s.SetReqPayment(v)
+	s.SetRefundPayment(v)
 	return s
 }
 
