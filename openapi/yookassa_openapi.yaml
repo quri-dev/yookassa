@@ -116,7 +116,26 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Payment"
+  /v3/refunds:
 
+    post:
+      security:
+        - basicAuth: []
+      parameters:
+        - $ref: "#/components/parameters/IdempotenceKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ReqRefundPayment"
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RefundPayment"
 components:
   securitySchemes:
     basicAuth:
@@ -131,27 +150,29 @@ components:
       schema:
         type: string
   schemas:
+    Amount:
+      type: object
+      required: [currency, value]
+      description: |
+        Сумма платежа. Иногда партнеры ЮKassa берут с пользователя дополнительную комиссию, которая не входит в эту сумму.
+      properties:
+        currency:
+          description: |
+            Трехбуквенный код валюты в формате ISO-4217. Пример: RUB. Должен соответствовать валюте субаккаунта (recipient.gateway_id), если вы разделяете потоки платежей, и валюте аккаунта (shopId в личном кабинете), если не разделяете.
+          type: string
+          enum:
+            - RUB
+        value:
+          description: |
+            Сумма в выбранной валюте. Всегда дробное значение. Разделитель дробной части — точка, разделитель тысяч отсутствует. Количество знаков после точки зависит от выбранной валюты. Пример: 1000.00.
+          type: string
     ReqPayment:
       type: object
       required:
         - amount
       properties:
         amount:
-          type: object
-          required: [currency, value]
-          description: |
-            Сумма платежа. Иногда партнеры ЮKassa берут с пользователя дополнительную комиссию, которая не входит в эту сумму.
-          properties:
-            currency:
-              description: |
-                Трехбуквенный код валюты в формате ISO-4217. Пример: RUB. Должен соответствовать валюте субаккаунта (recipient.gateway_id), если вы разделяете потоки платежей, и валюте аккаунта (shopId в личном кабинете), если не разделяете.
-              type: string
-              enum:
-                - RUB
-            value:
-              description: |
-                Сумма в выбранной валюте. Всегда дробное значение. Разделитель дробной части — точка, разделитель тысяч отсутствует. Количество знаков после точки зависит от выбранной валюты. Пример: 1000.00.
-              type: string
+          $ref: "#/components/schemas/Amount"
         confirmation:
           oneOf:
             - $ref: "#/components/schemas/PaymentConfirmationEmbedded"
@@ -205,13 +226,7 @@ components:
         paid:
           type: boolean
         amount:
-          type: object
-          required: [value, currency]
-          properties:
-            value:
-              type: string
-            currency:
-              type: string
+          $ref: "#/components/schemas/Amount"
         authorization_details:
           type: object
           properties:
@@ -325,10 +340,19 @@ components:
           type: string
           format: date-time
         amount:
-          type: object
-          required: [value, currency]
-          properties:
-            value:
-              type: string
-            currency:
-              type: string
+          $ref: "#/components/schemas/Amount"
+    ReqRefundPayment:
+      type: object
+      required: [amount, payment_id]
+      properties:
+        amount:
+          $ref: "#/components/schemas/Amount"
+        payment_id:
+          type: string
+# {
+#         "amount": {
+#           "value": "0.5",
+#           "currency": "RUB"
+#         },
+#         "payment_id": "2e2e9127-000f-5000-a000-18716a9ab170"
+#       }

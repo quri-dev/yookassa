@@ -9,6 +9,81 @@ import (
 	"github.com/go-faster/jx"
 )
 
+// Сумма платежа. Иногда партнеры ЮKassa берут с
+// пользователя дополнительную комиссию, которая не
+// входит в эту сумму.
+// Ref: #/components/schemas/Amount
+type Amount struct {
+	// Трехбуквенный код валюты в формате ISO-4217. Пример: RUB.
+	// Должен соответствовать валюте субаккаунта (recipient.
+	// gateway_id), если вы разделяете потоки платежей, и валюте
+	// аккаунта (shopId в личном кабинете), если не разделяете.
+	Currency AmountCurrency `json:"currency"`
+	// Сумма в выбранной валюте. Всегда дробное значение.
+	// Разделитель дробной части — точка, разделитель тысяч
+	// отсутствует. Количество знаков после точки зависит
+	// от выбранной валюты. Пример: 1000.00.
+	Value string `json:"value"`
+}
+
+// GetCurrency returns the value of Currency.
+func (s *Amount) GetCurrency() AmountCurrency {
+	return s.Currency
+}
+
+// GetValue returns the value of Value.
+func (s *Amount) GetValue() string {
+	return s.Value
+}
+
+// SetCurrency sets the value of Currency.
+func (s *Amount) SetCurrency(val AmountCurrency) {
+	s.Currency = val
+}
+
+// SetValue sets the value of Value.
+func (s *Amount) SetValue(val string) {
+	s.Value = val
+}
+
+// Трехбуквенный код валюты в формате ISO-4217. Пример: RUB.
+// Должен соответствовать валюте субаккаунта (recipient.
+// gateway_id), если вы разделяете потоки платежей, и валюте
+// аккаунта (shopId в личном кабинете), если не разделяете.
+type AmountCurrency string
+
+const (
+	AmountCurrencyRUB AmountCurrency = "RUB"
+)
+
+// AllValues returns all AmountCurrency values.
+func (AmountCurrency) AllValues() []AmountCurrency {
+	return []AmountCurrency{
+		AmountCurrencyRUB,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s AmountCurrency) MarshalText() ([]byte, error) {
+	switch s {
+	case AmountCurrencyRUB:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *AmountCurrency) UnmarshalText(data []byte) error {
+	switch AmountCurrency(data) {
+	case AmountCurrencyRUB:
+		*s = AmountCurrencyRUB
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
 type BasicAuth struct {
 	Username string
 	Password string
@@ -649,7 +724,7 @@ type Payment struct {
 	ID                   string                         `json:"id"`
 	Status               PaymentStatus                  `json:"status"`
 	Paid                 bool                           `json:"paid"`
-	Amount               PaymentAmount                  `json:"amount"`
+	Amount               Amount                         `json:"amount"`
 	AuthorizationDetails OptPaymentAuthorizationDetails `json:"authorization_details"`
 	CreatedAt            time.Time                      `json:"created_at"`
 	Description          OptString                      `json:"description"`
@@ -679,7 +754,7 @@ func (s *Payment) GetPaid() bool {
 }
 
 // GetAmount returns the value of Amount.
-func (s *Payment) GetAmount() PaymentAmount {
+func (s *Payment) GetAmount() Amount {
 	return s.Amount
 }
 
@@ -754,7 +829,7 @@ func (s *Payment) SetPaid(val bool) {
 }
 
 // SetAmount sets the value of Amount.
-func (s *Payment) SetAmount(val PaymentAmount) {
+func (s *Payment) SetAmount(val Amount) {
 	s.Amount = val
 }
 
@@ -811,31 +886,6 @@ func (s *Payment) SetIncomeAmount(val OptPaymentIncomeAmount) {
 // SetConfirmation sets the value of Confirmation.
 func (s *Payment) SetConfirmation(val OptPaymentConfirmation) {
 	s.Confirmation = val
-}
-
-type PaymentAmount struct {
-	Value    string `json:"value"`
-	Currency string `json:"currency"`
-}
-
-// GetValue returns the value of Value.
-func (s *PaymentAmount) GetValue() string {
-	return s.Value
-}
-
-// GetCurrency returns the value of Currency.
-func (s *PaymentAmount) GetCurrency() string {
-	return s.Currency
-}
-
-// SetValue sets the value of Value.
-func (s *PaymentAmount) SetValue(val string) {
-	s.Value = val
-}
-
-// SetCurrency sets the value of Currency.
-func (s *PaymentAmount) SetCurrency(val string) {
-	s.Currency = val
 }
 
 type PaymentAuthorizationDetails struct {
@@ -1303,11 +1353,11 @@ func (s *PaymentStatus) UnmarshalText(data []byte) error {
 
 // Ref: #/components/schemas/RefundPayment
 type RefundPayment struct {
-	ID        string              `json:"id"`
-	PaymentID string              `json:"payment_id"`
-	Status    PaymentStatus       `json:"status"`
-	CreatedAt time.Time           `json:"created_at"`
-	Amount    RefundPaymentAmount `json:"amount"`
+	ID        string        `json:"id"`
+	PaymentID string        `json:"payment_id"`
+	Status    PaymentStatus `json:"status"`
+	CreatedAt time.Time     `json:"created_at"`
+	Amount    Amount        `json:"amount"`
 }
 
 // GetID returns the value of ID.
@@ -1331,7 +1381,7 @@ func (s *RefundPayment) GetCreatedAt() time.Time {
 }
 
 // GetAmount returns the value of Amount.
-func (s *RefundPayment) GetAmount() RefundPaymentAmount {
+func (s *RefundPayment) GetAmount() Amount {
 	return s.Amount
 }
 
@@ -1356,41 +1406,13 @@ func (s *RefundPayment) SetCreatedAt(val time.Time) {
 }
 
 // SetAmount sets the value of Amount.
-func (s *RefundPayment) SetAmount(val RefundPaymentAmount) {
+func (s *RefundPayment) SetAmount(val Amount) {
 	s.Amount = val
-}
-
-type RefundPaymentAmount struct {
-	Value    string `json:"value"`
-	Currency string `json:"currency"`
-}
-
-// GetValue returns the value of Value.
-func (s *RefundPaymentAmount) GetValue() string {
-	return s.Value
-}
-
-// GetCurrency returns the value of Currency.
-func (s *RefundPaymentAmount) GetCurrency() string {
-	return s.Currency
-}
-
-// SetValue sets the value of Value.
-func (s *RefundPaymentAmount) SetValue(val string) {
-	s.Value = val
-}
-
-// SetCurrency sets the value of Currency.
-func (s *RefundPaymentAmount) SetCurrency(val string) {
-	s.Currency = val
 }
 
 // Ref: #/components/schemas/ReqPayment
 type ReqPayment struct {
-	// Сумма платежа. Иногда партнеры ЮKassa берут с
-	// пользователя дополнительную комиссию, которая не
-	// входит в эту сумму.
-	Amount       ReqPaymentAmount          `json:"amount"`
+	Amount       Amount                    `json:"amount"`
 	Confirmation OptReqPaymentConfirmation `json:"confirmation"`
 	// Автоматический прием  поступившего платежа.
 	Capture OptBool `json:"capture"`
@@ -1409,7 +1431,7 @@ type ReqPayment struct {
 }
 
 // GetAmount returns the value of Amount.
-func (s *ReqPayment) GetAmount() ReqPaymentAmount {
+func (s *ReqPayment) GetAmount() Amount {
 	return s.Amount
 }
 
@@ -1444,7 +1466,7 @@ func (s *ReqPayment) GetMetadata() OptMetadata {
 }
 
 // SetAmount sets the value of Amount.
-func (s *ReqPayment) SetAmount(val ReqPaymentAmount) {
+func (s *ReqPayment) SetAmount(val Amount) {
 	s.Amount = val
 }
 
@@ -1476,80 +1498,6 @@ func (s *ReqPayment) SetPaymentMethodID(val OptString) {
 // SetMetadata sets the value of Metadata.
 func (s *ReqPayment) SetMetadata(val OptMetadata) {
 	s.Metadata = val
-}
-
-// Сумма платежа. Иногда партнеры ЮKassa берут с
-// пользователя дополнительную комиссию, которая не
-// входит в эту сумму.
-type ReqPaymentAmount struct {
-	// Трехбуквенный код валюты в формате ISO-4217. Пример: RUB.
-	// Должен соответствовать валюте субаккаунта (recipient.
-	// gateway_id), если вы разделяете потоки платежей, и валюте
-	// аккаунта (shopId в личном кабинете), если не разделяете.
-	Currency ReqPaymentAmountCurrency `json:"currency"`
-	// Сумма в выбранной валюте. Всегда дробное значение.
-	// Разделитель дробной части — точка, разделитель тысяч
-	// отсутствует. Количество знаков после точки зависит
-	// от выбранной валюты. Пример: 1000.00.
-	Value string `json:"value"`
-}
-
-// GetCurrency returns the value of Currency.
-func (s *ReqPaymentAmount) GetCurrency() ReqPaymentAmountCurrency {
-	return s.Currency
-}
-
-// GetValue returns the value of Value.
-func (s *ReqPaymentAmount) GetValue() string {
-	return s.Value
-}
-
-// SetCurrency sets the value of Currency.
-func (s *ReqPaymentAmount) SetCurrency(val ReqPaymentAmountCurrency) {
-	s.Currency = val
-}
-
-// SetValue sets the value of Value.
-func (s *ReqPaymentAmount) SetValue(val string) {
-	s.Value = val
-}
-
-// Трехбуквенный код валюты в формате ISO-4217. Пример: RUB.
-// Должен соответствовать валюте субаккаунта (recipient.
-// gateway_id), если вы разделяете потоки платежей, и валюте
-// аккаунта (shopId в личном кабинете), если не разделяете.
-type ReqPaymentAmountCurrency string
-
-const (
-	ReqPaymentAmountCurrencyRUB ReqPaymentAmountCurrency = "RUB"
-)
-
-// AllValues returns all ReqPaymentAmountCurrency values.
-func (ReqPaymentAmountCurrency) AllValues() []ReqPaymentAmountCurrency {
-	return []ReqPaymentAmountCurrency{
-		ReqPaymentAmountCurrencyRUB,
-	}
-}
-
-// MarshalText implements encoding.TextMarshaler.
-func (s ReqPaymentAmountCurrency) MarshalText() ([]byte, error) {
-	switch s {
-	case ReqPaymentAmountCurrencyRUB:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
-}
-
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *ReqPaymentAmountCurrency) UnmarshalText(data []byte) error {
-	switch ReqPaymentAmountCurrency(data) {
-	case ReqPaymentAmountCurrencyRUB:
-		*s = ReqPaymentAmountCurrencyRUB
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
-	}
 }
 
 // ReqPaymentConfirmation represents sum type.
@@ -1590,6 +1538,32 @@ func NewPaymentConfirmationEmbeddedReqPaymentConfirmation(v PaymentConfirmationE
 	var s ReqPaymentConfirmation
 	s.SetPaymentConfirmationEmbedded(v)
 	return s
+}
+
+// Ref: #/components/schemas/ReqRefundPayment
+type ReqRefundPayment struct {
+	Amount    Amount `json:"amount"`
+	PaymentID string `json:"payment_id"`
+}
+
+// GetAmount returns the value of Amount.
+func (s *ReqRefundPayment) GetAmount() Amount {
+	return s.Amount
+}
+
+// GetPaymentID returns the value of PaymentID.
+func (s *ReqRefundPayment) GetPaymentID() string {
+	return s.PaymentID
+}
+
+// SetAmount sets the value of Amount.
+func (s *ReqRefundPayment) SetAmount(val Amount) {
+	s.Amount = val
+}
+
+// SetPaymentID sets the value of PaymentID.
+func (s *ReqRefundPayment) SetPaymentID(val string) {
+	s.PaymentID = val
 }
 
 type V3PaymentsGetOK struct {

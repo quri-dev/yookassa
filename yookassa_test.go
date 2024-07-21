@@ -45,8 +45,8 @@ func TestXxx(t *testing.T) {
 	ctx := context.Background()
 
 	r, err := ogenCl.V3PaymentsPost(ctx, &ogencl.ReqPayment{
-		Amount: ogencl.ReqPaymentAmount{
-			Currency: ogencl.ReqPaymentAmountCurrencyRUB,
+		Amount: ogencl.Amount{
+			Currency: ogencl.AmountCurrencyRUB,
 			Value:    "100",
 		},
 		Confirmation: ogencl.NewOptReqPaymentConfirmation(ogencl.ReqPaymentConfirmation{
@@ -104,4 +104,36 @@ func TestInfo(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
+}
+
+func TestRefund(t *testing.T) {
+	t.Skip()
+	client := http.Client{
+		Transport: &LoggingTransport{
+			Logger: slog.Default(),
+			Level:  slog.LevelError,
+		},
+	}
+	ogenCl, err := ogencl.NewClient("https://api.yookassa.ru", &C{}, ogencl.WithClient(&client))
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	ctx := context.Background()
+
+	r, err := ogenCl.V3RefundsPost(ctx, &ogencl.ReqRefundPayment{
+		Amount: ogencl.Amount{
+			Currency: ogencl.AmountCurrencyRUB,
+			Value:    "1",
+		},
+		PaymentID: "2e2e94dc-000f-5000-8000-19f75c59d8f2",
+	}, ogencl.V3RefundsPostParams{
+		IdempotenceKey: "2e2e94dc-000f-5000-8000-19f75c59d8f2",
+	})
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	fmt.Println("response", r)
+
 }

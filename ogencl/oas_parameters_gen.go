@@ -250,3 +250,59 @@ func decodeV3PaymentsPostParams(args [0]string, argsEscaped bool, r *http.Reques
 	}
 	return params, nil
 }
+
+// V3RefundsPostParams is parameters of POST /v3/refunds operation.
+type V3RefundsPostParams struct {
+	// Ключ идемпотентности.
+	IdempotenceKey string
+}
+
+func unpackV3RefundsPostParams(packed middleware.Parameters) (params V3RefundsPostParams) {
+	{
+		key := middleware.ParameterKey{
+			Name: "Idempotence-Key",
+			In:   "header",
+		}
+		params.IdempotenceKey = packed[key].(string)
+	}
+	return params
+}
+
+func decodeV3RefundsPostParams(args [0]string, argsEscaped bool, r *http.Request) (params V3RefundsPostParams, _ error) {
+	h := uri.NewHeaderDecoder(r.Header)
+	// Decode header: Idempotence-Key.
+	if err := func() error {
+		cfg := uri.HeaderParameterDecodingConfig{
+			Name:    "Idempotence-Key",
+			Explode: false,
+		}
+		if err := h.HasParam(cfg); err == nil {
+			if err := h.DecodeParam(cfg, func(d uri.Decoder) error {
+				val, err := d.DecodeValue()
+				if err != nil {
+					return err
+				}
+
+				c, err := conv.ToString(val)
+				if err != nil {
+					return err
+				}
+
+				params.IdempotenceKey = c
+				return nil
+			}); err != nil {
+				return err
+			}
+		} else {
+			return validate.ErrFieldRequired
+		}
+		return nil
+	}(); err != nil {
+		return params, &ogenerrors.DecodeParamError{
+			Name: "Idempotence-Key",
+			In:   "header",
+			Err:  err,
+		}
+	}
+	return params, nil
+}

@@ -29,6 +29,10 @@ type Invoker interface {
 	//
 	// POST /v3/payments
 	V3PaymentsPost(ctx context.Context, request *ReqPayment, params V3PaymentsPostParams) (*Payment, error)
+	// V3RefundsPost invokes POST /v3/refunds operation.
+	//
+	// POST /v3/refunds
+	V3RefundsPost(ctx context.Context, request *ReqRefundPayment, params V3RefundsPostParams) (*RefundPayment, error)
 }
 
 // Client implements OAS client.
@@ -342,6 +346,89 @@ func (c *Client) sendV3PaymentsPost(ctx context.Context, request *ReqPayment, pa
 	defer resp.Body.Close()
 
 	result, err := decodeV3PaymentsPostResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// V3RefundsPost invokes POST /v3/refunds operation.
+//
+// POST /v3/refunds
+func (c *Client) V3RefundsPost(ctx context.Context, request *ReqRefundPayment, params V3RefundsPostParams) (*RefundPayment, error) {
+	res, err := c.sendV3RefundsPost(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendV3RefundsPost(ctx context.Context, request *ReqRefundPayment, params V3RefundsPostParams) (res *RefundPayment, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/v3/refunds"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeV3RefundsPostRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	h := uri.NewHeaderEncoder(r.Header)
+	{
+		cfg := uri.HeaderParameterEncodingConfig{
+			Name:    "Idempotence-Key",
+			Explode: false,
+		}
+		if err := h.EncodeParam(cfg, func(e uri.Encoder) error {
+			return e.EncodeValue(conv.StringToString(params.IdempotenceKey))
+		}); err != nil {
+			return res, errors.Wrap(err, "encode header")
+		}
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBasicAuth(ctx, "V3RefundsPost", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BasicAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeV3RefundsPostResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
