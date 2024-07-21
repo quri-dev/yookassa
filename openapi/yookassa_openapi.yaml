@@ -17,6 +17,7 @@ webhooks:
         description: 'https://yookassa.ru/developers/using-api/webhooks#events'
         content:
           application/json:
+            x-ogen-json-streaming: true
             schema:
               type: object
               required: [type,event,object]

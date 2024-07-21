@@ -11,7 +11,6 @@ import (
 	"github.com/go-faster/jx"
 	"go.uber.org/multierr"
 
-	"github.com/ogen-go/ogen/ogenerrors"
 	"github.com/ogen-go/ogen/validate"
 )
 
@@ -44,16 +43,7 @@ func (s *WebhookServer) decodeYookassaHookPostRequest(r *http.Request) (
 		if r.ContentLength == 0 {
 			return req, close, validate.ErrBodyRequired
 		}
-		buf, err := io.ReadAll(r.Body)
-		if err != nil {
-			return req, close, err
-		}
-
-		if len(buf) == 0 {
-			return req, close, validate.ErrBodyRequired
-		}
-
-		d := jx.DecodeBytes(buf)
+		d := jx.Decode(r.Body, -1)
 
 		var request YookassaHookPostReq
 		if err := func() error {
@@ -65,11 +55,6 @@ func (s *WebhookServer) decodeYookassaHookPostRequest(r *http.Request) (
 			}
 			return nil
 		}(); err != nil {
-			err = &ogenerrors.DecodeBodyError{
-				ContentType: ct,
-				Body:        buf,
-				Err:         err,
-			}
 			return req, close, err
 		}
 		if err := func() error {
