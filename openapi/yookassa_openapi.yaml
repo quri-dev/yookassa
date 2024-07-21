@@ -11,27 +11,35 @@ webhooks:
     # This is a Path Item Object, the only difference is that the request is initiated by the API provider
     post:
       description: A new pet is born, let's come and discover it in Petstore.
-      
+
       requestBody:
         required: true
-        description: 'https://yookassa.ru/developers/using-api/webhooks#events'
+        description: "https://yookassa.ru/developers/using-api/webhooks#events"
         content:
           application/json:
-            x-ogen-json-streaming: true
             schema:
               type: object
-              required: [type,event,object]
+              required: [type, event, object]
               properties:
                 type:
                   type: string
                   enum: [notification]
                 event:
                   type: string
-                  enum: [payment.waiting_for_capture,payment.succeeded,payment.canceled,refund.succeeded,payout.succeeded,payout.canceled,deal.closed]
+                  enum:
+                    [
+                      payment.waiting_for_capture,
+                      payment.succeeded,
+                      payment.canceled,
+                      refund.succeeded,
+                      payout.succeeded,
+                      payout.canceled,
+                      deal.closed,
+                    ]
                 object:
                   oneOf:
-                   - $ref : "#/components/schemas/RefundPayment"
-                   - $ref : "#/components/schemas/Payment"
+                    - $ref: "#/components/schemas/RefundPayment"
+                    - $ref: "#/components/schemas/Payment"
       responses:
         "200":
           description: Return a 200 status to indicate that the data was received successfully
@@ -305,7 +313,7 @@ components:
       additionalProperties: true
     RefundPayment:
       type: object
-      required: [id,payment_id,status,created_at,amount]
+      required: [id, payment_id, status, created_at, amount]
       properties:
         id:
           type: string
