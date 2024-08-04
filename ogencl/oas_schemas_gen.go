@@ -946,6 +946,7 @@ func (s *PaymentAuthorizationDetailsThreeDSecure) SetApplied(val OptBool) {
 type PaymentConfirmation struct {
 	Type              PaymentConfirmationType `json:"type"`
 	ConfirmationToken OptString               `json:"confirmation_token"`
+	ConfirmationURL   OptString               `json:"confirmation_url"`
 }
 
 // GetType returns the value of Type.
@@ -958,6 +959,11 @@ func (s *PaymentConfirmation) GetConfirmationToken() OptString {
 	return s.ConfirmationToken
 }
 
+// GetConfirmationURL returns the value of ConfirmationURL.
+func (s *PaymentConfirmation) GetConfirmationURL() OptString {
+	return s.ConfirmationURL
+}
+
 // SetType sets the value of Type.
 func (s *PaymentConfirmation) SetType(val PaymentConfirmationType) {
 	s.Type = val
@@ -966,6 +972,11 @@ func (s *PaymentConfirmation) SetType(val PaymentConfirmationType) {
 // SetConfirmationToken sets the value of ConfirmationToken.
 func (s *PaymentConfirmation) SetConfirmationToken(val OptString) {
 	s.ConfirmationToken = val
+}
+
+// SetConfirmationURL sets the value of ConfirmationURL.
+func (s *PaymentConfirmation) SetConfirmationURL(val OptString) {
+	s.ConfirmationURL = val
 }
 
 // Ref: #/components/schemas/PaymentConfirmationEmbedded

@@ -1167,11 +1167,18 @@ func (s *PaymentConfirmation) encodeFields(e *jx.Encoder) {
 			s.ConfirmationToken.Encode(e)
 		}
 	}
+	{
+		if s.ConfirmationURL.Set {
+			e.FieldStart("confirmation_url")
+			s.ConfirmationURL.Encode(e)
+		}
+	}
 }
 
-var jsonFieldsNameOfPaymentConfirmation = [2]string{
+var jsonFieldsNameOfPaymentConfirmation = [3]string{
 	0: "type",
 	1: "confirmation_token",
+	2: "confirmation_url",
 }
 
 // Decode decodes PaymentConfirmation from json.
@@ -1202,6 +1209,16 @@ func (s *PaymentConfirmation) Decode(d *jx.Decoder) error {
 				return nil
 			}(); err != nil {
 				return errors.Wrap(err, "decode field \"confirmation_token\"")
+			}
+		case "confirmation_url":
+			if err := func() error {
+				s.ConfirmationURL.Reset()
+				if err := s.ConfirmationURL.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"confirmation_url\"")
 			}
 		default:
 			return d.Skip()

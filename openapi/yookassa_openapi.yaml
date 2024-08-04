@@ -353,6 +353,8 @@ components:
               enum: [embedded,redirect]
             confirmation_token:
               type: string
+            confirmation_url:
+              type: string
     PaymentStatus:
       type: string
       enum:
