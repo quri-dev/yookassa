@@ -1429,6 +1429,8 @@ func (s *PaymentConfirmationType) Decode(d *jx.Decoder) error {
 	switch PaymentConfirmationType(v) {
 	case PaymentConfirmationTypeEmbedded:
 		*s = PaymentConfirmationTypeEmbedded
+	case PaymentConfirmationTypeRedirect:
+		*s = PaymentConfirmationTypeRedirect
 	default:
 		*s = PaymentConfirmationType(v)
 	}

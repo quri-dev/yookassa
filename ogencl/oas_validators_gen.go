@@ -155,6 +155,8 @@ func (s PaymentConfirmationType) Validate() error {
 	switch s {
 	case "embedded":
 		return nil
+	case "redirect":
+		return nil
 	default:
 		return errors.Errorf("invalid value: %v", s)
 	}

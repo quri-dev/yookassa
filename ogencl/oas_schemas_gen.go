@@ -1046,12 +1046,14 @@ type PaymentConfirmationType string
 
 const (
 	PaymentConfirmationTypeEmbedded PaymentConfirmationType = "embedded"
+	PaymentConfirmationTypeRedirect PaymentConfirmationType = "redirect"
 )
 
 // AllValues returns all PaymentConfirmationType values.
 func (PaymentConfirmationType) AllValues() []PaymentConfirmationType {
 	return []PaymentConfirmationType{
 		PaymentConfirmationTypeEmbedded,
+		PaymentConfirmationTypeRedirect,
 	}
 }
 
@@ -1059,6 +1061,8 @@ func (PaymentConfirmationType) AllValues() []PaymentConfirmationType {
 func (s PaymentConfirmationType) MarshalText() ([]byte, error) {
 	switch s {
 	case PaymentConfirmationTypeEmbedded:
+		return []byte(s), nil
+	case PaymentConfirmationTypeRedirect:
 		return []byte(s), nil
 	default:
 		return nil, errors.Errorf("invalid value: %q", s)
@@ -1070,6 +1074,9 @@ func (s *PaymentConfirmationType) UnmarshalText(data []byte) error {
 	switch PaymentConfirmationType(data) {
 	case PaymentConfirmationTypeEmbedded:
 		*s = PaymentConfirmationTypeEmbedded
+		return nil
+	case PaymentConfirmationTypeRedirect:
+		*s = PaymentConfirmationTypeRedirect
 		return nil
 	default:
 		return errors.Errorf("invalid value: %q", data)

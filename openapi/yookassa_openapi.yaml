@@ -350,7 +350,7 @@ components:
           properties:
             type:
               type: string
-              enum: [embedded]
+              enum: [embedded,redirect]
             confirmation_token:
               type: string
     PaymentStatus:
