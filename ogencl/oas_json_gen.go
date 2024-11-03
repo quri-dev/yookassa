@@ -426,6 +426,39 @@ func (s *OptPaymentAuthorizationDetailsThreeDSecure) UnmarshalJSON(data []byte) 
 	return s.Decode(d)
 }
 
+// Encode encodes PaymentCancellationDetails as json.
+func (o OptPaymentCancellationDetails) Encode(e *jx.Encoder) {
+	if !o.Set {
+		return
+	}
+	o.Value.Encode(e)
+}
+
+// Decode decodes PaymentCancellationDetails from json.
+func (o *OptPaymentCancellationDetails) Decode(d *jx.Decoder) error {
+	if o == nil {
+		return errors.New("invalid: unable to decode OptPaymentCancellationDetails to nil")
+	}
+	o.Set = true
+	if err := o.Value.Decode(d); err != nil {
+		return err
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s OptPaymentCancellationDetails) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *OptPaymentCancellationDetails) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
 // Encode encodes PaymentConfirmation as json.
 func (o OptPaymentConfirmation) Encode(e *jx.Encoder) {
 	if !o.Set {
@@ -677,6 +710,12 @@ func (s *Payment) encodeFields(e *jx.Encoder) {
 		s.Status.Encode(e)
 	}
 	{
+		if s.CancellationDetails.Set {
+			e.FieldStart("cancellation_details")
+			s.CancellationDetails.Encode(e)
+		}
+	}
+	{
 		e.FieldStart("paid")
 		e.Bool(s.Paid)
 	}
@@ -744,22 +783,23 @@ func (s *Payment) encodeFields(e *jx.Encoder) {
 	}
 }
 
-var jsonFieldsNameOfPayment = [15]string{
+var jsonFieldsNameOfPayment = [16]string{
 	0:  "id",
 	1:  "status",
-	2:  "paid",
-	3:  "amount",
-	4:  "authorization_details",
-	5:  "created_at",
-	6:  "description",
-	7:  "expires_at",
-	8:  "metadata",
-	9:  "payment_method",
-	10: "recipient",
-	11: "refundable",
-	12: "test",
-	13: "income_amount",
-	14: "confirmation",
+	2:  "cancellation_details",
+	3:  "paid",
+	4:  "amount",
+	5:  "authorization_details",
+	6:  "created_at",
+	7:  "description",
+	8:  "expires_at",
+	9:  "metadata",
+	10: "payment_method",
+	11: "recipient",
+	12: "refundable",
+	13: "test",
+	14: "income_amount",
+	15: "confirmation",
 }
 
 // Decode decodes Payment from json.
@@ -793,8 +833,18 @@ func (s *Payment) Decode(d *jx.Decoder) error {
 			}(); err != nil {
 				return errors.Wrap(err, "decode field \"status\"")
 			}
+		case "cancellation_details":
+			if err := func() error {
+				s.CancellationDetails.Reset()
+				if err := s.CancellationDetails.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"cancellation_details\"")
+			}
 		case "paid":
-			requiredBitSet[0] |= 1 << 2
+			requiredBitSet[0] |= 1 << 3
 			if err := func() error {
 				v, err := d.Bool()
 				s.Paid = bool(v)
@@ -806,7 +856,7 @@ func (s *Payment) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"paid\"")
 			}
 		case "amount":
-			requiredBitSet[0] |= 1 << 3
+			requiredBitSet[0] |= 1 << 4
 			if err := func() error {
 				if err := s.Amount.Decode(d); err != nil {
 					return err
@@ -826,7 +876,7 @@ func (s *Payment) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"authorization_details\"")
 			}
 		case "created_at":
-			requiredBitSet[0] |= 1 << 5
+			requiredBitSet[0] |= 1 << 6
 			if err := func() error {
 				v, err := json.DecodeDateTime(d)
 				s.CreatedAt = v
@@ -878,7 +928,7 @@ func (s *Payment) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"payment_method\"")
 			}
 		case "recipient":
-			requiredBitSet[1] |= 1 << 2
+			requiredBitSet[1] |= 1 << 3
 			if err := func() error {
 				if err := s.Recipient.Decode(d); err != nil {
 					return err
@@ -888,7 +938,7 @@ func (s *Payment) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"recipient\"")
 			}
 		case "refundable":
-			requiredBitSet[1] |= 1 << 3
+			requiredBitSet[1] |= 1 << 4
 			if err := func() error {
 				v, err := d.Bool()
 				s.Refundable = bool(v)
@@ -900,7 +950,7 @@ func (s *Payment) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"refundable\"")
 			}
 		case "test":
-			requiredBitSet[1] |= 1 << 4
+			requiredBitSet[1] |= 1 << 5
 			if err := func() error {
 				v, err := d.Bool()
 				s.Test = bool(v)
@@ -941,8 +991,8 @@ func (s *Payment) Decode(d *jx.Decoder) error {
 	// Validate required fields.
 	var failures []validate.FieldError
 	for i, mask := range [2]uint8{
-		0b00101111,
-		0b00011100,
+		0b01011011,
+		0b00111000,
 	} {
 		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
 			// Mask only required fields and check equality to mask using XOR.
@@ -1144,6 +1194,86 @@ func (s *PaymentAuthorizationDetailsThreeDSecure) MarshalJSON() ([]byte, error) 
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
 func (s *PaymentAuthorizationDetailsThreeDSecure) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *PaymentCancellationDetails) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *PaymentCancellationDetails) encodeFields(e *jx.Encoder) {
+	{
+		if s.Party.Set {
+			e.FieldStart("party")
+			s.Party.Encode(e)
+		}
+	}
+	{
+		if s.Reason.Set {
+			e.FieldStart("reason")
+			s.Reason.Encode(e)
+		}
+	}
+}
+
+var jsonFieldsNameOfPaymentCancellationDetails = [2]string{
+	0: "party",
+	1: "reason",
+}
+
+// Decode decodes PaymentCancellationDetails from json.
+func (s *PaymentCancellationDetails) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode PaymentCancellationDetails to nil")
+	}
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "party":
+			if err := func() error {
+				s.Party.Reset()
+				if err := s.Party.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"party\"")
+			}
+		case "reason":
+			if err := func() error {
+				s.Reason.Reset()
+				if err := s.Reason.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"reason\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode PaymentCancellationDetails")
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *PaymentCancellationDetails) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *PaymentCancellationDetails) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -3185,6 +3315,14 @@ func (s *YookassaHookPostReqObject) Decode(d *jx.Decoder) error {
 			switch string(key) {
 			case "payment_id":
 				match := RefundPaymentYookassaHookPostReqObject
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "cancellation_details":
+				match := PaymentYookassaHookPostReqObject
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)

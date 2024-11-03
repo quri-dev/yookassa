@@ -402,6 +402,52 @@ func (o OptPaymentAuthorizationDetailsThreeDSecure) Or(d PaymentAuthorizationDet
 	return d
 }
 
+// NewOptPaymentCancellationDetails returns new OptPaymentCancellationDetails with value set to v.
+func NewOptPaymentCancellationDetails(v PaymentCancellationDetails) OptPaymentCancellationDetails {
+	return OptPaymentCancellationDetails{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptPaymentCancellationDetails is optional PaymentCancellationDetails.
+type OptPaymentCancellationDetails struct {
+	Value PaymentCancellationDetails
+	Set   bool
+}
+
+// IsSet returns true if OptPaymentCancellationDetails was set.
+func (o OptPaymentCancellationDetails) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptPaymentCancellationDetails) Reset() {
+	var v PaymentCancellationDetails
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptPaymentCancellationDetails) SetTo(v PaymentCancellationDetails) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptPaymentCancellationDetails) Get() (v PaymentCancellationDetails, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptPaymentCancellationDetails) Or(d PaymentCancellationDetails) PaymentCancellationDetails {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptPaymentConfirmation returns new OptPaymentConfirmation with value set to v.
 func NewOptPaymentConfirmation(v PaymentConfirmation) OptPaymentConfirmation {
 	return OptPaymentConfirmation{
@@ -728,6 +774,7 @@ func (o OptString) Or(d string) string {
 type Payment struct {
 	ID                   string                         `json:"id"`
 	Status               PaymentStatus                  `json:"status"`
+	CancellationDetails  OptPaymentCancellationDetails  `json:"cancellation_details"`
 	Paid                 bool                           `json:"paid"`
 	Amount               Amount                         `json:"amount"`
 	AuthorizationDetails OptPaymentAuthorizationDetails `json:"authorization_details"`
@@ -751,6 +798,11 @@ func (s *Payment) GetID() string {
 // GetStatus returns the value of Status.
 func (s *Payment) GetStatus() PaymentStatus {
 	return s.Status
+}
+
+// GetCancellationDetails returns the value of CancellationDetails.
+func (s *Payment) GetCancellationDetails() OptPaymentCancellationDetails {
+	return s.CancellationDetails
 }
 
 // GetPaid returns the value of Paid.
@@ -826,6 +878,11 @@ func (s *Payment) SetID(val string) {
 // SetStatus sets the value of Status.
 func (s *Payment) SetStatus(val PaymentStatus) {
 	s.Status = val
+}
+
+// SetCancellationDetails sets the value of CancellationDetails.
+func (s *Payment) SetCancellationDetails(val OptPaymentCancellationDetails) {
+	s.CancellationDetails = val
 }
 
 // SetPaid sets the value of Paid.
@@ -941,6 +998,31 @@ func (s *PaymentAuthorizationDetailsThreeDSecure) GetApplied() OptBool {
 // SetApplied sets the value of Applied.
 func (s *PaymentAuthorizationDetailsThreeDSecure) SetApplied(val OptBool) {
 	s.Applied = val
+}
+
+type PaymentCancellationDetails struct {
+	Party  OptString `json:"party"`
+	Reason OptString `json:"reason"`
+}
+
+// GetParty returns the value of Party.
+func (s *PaymentCancellationDetails) GetParty() OptString {
+	return s.Party
+}
+
+// GetReason returns the value of Reason.
+func (s *PaymentCancellationDetails) GetReason() OptString {
+	return s.Reason
+}
+
+// SetParty sets the value of Party.
+func (s *PaymentCancellationDetails) SetParty(val OptString) {
+	s.Party = val
+}
+
+// SetReason sets the value of Reason.
+func (s *PaymentCancellationDetails) SetReason(val OptString) {
+	s.Reason = val
 }
 
 type PaymentConfirmation struct {

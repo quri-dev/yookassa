@@ -153,31 +153,31 @@ components:
       required: true
       content:
         application/json:
-         schema:
-          type: object
-          required: [type, id, code]
-          properties:
-            type:
-              type: string
-              enum:
-                - error
-            id:
-              type: string
-            code:
-              type: string
-              enum:
-                [
-                  invalid_request,
-                  invalid_credentials,
-                  forbidden,
-                  not_found,
-                  too_many_requests,
-                  internal_server_error,
-                ]
-            description:
-              type: string
-            parameter:
-              type: string
+          schema:
+            type: object
+            required: [type, id, code]
+            properties:
+              type:
+                type: string
+                enum:
+                  - error
+              id:
+                type: string
+              code:
+                type: string
+                enum:
+                  [
+                    invalid_request,
+                    invalid_credentials,
+                    forbidden,
+                    not_found,
+                    too_many_requests,
+                    internal_server_error,
+                  ]
+              description:
+                type: string
+              parameter:
+                type: string
   parameters:
     IdempotenceKey:
       in: header
@@ -260,6 +260,13 @@ components:
           type: string
         status:
           $ref: "#/components/schemas/PaymentStatus"
+        cancellation_details:
+          type: object
+          properties:
+            party:
+              type: string
+            reason:
+              type: string
         paid:
           type: boolean
         amount:
@@ -350,7 +357,7 @@ components:
           properties:
             type:
               type: string
-              enum: [embedded,redirect]
+              enum: [embedded, redirect]
             confirmation_token:
               type: string
             confirmation_url:
