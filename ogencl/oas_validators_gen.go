@@ -60,6 +60,24 @@ func (s *Payment) Validate() error {
 		})
 	}
 	if err := func() error {
+		if value, ok := s.CancellationDetails.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "cancellation_details",
+			Error: err,
+		})
+	}
+	if err := func() error {
 		if err := s.Amount.Validate(); err != nil {
 			return err
 		}
@@ -92,6 +110,63 @@ func (s *Payment) Validate() error {
 		return &validate.Error{Fields: failures}
 	}
 	return nil
+}
+
+func (s *PaymentCancellationDetails) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if value, ok := s.Reason.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "reason",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s PaymentCancellationDetailsReason) Validate() error {
+	switch s {
+	case "general_decline":
+		return nil
+	case "insufficient_funds":
+		return nil
+	case "rejected_by_payee":
+		return nil
+	case "rejected_by_timeout":
+		return nil
+	case "yoo_money_account_closed":
+		return nil
+	case "payment_article_number_not_found":
+		return nil
+	case "payment_basket_id_not_found":
+		return nil
+	case "payment_tru_code_not_found":
+		return nil
+	case "some_articles_already_refunded":
+		return nil
+	case "too_many_refunding_articles":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
 }
 
 func (s *PaymentConfirmation) Validate() error {

@@ -459,6 +459,39 @@ func (s *OptPaymentCancellationDetails) UnmarshalJSON(data []byte) error {
 	return s.Decode(d)
 }
 
+// Encode encodes PaymentCancellationDetailsReason as json.
+func (o OptPaymentCancellationDetailsReason) Encode(e *jx.Encoder) {
+	if !o.Set {
+		return
+	}
+	e.Str(string(o.Value))
+}
+
+// Decode decodes PaymentCancellationDetailsReason from json.
+func (o *OptPaymentCancellationDetailsReason) Decode(d *jx.Decoder) error {
+	if o == nil {
+		return errors.New("invalid: unable to decode OptPaymentCancellationDetailsReason to nil")
+	}
+	o.Set = true
+	if err := o.Value.Decode(d); err != nil {
+		return err
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s OptPaymentCancellationDetailsReason) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *OptPaymentCancellationDetailsReason) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
 // Encode encodes PaymentConfirmation as json.
 func (o OptPaymentConfirmation) Encode(e *jx.Encoder) {
 	if !o.Set {
@@ -1274,6 +1307,62 @@ func (s *PaymentCancellationDetails) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
 func (s *PaymentCancellationDetails) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes PaymentCancellationDetailsReason as json.
+func (s PaymentCancellationDetailsReason) Encode(e *jx.Encoder) {
+	e.Str(string(s))
+}
+
+// Decode decodes PaymentCancellationDetailsReason from json.
+func (s *PaymentCancellationDetailsReason) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode PaymentCancellationDetailsReason to nil")
+	}
+	v, err := d.StrBytes()
+	if err != nil {
+		return err
+	}
+	// Try to use constant string.
+	switch PaymentCancellationDetailsReason(v) {
+	case PaymentCancellationDetailsReasonGeneralDecline:
+		*s = PaymentCancellationDetailsReasonGeneralDecline
+	case PaymentCancellationDetailsReasonInsufficientFunds:
+		*s = PaymentCancellationDetailsReasonInsufficientFunds
+	case PaymentCancellationDetailsReasonRejectedByPayee:
+		*s = PaymentCancellationDetailsReasonRejectedByPayee
+	case PaymentCancellationDetailsReasonRejectedByTimeout:
+		*s = PaymentCancellationDetailsReasonRejectedByTimeout
+	case PaymentCancellationDetailsReasonYooMoneyAccountClosed:
+		*s = PaymentCancellationDetailsReasonYooMoneyAccountClosed
+	case PaymentCancellationDetailsReasonPaymentArticleNumberNotFound:
+		*s = PaymentCancellationDetailsReasonPaymentArticleNumberNotFound
+	case PaymentCancellationDetailsReasonPaymentBasketIDNotFound:
+		*s = PaymentCancellationDetailsReasonPaymentBasketIDNotFound
+	case PaymentCancellationDetailsReasonPaymentTruCodeNotFound:
+		*s = PaymentCancellationDetailsReasonPaymentTruCodeNotFound
+	case PaymentCancellationDetailsReasonSomeArticlesAlreadyRefunded:
+		*s = PaymentCancellationDetailsReasonSomeArticlesAlreadyRefunded
+	case PaymentCancellationDetailsReasonTooManyRefundingArticles:
+		*s = PaymentCancellationDetailsReasonTooManyRefundingArticles
+	default:
+		*s = PaymentCancellationDetailsReason(v)
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s PaymentCancellationDetailsReason) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *PaymentCancellationDetailsReason) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }

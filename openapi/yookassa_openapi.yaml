@@ -267,6 +267,17 @@ components:
               type: string
             reason:
               type: string
+              enum:
+                - general_decline
+                - insufficient_funds
+                - rejected_by_payee
+                - rejected_by_timeout
+                - yoo_money_account_closed
+                - payment_article_number_not_found
+                - payment_basket_id_not_found
+                - payment_tru_code_not_found
+                - some_articles_already_refunded
+                - too_many_refunding_articles
         paid:
           type: boolean
         amount:

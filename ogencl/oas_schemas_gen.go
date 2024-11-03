@@ -448,6 +448,52 @@ func (o OptPaymentCancellationDetails) Or(d PaymentCancellationDetails) PaymentC
 	return d
 }
 
+// NewOptPaymentCancellationDetailsReason returns new OptPaymentCancellationDetailsReason with value set to v.
+func NewOptPaymentCancellationDetailsReason(v PaymentCancellationDetailsReason) OptPaymentCancellationDetailsReason {
+	return OptPaymentCancellationDetailsReason{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptPaymentCancellationDetailsReason is optional PaymentCancellationDetailsReason.
+type OptPaymentCancellationDetailsReason struct {
+	Value PaymentCancellationDetailsReason
+	Set   bool
+}
+
+// IsSet returns true if OptPaymentCancellationDetailsReason was set.
+func (o OptPaymentCancellationDetailsReason) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptPaymentCancellationDetailsReason) Reset() {
+	var v PaymentCancellationDetailsReason
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptPaymentCancellationDetailsReason) SetTo(v PaymentCancellationDetailsReason) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptPaymentCancellationDetailsReason) Get() (v PaymentCancellationDetailsReason, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptPaymentCancellationDetailsReason) Or(d PaymentCancellationDetailsReason) PaymentCancellationDetailsReason {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptPaymentConfirmation returns new OptPaymentConfirmation with value set to v.
 func NewOptPaymentConfirmation(v PaymentConfirmation) OptPaymentConfirmation {
 	return OptPaymentConfirmation{
@@ -1001,8 +1047,8 @@ func (s *PaymentAuthorizationDetailsThreeDSecure) SetApplied(val OptBool) {
 }
 
 type PaymentCancellationDetails struct {
-	Party  OptString `json:"party"`
-	Reason OptString `json:"reason"`
+	Party  OptString                           `json:"party"`
+	Reason OptPaymentCancellationDetailsReason `json:"reason"`
 }
 
 // GetParty returns the value of Party.
@@ -1011,7 +1057,7 @@ func (s *PaymentCancellationDetails) GetParty() OptString {
 }
 
 // GetReason returns the value of Reason.
-func (s *PaymentCancellationDetails) GetReason() OptString {
+func (s *PaymentCancellationDetails) GetReason() OptPaymentCancellationDetailsReason {
 	return s.Reason
 }
 
@@ -1021,8 +1067,105 @@ func (s *PaymentCancellationDetails) SetParty(val OptString) {
 }
 
 // SetReason sets the value of Reason.
-func (s *PaymentCancellationDetails) SetReason(val OptString) {
+func (s *PaymentCancellationDetails) SetReason(val OptPaymentCancellationDetailsReason) {
 	s.Reason = val
+}
+
+type PaymentCancellationDetailsReason string
+
+const (
+	PaymentCancellationDetailsReasonGeneralDecline               PaymentCancellationDetailsReason = "general_decline"
+	PaymentCancellationDetailsReasonInsufficientFunds            PaymentCancellationDetailsReason = "insufficient_funds"
+	PaymentCancellationDetailsReasonRejectedByPayee              PaymentCancellationDetailsReason = "rejected_by_payee"
+	PaymentCancellationDetailsReasonRejectedByTimeout            PaymentCancellationDetailsReason = "rejected_by_timeout"
+	PaymentCancellationDetailsReasonYooMoneyAccountClosed        PaymentCancellationDetailsReason = "yoo_money_account_closed"
+	PaymentCancellationDetailsReasonPaymentArticleNumberNotFound PaymentCancellationDetailsReason = "payment_article_number_not_found"
+	PaymentCancellationDetailsReasonPaymentBasketIDNotFound      PaymentCancellationDetailsReason = "payment_basket_id_not_found"
+	PaymentCancellationDetailsReasonPaymentTruCodeNotFound       PaymentCancellationDetailsReason = "payment_tru_code_not_found"
+	PaymentCancellationDetailsReasonSomeArticlesAlreadyRefunded  PaymentCancellationDetailsReason = "some_articles_already_refunded"
+	PaymentCancellationDetailsReasonTooManyRefundingArticles     PaymentCancellationDetailsReason = "too_many_refunding_articles"
+)
+
+// AllValues returns all PaymentCancellationDetailsReason values.
+func (PaymentCancellationDetailsReason) AllValues() []PaymentCancellationDetailsReason {
+	return []PaymentCancellationDetailsReason{
+		PaymentCancellationDetailsReasonGeneralDecline,
+		PaymentCancellationDetailsReasonInsufficientFunds,
+		PaymentCancellationDetailsReasonRejectedByPayee,
+		PaymentCancellationDetailsReasonRejectedByTimeout,
+		PaymentCancellationDetailsReasonYooMoneyAccountClosed,
+		PaymentCancellationDetailsReasonPaymentArticleNumberNotFound,
+		PaymentCancellationDetailsReasonPaymentBasketIDNotFound,
+		PaymentCancellationDetailsReasonPaymentTruCodeNotFound,
+		PaymentCancellationDetailsReasonSomeArticlesAlreadyRefunded,
+		PaymentCancellationDetailsReasonTooManyRefundingArticles,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s PaymentCancellationDetailsReason) MarshalText() ([]byte, error) {
+	switch s {
+	case PaymentCancellationDetailsReasonGeneralDecline:
+		return []byte(s), nil
+	case PaymentCancellationDetailsReasonInsufficientFunds:
+		return []byte(s), nil
+	case PaymentCancellationDetailsReasonRejectedByPayee:
+		return []byte(s), nil
+	case PaymentCancellationDetailsReasonRejectedByTimeout:
+		return []byte(s), nil
+	case PaymentCancellationDetailsReasonYooMoneyAccountClosed:
+		return []byte(s), nil
+	case PaymentCancellationDetailsReasonPaymentArticleNumberNotFound:
+		return []byte(s), nil
+	case PaymentCancellationDetailsReasonPaymentBasketIDNotFound:
+		return []byte(s), nil
+	case PaymentCancellationDetailsReasonPaymentTruCodeNotFound:
+		return []byte(s), nil
+	case PaymentCancellationDetailsReasonSomeArticlesAlreadyRefunded:
+		return []byte(s), nil
+	case PaymentCancellationDetailsReasonTooManyRefundingArticles:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *PaymentCancellationDetailsReason) UnmarshalText(data []byte) error {
+	switch PaymentCancellationDetailsReason(data) {
+	case PaymentCancellationDetailsReasonGeneralDecline:
+		*s = PaymentCancellationDetailsReasonGeneralDecline
+		return nil
+	case PaymentCancellationDetailsReasonInsufficientFunds:
+		*s = PaymentCancellationDetailsReasonInsufficientFunds
+		return nil
+	case PaymentCancellationDetailsReasonRejectedByPayee:
+		*s = PaymentCancellationDetailsReasonRejectedByPayee
+		return nil
+	case PaymentCancellationDetailsReasonRejectedByTimeout:
+		*s = PaymentCancellationDetailsReasonRejectedByTimeout
+		return nil
+	case PaymentCancellationDetailsReasonYooMoneyAccountClosed:
+		*s = PaymentCancellationDetailsReasonYooMoneyAccountClosed
+		return nil
+	case PaymentCancellationDetailsReasonPaymentArticleNumberNotFound:
+		*s = PaymentCancellationDetailsReasonPaymentArticleNumberNotFound
+		return nil
+	case PaymentCancellationDetailsReasonPaymentBasketIDNotFound:
+		*s = PaymentCancellationDetailsReasonPaymentBasketIDNotFound
+		return nil
+	case PaymentCancellationDetailsReasonPaymentTruCodeNotFound:
+		*s = PaymentCancellationDetailsReasonPaymentTruCodeNotFound
+		return nil
+	case PaymentCancellationDetailsReasonSomeArticlesAlreadyRefunded:
+		*s = PaymentCancellationDetailsReasonSomeArticlesAlreadyRefunded
+		return nil
+	case PaymentCancellationDetailsReasonTooManyRefundingArticles:
+		*s = PaymentCancellationDetailsReasonTooManyRefundingArticles
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
 }
 
 type PaymentConfirmation struct {
