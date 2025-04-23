@@ -724,6 +724,52 @@ func (o OptPaymentPaymentMethodCardCardProduct) Or(d PaymentPaymentMethodCardCar
 	return d
 }
 
+// NewOptPaymentPaymentMethodStatus returns new OptPaymentPaymentMethodStatus with value set to v.
+func NewOptPaymentPaymentMethodStatus(v PaymentPaymentMethodStatus) OptPaymentPaymentMethodStatus {
+	return OptPaymentPaymentMethodStatus{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptPaymentPaymentMethodStatus is optional PaymentPaymentMethodStatus.
+type OptPaymentPaymentMethodStatus struct {
+	Value PaymentPaymentMethodStatus
+	Set   bool
+}
+
+// IsSet returns true if OptPaymentPaymentMethodStatus was set.
+func (o OptPaymentPaymentMethodStatus) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptPaymentPaymentMethodStatus) Reset() {
+	var v PaymentPaymentMethodStatus
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptPaymentPaymentMethodStatus) SetTo(v PaymentPaymentMethodStatus) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptPaymentPaymentMethodStatus) Get() (v PaymentPaymentMethodStatus, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptPaymentPaymentMethodStatus) Or(d PaymentPaymentMethodStatus) PaymentPaymentMethodStatus {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptReqPaymentConfirmation returns new OptReqPaymentConfirmation with value set to v.
 func NewOptReqPaymentConfirmation(v ReqPaymentConfirmation) OptReqPaymentConfirmation {
 	return OptReqPaymentConfirmation{
@@ -1363,11 +1409,12 @@ func (s *PaymentIncomeAmount) SetCurrency(val OptString) {
 }
 
 type PaymentPaymentMethod struct {
-	Type  string                      `json:"type"`
-	ID    string                      `json:"id"`
-	Saved bool                        `json:"saved"`
-	Card  OptPaymentPaymentMethodCard `json:"card"`
-	Title OptString                   `json:"title"`
+	Type   string                        `json:"type"`
+	ID     string                        `json:"id"`
+	Saved  bool                          `json:"saved"`
+	Card   OptPaymentPaymentMethodCard   `json:"card"`
+	Title  OptString                     `json:"title"`
+	Status OptPaymentPaymentMethodStatus `json:"status"`
 }
 
 // GetType returns the value of Type.
@@ -1395,6 +1442,11 @@ func (s *PaymentPaymentMethod) GetTitle() OptString {
 	return s.Title
 }
 
+// GetStatus returns the value of Status.
+func (s *PaymentPaymentMethod) GetStatus() OptPaymentPaymentMethodStatus {
+	return s.Status
+}
+
 // SetType sets the value of Type.
 func (s *PaymentPaymentMethod) SetType(val string) {
 	s.Type = val
@@ -1418,6 +1470,11 @@ func (s *PaymentPaymentMethod) SetCard(val OptPaymentPaymentMethodCard) {
 // SetTitle sets the value of Title.
 func (s *PaymentPaymentMethod) SetTitle(val OptString) {
 	s.Title = val
+}
+
+// SetStatus sets the value of Status.
+func (s *PaymentPaymentMethod) SetStatus(val OptPaymentPaymentMethodStatus) {
+	s.Status = val
 }
 
 type PaymentPaymentMethodCard struct {
@@ -1534,6 +1591,54 @@ func (s *PaymentPaymentMethodCardCardProduct) SetCode(val OptString) {
 // SetName sets the value of Name.
 func (s *PaymentPaymentMethodCardCardProduct) SetName(val OptString) {
 	s.Name = val
+}
+
+type PaymentPaymentMethodStatus string
+
+const (
+	PaymentPaymentMethodStatusPending  PaymentPaymentMethodStatus = "pending"
+	PaymentPaymentMethodStatusActive   PaymentPaymentMethodStatus = "active"
+	PaymentPaymentMethodStatusInactive PaymentPaymentMethodStatus = "inactive"
+)
+
+// AllValues returns all PaymentPaymentMethodStatus values.
+func (PaymentPaymentMethodStatus) AllValues() []PaymentPaymentMethodStatus {
+	return []PaymentPaymentMethodStatus{
+		PaymentPaymentMethodStatusPending,
+		PaymentPaymentMethodStatusActive,
+		PaymentPaymentMethodStatusInactive,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s PaymentPaymentMethodStatus) MarshalText() ([]byte, error) {
+	switch s {
+	case PaymentPaymentMethodStatusPending:
+		return []byte(s), nil
+	case PaymentPaymentMethodStatusActive:
+		return []byte(s), nil
+	case PaymentPaymentMethodStatusInactive:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *PaymentPaymentMethodStatus) UnmarshalText(data []byte) error {
+	switch PaymentPaymentMethodStatus(data) {
+	case PaymentPaymentMethodStatusPending:
+		*s = PaymentPaymentMethodStatusPending
+		return nil
+	case PaymentPaymentMethodStatusActive:
+		*s = PaymentPaymentMethodStatusActive
+		return nil
+	case PaymentPaymentMethodStatusInactive:
+		*s = PaymentPaymentMethodStatusInactive
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
 }
 
 type PaymentRecipient struct {

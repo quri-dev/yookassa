@@ -346,6 +346,12 @@ components:
                   type: string
             title:
               type: string
+            status:
+              type: string
+              enum:
+                - "pending"
+                - "active"
+                - "inactive"
         recipient:
           type: object
           properties:

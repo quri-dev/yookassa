@@ -89,6 +89,24 @@ func (s *Payment) Validate() error {
 		})
 	}
 	if err := func() error {
+		if value, ok := s.PaymentMethod.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "payment_method",
+			Error: err,
+		})
+	}
+	if err := func() error {
 		if value, ok := s.Confirmation.Get(); ok {
 			if err := func() error {
 				if err := value.Validate(); err != nil {
@@ -233,6 +251,49 @@ func (s PaymentConfirmationType) Validate() error {
 	case "embedded":
 		return nil
 	case "redirect":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
+func (s *PaymentPaymentMethod) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if value, ok := s.Status.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "status",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s PaymentPaymentMethodStatus) Validate() error {
+	switch s {
+	case "pending":
+		return nil
+	case "active":
+		return nil
+	case "inactive":
 		return nil
 	default:
 		return errors.Errorf("invalid value: %v", s)
