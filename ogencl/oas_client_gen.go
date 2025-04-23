@@ -4,6 +4,7 @@ package ogencl
 
 import (
 	"context"
+	"net/http"
 	"net/url"
 	"strings"
 
@@ -15,6 +16,64 @@ import (
 	"github.com/ogen-go/ogen/uri"
 )
 
+type requestConfig struct {
+	Client       ht.Client
+	ServerURL    *url.URL
+	EditRequest  func(req *http.Request) error
+	EditResponse func(resp *http.Response) error
+}
+
+func (cfg *requestConfig) setDefaults(c baseClient) {
+	if cfg.Client == nil {
+		cfg.Client = c.cfg.Client
+	}
+}
+
+func (cfg *requestConfig) onRequest(req *http.Request) error {
+	if fn := cfg.EditRequest; fn != nil {
+		return fn(req)
+	}
+	return nil
+}
+
+func (cfg *requestConfig) onResponse(resp *http.Response) error {
+	if fn := cfg.EditResponse; fn != nil {
+		return fn(resp)
+	}
+	return nil
+}
+
+// RequestOption defines options for request.
+type RequestOption func(cfg *requestConfig)
+
+// WithRequestClient sets client for request.
+func WithRequestClient(client ht.Client) RequestOption {
+	return func(cfg *requestConfig) {
+		cfg.Client = client
+	}
+}
+
+// WithServerURL sets client for request.
+func WithServerURL(u *url.URL) RequestOption {
+	return func(cfg *requestConfig) {
+		cfg.ServerURL = u
+	}
+}
+
+// WithEditRequest sets function to edit request.
+func WithEditRequest(fn func(req *http.Request) error) RequestOption {
+	return func(cfg *requestConfig) {
+		cfg.EditRequest = fn
+	}
+}
+
+// WithEditResponse sets function to edit response.
+func WithEditResponse(fn func(resp *http.Response) error) RequestOption {
+	return func(cfg *requestConfig) {
+		cfg.EditResponse = fn
+	}
+}
+
 func trimTrailingSlashes(u *url.URL) {
 	u.Path = strings.TrimRight(u.Path, "/")
 	u.RawPath = strings.TrimRight(u.RawPath, "/")
@@ -25,19 +84,19 @@ type Invoker interface {
 	// V3PaymentsGet invokes GET /v3/payments operation.
 	//
 	// GET /v3/payments
-	V3PaymentsGet(ctx context.Context, params V3PaymentsGetParams) (*V3PaymentsGetOK, error)
+	V3PaymentsGet(ctx context.Context, params V3PaymentsGetParams, options ...RequestOption) (*V3PaymentsGetOK, error)
 	// V3PaymentsPaymentIDGet invokes GET /v3/payments/{payment_id} operation.
 	//
 	// GET /v3/payments/{payment_id}
-	V3PaymentsPaymentIDGet(ctx context.Context, params V3PaymentsPaymentIDGetParams) (*Payment, error)
+	V3PaymentsPaymentIDGet(ctx context.Context, params V3PaymentsPaymentIDGetParams, options ...RequestOption) (*Payment, error)
 	// V3PaymentsPost invokes POST /v3/payments operation.
 	//
 	// POST /v3/payments
-	V3PaymentsPost(ctx context.Context, request *ReqPayment, params V3PaymentsPostParams) (*Payment, error)
+	V3PaymentsPost(ctx context.Context, request *ReqPayment, params V3PaymentsPostParams, options ...RequestOption) (*Payment, error)
 	// V3RefundsPost invokes POST /v3/refunds operation.
 	//
 	// POST /v3/refunds
-	V3RefundsPost(ctx context.Context, request *ReqRefundPayment, params V3RefundsPostParams) (*RefundPayment, error)
+	V3RefundsPost(ctx context.Context, request *ReqRefundPayment, params V3RefundsPostParams, options ...RequestOption) (*RefundPayment, error)
 }
 
 // Client implements OAS client.
@@ -66,32 +125,27 @@ func NewClient(serverURL string, sec SecuritySource, opts ...ClientOption) (*Cli
 	}, nil
 }
 
-type serverURLKey struct{}
-
-// WithServerURL sets context key to override server URL.
-func WithServerURL(ctx context.Context, u *url.URL) context.Context {
-	return context.WithValue(ctx, serverURLKey{}, u)
-}
-
-func (c *Client) requestURL(ctx context.Context) *url.URL {
-	u, ok := ctx.Value(serverURLKey{}).(*url.URL)
-	if !ok {
-		return c.serverURL
-	}
-	return u
-}
-
 // V3PaymentsGet invokes GET /v3/payments operation.
 //
 // GET /v3/payments
-func (c *Client) V3PaymentsGet(ctx context.Context, params V3PaymentsGetParams) (*V3PaymentsGetOK, error) {
-	res, err := c.sendV3PaymentsGet(ctx, params)
+func (c *Client) V3PaymentsGet(ctx context.Context, params V3PaymentsGetParams, options ...RequestOption) (*V3PaymentsGetOK, error) {
+	res, err := c.sendV3PaymentsGet(ctx, params, options...)
 	return res, err
 }
 
-func (c *Client) sendV3PaymentsGet(ctx context.Context, params V3PaymentsGetParams) (res *V3PaymentsGetOK, err error) {
+func (c *Client) sendV3PaymentsGet(ctx context.Context, params V3PaymentsGetParams, requestOptions ...RequestOption) (res *V3PaymentsGetOK, err error) {
 
-	u := uri.Clone(c.requestURL(ctx))
+	var reqCfg requestConfig
+	reqCfg.setDefaults(c.baseClient)
+	for _, o := range requestOptions {
+		o(&reqCfg)
+	}
+
+	u := c.serverURL
+	if override := reqCfg.ServerURL; override != nil {
+		u = override
+	}
+	u = uri.Clone(u)
 	var pathParts [1]string
 	pathParts[0] = "/v3/payments"
 	uri.AddPathParts(u, pathParts[:]...)
@@ -171,11 +225,19 @@ func (c *Client) sendV3PaymentsGet(ctx context.Context, params V3PaymentsGetPara
 		}
 	}
 
-	resp, err := c.cfg.Client.Do(r)
+	if err := reqCfg.onRequest(r); err != nil {
+		return res, errors.Wrap(err, "edit request")
+	}
+
+	resp, err := reqCfg.Client.Do(r)
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
 	defer resp.Body.Close()
+
+	if err := reqCfg.onResponse(resp); err != nil {
+		return res, errors.Wrap(err, "edit response")
+	}
 
 	result, err := decodeV3PaymentsGetResponse(resp)
 	if err != nil {
@@ -188,14 +250,24 @@ func (c *Client) sendV3PaymentsGet(ctx context.Context, params V3PaymentsGetPara
 // V3PaymentsPaymentIDGet invokes GET /v3/payments/{payment_id} operation.
 //
 // GET /v3/payments/{payment_id}
-func (c *Client) V3PaymentsPaymentIDGet(ctx context.Context, params V3PaymentsPaymentIDGetParams) (*Payment, error) {
-	res, err := c.sendV3PaymentsPaymentIDGet(ctx, params)
+func (c *Client) V3PaymentsPaymentIDGet(ctx context.Context, params V3PaymentsPaymentIDGetParams, options ...RequestOption) (*Payment, error) {
+	res, err := c.sendV3PaymentsPaymentIDGet(ctx, params, options...)
 	return res, err
 }
 
-func (c *Client) sendV3PaymentsPaymentIDGet(ctx context.Context, params V3PaymentsPaymentIDGetParams) (res *Payment, err error) {
+func (c *Client) sendV3PaymentsPaymentIDGet(ctx context.Context, params V3PaymentsPaymentIDGetParams, requestOptions ...RequestOption) (res *Payment, err error) {
 
-	u := uri.Clone(c.requestURL(ctx))
+	var reqCfg requestConfig
+	reqCfg.setDefaults(c.baseClient)
+	for _, o := range requestOptions {
+		o(&reqCfg)
+	}
+
+	u := c.serverURL
+	if override := reqCfg.ServerURL; override != nil {
+		u = override
+	}
+	u = uri.Clone(u)
 	var pathParts [2]string
 	pathParts[0] = "/v3/payments/"
 	{
@@ -256,11 +328,19 @@ func (c *Client) sendV3PaymentsPaymentIDGet(ctx context.Context, params V3Paymen
 		}
 	}
 
-	resp, err := c.cfg.Client.Do(r)
+	if err := reqCfg.onRequest(r); err != nil {
+		return res, errors.Wrap(err, "edit request")
+	}
+
+	resp, err := reqCfg.Client.Do(r)
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
 	defer resp.Body.Close()
+
+	if err := reqCfg.onResponse(resp); err != nil {
+		return res, errors.Wrap(err, "edit response")
+	}
 
 	result, err := decodeV3PaymentsPaymentIDGetResponse(resp)
 	if err != nil {
@@ -273,14 +353,24 @@ func (c *Client) sendV3PaymentsPaymentIDGet(ctx context.Context, params V3Paymen
 // V3PaymentsPost invokes POST /v3/payments operation.
 //
 // POST /v3/payments
-func (c *Client) V3PaymentsPost(ctx context.Context, request *ReqPayment, params V3PaymentsPostParams) (*Payment, error) {
-	res, err := c.sendV3PaymentsPost(ctx, request, params)
+func (c *Client) V3PaymentsPost(ctx context.Context, request *ReqPayment, params V3PaymentsPostParams, options ...RequestOption) (*Payment, error) {
+	res, err := c.sendV3PaymentsPost(ctx, request, params, options...)
 	return res, err
 }
 
-func (c *Client) sendV3PaymentsPost(ctx context.Context, request *ReqPayment, params V3PaymentsPostParams) (res *Payment, err error) {
+func (c *Client) sendV3PaymentsPost(ctx context.Context, request *ReqPayment, params V3PaymentsPostParams, requestOptions ...RequestOption) (res *Payment, err error) {
 
-	u := uri.Clone(c.requestURL(ctx))
+	var reqCfg requestConfig
+	reqCfg.setDefaults(c.baseClient)
+	for _, o := range requestOptions {
+		o(&reqCfg)
+	}
+
+	u := c.serverURL
+	if override := reqCfg.ServerURL; override != nil {
+		u = override
+	}
+	u = uri.Clone(u)
 	var pathParts [1]string
 	pathParts[0] = "/v3/payments"
 	uri.AddPathParts(u, pathParts[:]...)
@@ -339,11 +429,19 @@ func (c *Client) sendV3PaymentsPost(ctx context.Context, request *ReqPayment, pa
 		}
 	}
 
-	resp, err := c.cfg.Client.Do(r)
+	if err := reqCfg.onRequest(r); err != nil {
+		return res, errors.Wrap(err, "edit request")
+	}
+
+	resp, err := reqCfg.Client.Do(r)
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
 	defer resp.Body.Close()
+
+	if err := reqCfg.onResponse(resp); err != nil {
+		return res, errors.Wrap(err, "edit response")
+	}
 
 	result, err := decodeV3PaymentsPostResponse(resp)
 	if err != nil {
@@ -356,14 +454,24 @@ func (c *Client) sendV3PaymentsPost(ctx context.Context, request *ReqPayment, pa
 // V3RefundsPost invokes POST /v3/refunds operation.
 //
 // POST /v3/refunds
-func (c *Client) V3RefundsPost(ctx context.Context, request *ReqRefundPayment, params V3RefundsPostParams) (*RefundPayment, error) {
-	res, err := c.sendV3RefundsPost(ctx, request, params)
+func (c *Client) V3RefundsPost(ctx context.Context, request *ReqRefundPayment, params V3RefundsPostParams, options ...RequestOption) (*RefundPayment, error) {
+	res, err := c.sendV3RefundsPost(ctx, request, params, options...)
 	return res, err
 }
 
-func (c *Client) sendV3RefundsPost(ctx context.Context, request *ReqRefundPayment, params V3RefundsPostParams) (res *RefundPayment, err error) {
+func (c *Client) sendV3RefundsPost(ctx context.Context, request *ReqRefundPayment, params V3RefundsPostParams, requestOptions ...RequestOption) (res *RefundPayment, err error) {
 
-	u := uri.Clone(c.requestURL(ctx))
+	var reqCfg requestConfig
+	reqCfg.setDefaults(c.baseClient)
+	for _, o := range requestOptions {
+		o(&reqCfg)
+	}
+
+	u := c.serverURL
+	if override := reqCfg.ServerURL; override != nil {
+		u = override
+	}
+	u = uri.Clone(u)
 	var pathParts [1]string
 	pathParts[0] = "/v3/refunds"
 	uri.AddPathParts(u, pathParts[:]...)
@@ -422,11 +530,19 @@ func (c *Client) sendV3RefundsPost(ctx context.Context, request *ReqRefundPaymen
 		}
 	}
 
-	resp, err := c.cfg.Client.Do(r)
+	if err := reqCfg.onRequest(r); err != nil {
+		return res, errors.Wrap(err, "edit request")
+	}
+
+	resp, err := reqCfg.Client.Do(r)
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
 	defer resp.Body.Close()
+
+	if err := reqCfg.onResponse(resp); err != nil {
+		return res, errors.Wrap(err, "edit response")
+	}
 
 	result, err := decodeV3RefundsPostResponse(resp)
 	if err != nil {

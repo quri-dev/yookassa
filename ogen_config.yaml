@@ -2,6 +2,7 @@ generator:
   features:
     enable:
       - 'paths/client'
+      - 'client/request/options'
     disable:
       - 'paths/server'
       # Disables webhooks client generation
