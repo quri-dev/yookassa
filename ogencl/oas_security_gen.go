@@ -12,10 +12,10 @@ import (
 // SecuritySource is provider of security values (tokens, passwords, etc.).
 type SecuritySource interface {
 	// BasicAuth provides basicAuth security value.
-	BasicAuth(ctx context.Context, operationName string) (BasicAuth, error)
+	BasicAuth(ctx context.Context, operationName OperationName) (BasicAuth, error)
 }
 
-func (s *Client) securityBasicAuth(ctx context.Context, operationName string, req *http.Request) error {
+func (s *Client) securityBasicAuth(ctx context.Context, operationName OperationName, req *http.Request) error {
 	t, err := s.sec.BasicAuth(ctx, operationName)
 	if err != nil {
 		return errors.Wrap(err, "security source \"BasicAuth\"")

@@ -15,6 +15,11 @@ import (
 	"github.com/ogen-go/ogen/uri"
 )
 
+func trimTrailingSlashes(u *url.URL) {
+	u.Path = strings.TrimRight(u.Path, "/")
+	u.RawPath = strings.TrimRight(u.RawPath, "/")
+}
+
 // Invoker invokes operations described by OpenAPI v3 specification.
 type Invoker interface {
 	// V3PaymentsGet invokes GET /v3/payments operation.
@@ -40,11 +45,6 @@ type Client struct {
 	serverURL *url.URL
 	sec       SecuritySource
 	baseClient
-}
-
-func trimTrailingSlashes(u *url.URL) {
-	u.Path = strings.TrimRight(u.Path, "/")
-	u.RawPath = strings.TrimRight(u.RawPath, "/")
 }
 
 // NewClient initializes new Client defined by OAS.
@@ -143,7 +143,7 @@ func (c *Client) sendV3PaymentsGet(ctx context.Context, params V3PaymentsGetPara
 		var satisfied bitset
 		{
 
-			switch err := c.securityBasicAuth(ctx, "V3PaymentsGet", r); {
+			switch err := c.securityBasicAuth(ctx, V3PaymentsGetOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -228,7 +228,7 @@ func (c *Client) sendV3PaymentsPaymentIDGet(ctx context.Context, params V3Paymen
 		var satisfied bitset
 		{
 
-			switch err := c.securityBasicAuth(ctx, "V3PaymentsPaymentIDGet", r); {
+			switch err := c.securityBasicAuth(ctx, V3PaymentsPaymentIDGetOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -311,7 +311,7 @@ func (c *Client) sendV3PaymentsPost(ctx context.Context, request *ReqPayment, pa
 		var satisfied bitset
 		{
 
-			switch err := c.securityBasicAuth(ctx, "V3PaymentsPost", r); {
+			switch err := c.securityBasicAuth(ctx, V3PaymentsPostOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -394,7 +394,7 @@ func (c *Client) sendV3RefundsPost(ctx context.Context, request *ReqRefundPaymen
 		var satisfied bitset
 		{
 
-			switch err := c.securityBasicAuth(ctx, "V3RefundsPost", r); {
+			switch err := c.securityBasicAuth(ctx, V3RefundsPostOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):

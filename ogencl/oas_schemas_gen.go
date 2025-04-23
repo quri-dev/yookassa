@@ -1208,7 +1208,8 @@ func (s *PaymentConfirmation) SetConfirmationURL(val OptString) {
 type PaymentConfirmationEmbedded struct {
 	// Значение — embedded.
 	// Код сценария подтверждения.
-	Type PaymentConfirmationEmbeddedType `json:"type"`
+	Type      PaymentConfirmationEmbeddedType `json:"type"`
+	ReturnURL OptString                       `json:"return_url"`
 	// Язык интерфейса, писем и смс, которые будет видеть или
 	// получать пользователь. Формат соответствует ISO/IEC 15897.
 	// Возможные значения: ru_RU, en_US. Регистр важен.
@@ -1220,6 +1221,11 @@ func (s *PaymentConfirmationEmbedded) GetType() PaymentConfirmationEmbeddedType 
 	return s.Type
 }
 
+// GetReturnURL returns the value of ReturnURL.
+func (s *PaymentConfirmationEmbedded) GetReturnURL() OptString {
+	return s.ReturnURL
+}
+
 // GetLocale returns the value of Locale.
 func (s *PaymentConfirmationEmbedded) GetLocale() OptString {
 	return s.Locale
@@ -1228,6 +1234,11 @@ func (s *PaymentConfirmationEmbedded) GetLocale() OptString {
 // SetType sets the value of Type.
 func (s *PaymentConfirmationEmbedded) SetType(val PaymentConfirmationEmbeddedType) {
 	s.Type = val
+}
+
+// SetReturnURL sets the value of ReturnURL.
+func (s *PaymentConfirmationEmbedded) SetReturnURL(val OptString) {
+	s.ReturnURL = val
 }
 
 // SetLocale sets the value of Locale.
@@ -1242,6 +1253,7 @@ type PaymentConfirmationEmbeddedType string
 const (
 	PaymentConfirmationEmbeddedTypeEmbedded PaymentConfirmationEmbeddedType = "embedded"
 	PaymentConfirmationEmbeddedTypeExternal PaymentConfirmationEmbeddedType = "external"
+	PaymentConfirmationEmbeddedTypeRedirect PaymentConfirmationEmbeddedType = "redirect"
 )
 
 // AllValues returns all PaymentConfirmationEmbeddedType values.
@@ -1249,6 +1261,7 @@ func (PaymentConfirmationEmbeddedType) AllValues() []PaymentConfirmationEmbedded
 	return []PaymentConfirmationEmbeddedType{
 		PaymentConfirmationEmbeddedTypeEmbedded,
 		PaymentConfirmationEmbeddedTypeExternal,
+		PaymentConfirmationEmbeddedTypeRedirect,
 	}
 }
 
@@ -1258,6 +1271,8 @@ func (s PaymentConfirmationEmbeddedType) MarshalText() ([]byte, error) {
 	case PaymentConfirmationEmbeddedTypeEmbedded:
 		return []byte(s), nil
 	case PaymentConfirmationEmbeddedTypeExternal:
+		return []byte(s), nil
+	case PaymentConfirmationEmbeddedTypeRedirect:
 		return []byte(s), nil
 	default:
 		return nil, errors.Errorf("invalid value: %q", s)
@@ -1272,6 +1287,9 @@ func (s *PaymentConfirmationEmbeddedType) UnmarshalText(data []byte) error {
 		return nil
 	case PaymentConfirmationEmbeddedTypeExternal:
 		*s = PaymentConfirmationEmbeddedTypeExternal
+		return nil
+	case PaymentConfirmationEmbeddedTypeRedirect:
+		*s = PaymentConfirmationEmbeddedTypeRedirect
 		return nil
 	default:
 		return errors.Errorf("invalid value: %q", data)

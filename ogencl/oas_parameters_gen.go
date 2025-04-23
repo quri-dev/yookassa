@@ -238,7 +238,7 @@ func decodeV3PaymentsPostParams(args [0]string, argsEscaped bool, r *http.Reques
 				return err
 			}
 		} else {
-			return validate.ErrFieldRequired
+			return err
 		}
 		return nil
 	}(); err != nil {
@@ -294,7 +294,7 @@ func decodeV3RefundsPostParams(args [0]string, argsEscaped bool, r *http.Request
 				return err
 			}
 		} else {
-			return validate.ErrFieldRequired
+			return err
 		}
 		return nil
 	}(); err != nil {

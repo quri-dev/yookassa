@@ -1509,6 +1509,12 @@ func (s *PaymentConfirmationEmbedded) encodeFields(e *jx.Encoder) {
 		s.Type.Encode(e)
 	}
 	{
+		if s.ReturnURL.Set {
+			e.FieldStart("return_url")
+			s.ReturnURL.Encode(e)
+		}
+	}
+	{
 		if s.Locale.Set {
 			e.FieldStart("locale")
 			s.Locale.Encode(e)
@@ -1516,9 +1522,10 @@ func (s *PaymentConfirmationEmbedded) encodeFields(e *jx.Encoder) {
 	}
 }
 
-var jsonFieldsNameOfPaymentConfirmationEmbedded = [2]string{
+var jsonFieldsNameOfPaymentConfirmationEmbedded = [3]string{
 	0: "type",
-	1: "locale",
+	1: "return_url",
+	2: "locale",
 }
 
 // Decode decodes PaymentConfirmationEmbedded from json.
@@ -1540,6 +1547,16 @@ func (s *PaymentConfirmationEmbedded) Decode(d *jx.Decoder) error {
 				return nil
 			}(); err != nil {
 				return errors.Wrap(err, "decode field \"type\"")
+			}
+		case "return_url":
+			if err := func() error {
+				s.ReturnURL.Reset()
+				if err := s.ReturnURL.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"return_url\"")
 			}
 		case "locale":
 			if err := func() error {
@@ -1627,6 +1644,8 @@ func (s *PaymentConfirmationEmbeddedType) Decode(d *jx.Decoder) error {
 		*s = PaymentConfirmationEmbeddedTypeEmbedded
 	case PaymentConfirmationEmbeddedTypeExternal:
 		*s = PaymentConfirmationEmbeddedTypeExternal
+	case PaymentConfirmationEmbeddedTypeRedirect:
+		*s = PaymentConfirmationEmbeddedTypeRedirect
 	default:
 		*s = PaymentConfirmationEmbeddedType(v)
 	}

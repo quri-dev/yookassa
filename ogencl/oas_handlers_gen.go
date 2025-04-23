@@ -13,18 +13,30 @@ import (
 	"github.com/ogen-go/ogen/ogenerrors"
 )
 
+type codeRecorder struct {
+	http.ResponseWriter
+	status int
+}
+
+func (c *codeRecorder) WriteHeader(status int) {
+	c.status = status
+	c.ResponseWriter.WriteHeader(status)
+}
+
 func recordError(string, error) {}
 
 // handleYookassaHookPostRequest handles POST yookassa_hook operation.
 //
 // A new pet is born, let's come and discover it in Petstore.
 func (s *WebhookServer) handleYookassaHookPostRequest(args [0]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
+	statusWriter := &codeRecorder{ResponseWriter: w}
+	w = statusWriter
 	ctx := r.Context()
 
 	var (
 		err          error
 		opErrContext = ogenerrors.OperationContext{
-			Name: "YookassaHookPost",
+			Name: YookassaHookPostOperation,
 			ID:   "",
 		}
 	)
@@ -48,7 +60,7 @@ func (s *WebhookServer) handleYookassaHookPostRequest(args [0]string, argsEscape
 	if m := s.cfg.Middleware; m != nil {
 		mreq := middleware.Request{
 			Context:          ctx,
-			OperationName:    "YookassaHookPost",
+			OperationName:    YookassaHookPostOperation,
 			OperationSummary: "",
 			OperationID:      "",
 			Body:             request,

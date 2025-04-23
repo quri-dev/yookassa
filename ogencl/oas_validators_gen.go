@@ -221,6 +221,8 @@ func (s PaymentConfirmationEmbeddedType) Validate() error {
 		return nil
 	case "external":
 		return nil
+	case "redirect":
+		return nil
 	default:
 		return errors.Errorf("invalid value: %v", s)
 	}

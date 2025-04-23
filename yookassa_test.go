@@ -30,7 +30,7 @@ func (c *C) BasicAuth(ctx context.Context, operationName string) (ogencl.BasicAu
 }
 
 func TestXxx(t *testing.T) {
-	t.Skip()
+	//t.Skip()
 	client := http.Client{
 		Transport: &LoggingTransport{
 			Logger: slog.Default(),
@@ -61,7 +61,7 @@ func TestXxx(t *testing.T) {
 			"user_id": jx.Raw("123"),
 		}),
 	}, ogencl.V3PaymentsPostParams{
-		IdempotenceKey: "foo_456_2",
+		IdempotenceKey: "foo_456_asdfas2",
 	})
 	if err != nil {
 		t.Error(err)
@@ -140,4 +140,46 @@ func TestRefund(t *testing.T) {
 	}
 
 	_ = r
+}
+
+func TestPaymentsPost(t *testing.T) {
+	//t.Skip()
+	client := http.Client{
+		Transport: &LoggingTransport{
+			Logger: slog.Default(),
+			Level:  slog.LevelError,
+		},
+	}
+	ogenCl, err := ogencl.NewClient("https://api.yookassa.ru", &C{}, ogencl.WithClient(&client))
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	ctx := context.Background()
+
+	r, err := ogenCl.V3PaymentsPost(ctx, &ogencl.ReqPayment{
+		Amount: ogencl.Amount{
+			Currency: ogencl.AmountCurrencyRUB,
+			Value:    "100",
+		},
+		Confirmation: ogencl.NewOptReqPaymentConfirmation(ogencl.ReqPaymentConfirmation{
+			Type: ogencl.PaymentConfirmationEmbeddedReqPaymentConfirmation,
+			PaymentConfirmationEmbedded: ogencl.PaymentConfirmationEmbedded{
+				Type:      ogencl.PaymentConfirmationEmbeddedTypeRedirect,
+				ReturnURL: ogencl.NewOptString("https://ya.ru"),
+			},
+		}),
+		Capture:           ogencl.NewOptBool(true),
+		SavePaymentMethod: ogencl.NewOptBool(true),
+		Metadata: ogencl.NewOptMetadata(ogencl.Metadata{
+			"user_id": jx.Raw("123"),
+		}),
+	}, ogencl.V3PaymentsPostParams{
+		IdempotenceKey: "foo_456_asdfas24",
+	})
+	if err != nil {
+		t.Error(err)
+	}
+	fmt.Println("response", r)
+
 }
