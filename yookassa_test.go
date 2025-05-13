@@ -161,7 +161,7 @@ func TestPaymentsPost(t *testing.T) {
 	r, err := ogenCl.V3PaymentsPost(ctx, &ogencl.ReqPayment{
 		Amount: ogencl.Amount{
 			Currency: ogencl.AmountCurrencyRUB,
-			Value:    "100",
+			Value:    "1",
 		},
 		Confirmation: ogencl.NewOptReqPaymentConfirmation(ogencl.ReqPaymentConfirmation{
 			Type: ogencl.PaymentConfirmationEmbeddedReqPaymentConfirmation,
@@ -175,8 +175,26 @@ func TestPaymentsPost(t *testing.T) {
 		Metadata: ogencl.NewOptMetadata(ogencl.Metadata{
 			"user_id": jx.Raw("123"),
 		}),
+		Receipt: ogencl.NewOptReceipt(ogencl.Receipt{
+			Items: []ogencl.ReceiptItem{
+				{
+					Description: "Привязка карты (будет возврат)",
+					Amount: ogencl.Amount{
+						Value:    "1",
+						Currency: ogencl.AmountCurrencyRUB,
+					},
+					VatCode:        1,
+					Quantity:       1,
+					PaymentSubject: ogencl.NewOptReceiptItemPaymentSubject(ogencl.ReceiptItemPaymentSubjectAnother),
+					PaymentMode:    ogencl.NewOptReceiptItemPaymentMode(ogencl.ReceiptItemPaymentModeFullPayment),
+				},
+			},
+			Customer: ogencl.NewOptReceiptCustomer(ogencl.ReceiptCustomer{
+				Email: ogencl.NewOptString("test@mail.ru"),
+			}),
+		}),
 	}, ogencl.V3PaymentsPostParams{
-		IdempotenceKey: "foo_456_asdfas24",
+		IdempotenceKey: "foo_456_asdfas26",
 	})
 	if err != nil {
 		var e *ogencl.YookassaErrorStatusCode
