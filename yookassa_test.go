@@ -2,6 +2,7 @@ package yookassa
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"log/slog"
 	"net/http"
@@ -61,7 +62,7 @@ func TestXxx(t *testing.T) {
 			"user_id": jx.Raw("123"),
 		}),
 	}, ogencl.V3PaymentsPostParams{
-		IdempotenceKey: "foo_456_asdfas2",
+		IdempotenceKey: "foo_456_asdfas21",
 	})
 	if err != nil {
 		t.Error(err)
@@ -178,6 +179,10 @@ func TestPaymentsPost(t *testing.T) {
 		IdempotenceKey: "foo_456_asdfas24",
 	})
 	if err != nil {
+		var e *ogencl.YookassaErrorStatusCode
+		if errors.As(err, &e) {
+			fmt.Println("yookassa error")
+		}
 		t.Error(err)
 	}
 	fmt.Println("response", r)

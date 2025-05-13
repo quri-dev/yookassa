@@ -770,6 +770,190 @@ func (o OptPaymentPaymentMethodStatus) Or(d PaymentPaymentMethodStatus) PaymentP
 	return d
 }
 
+// NewOptReceipt returns new OptReceipt with value set to v.
+func NewOptReceipt(v Receipt) OptReceipt {
+	return OptReceipt{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptReceipt is optional Receipt.
+type OptReceipt struct {
+	Value Receipt
+	Set   bool
+}
+
+// IsSet returns true if OptReceipt was set.
+func (o OptReceipt) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptReceipt) Reset() {
+	var v Receipt
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptReceipt) SetTo(v Receipt) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptReceipt) Get() (v Receipt, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptReceipt) Or(d Receipt) Receipt {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptReceiptCustomer returns new OptReceiptCustomer with value set to v.
+func NewOptReceiptCustomer(v ReceiptCustomer) OptReceiptCustomer {
+	return OptReceiptCustomer{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptReceiptCustomer is optional ReceiptCustomer.
+type OptReceiptCustomer struct {
+	Value ReceiptCustomer
+	Set   bool
+}
+
+// IsSet returns true if OptReceiptCustomer was set.
+func (o OptReceiptCustomer) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptReceiptCustomer) Reset() {
+	var v ReceiptCustomer
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptReceiptCustomer) SetTo(v ReceiptCustomer) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptReceiptCustomer) Get() (v ReceiptCustomer, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptReceiptCustomer) Or(d ReceiptCustomer) ReceiptCustomer {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptReceiptItemPaymentMode returns new OptReceiptItemPaymentMode with value set to v.
+func NewOptReceiptItemPaymentMode(v ReceiptItemPaymentMode) OptReceiptItemPaymentMode {
+	return OptReceiptItemPaymentMode{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptReceiptItemPaymentMode is optional ReceiptItemPaymentMode.
+type OptReceiptItemPaymentMode struct {
+	Value ReceiptItemPaymentMode
+	Set   bool
+}
+
+// IsSet returns true if OptReceiptItemPaymentMode was set.
+func (o OptReceiptItemPaymentMode) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptReceiptItemPaymentMode) Reset() {
+	var v ReceiptItemPaymentMode
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptReceiptItemPaymentMode) SetTo(v ReceiptItemPaymentMode) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptReceiptItemPaymentMode) Get() (v ReceiptItemPaymentMode, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptReceiptItemPaymentMode) Or(d ReceiptItemPaymentMode) ReceiptItemPaymentMode {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptReceiptItemPaymentSubject returns new OptReceiptItemPaymentSubject with value set to v.
+func NewOptReceiptItemPaymentSubject(v ReceiptItemPaymentSubject) OptReceiptItemPaymentSubject {
+	return OptReceiptItemPaymentSubject{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptReceiptItemPaymentSubject is optional ReceiptItemPaymentSubject.
+type OptReceiptItemPaymentSubject struct {
+	Value ReceiptItemPaymentSubject
+	Set   bool
+}
+
+// IsSet returns true if OptReceiptItemPaymentSubject was set.
+func (o OptReceiptItemPaymentSubject) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptReceiptItemPaymentSubject) Reset() {
+	var v ReceiptItemPaymentSubject
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptReceiptItemPaymentSubject) SetTo(v ReceiptItemPaymentSubject) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptReceiptItemPaymentSubject) Get() (v ReceiptItemPaymentSubject, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptReceiptItemPaymentSubject) Or(d ReceiptItemPaymentSubject) ReceiptItemPaymentSubject {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptReqPaymentConfirmation returns new OptReqPaymentConfirmation with value set to v.
 func NewOptReqPaymentConfirmation(v ReqPaymentConfirmation) OptReqPaymentConfirmation {
 	return OptReqPaymentConfirmation{
@@ -1722,6 +1906,270 @@ func (s *PaymentStatus) UnmarshalText(data []byte) error {
 	}
 }
 
+// Ref: #/components/schemas/Receipt
+type Receipt struct {
+	Items    []ReceiptItem      `json:"items"`
+	Customer OptReceiptCustomer `json:"customer"`
+}
+
+// GetItems returns the value of Items.
+func (s *Receipt) GetItems() []ReceiptItem {
+	return s.Items
+}
+
+// GetCustomer returns the value of Customer.
+func (s *Receipt) GetCustomer() OptReceiptCustomer {
+	return s.Customer
+}
+
+// SetItems sets the value of Items.
+func (s *Receipt) SetItems(val []ReceiptItem) {
+	s.Items = val
+}
+
+// SetCustomer sets the value of Customer.
+func (s *Receipt) SetCustomer(val OptReceiptCustomer) {
+	s.Customer = val
+}
+
+// Ref: #/components/schemas/ReceiptCustomer
+type ReceiptCustomer struct {
+	FullName OptString `json:"full_name"`
+	Inn      OptString `json:"inn"`
+	Email    OptString `json:"email"`
+	Phone    OptString `json:"phone"`
+}
+
+// GetFullName returns the value of FullName.
+func (s *ReceiptCustomer) GetFullName() OptString {
+	return s.FullName
+}
+
+// GetInn returns the value of Inn.
+func (s *ReceiptCustomer) GetInn() OptString {
+	return s.Inn
+}
+
+// GetEmail returns the value of Email.
+func (s *ReceiptCustomer) GetEmail() OptString {
+	return s.Email
+}
+
+// GetPhone returns the value of Phone.
+func (s *ReceiptCustomer) GetPhone() OptString {
+	return s.Phone
+}
+
+// SetFullName sets the value of FullName.
+func (s *ReceiptCustomer) SetFullName(val OptString) {
+	s.FullName = val
+}
+
+// SetInn sets the value of Inn.
+func (s *ReceiptCustomer) SetInn(val OptString) {
+	s.Inn = val
+}
+
+// SetEmail sets the value of Email.
+func (s *ReceiptCustomer) SetEmail(val OptString) {
+	s.Email = val
+}
+
+// SetPhone sets the value of Phone.
+func (s *ReceiptCustomer) SetPhone(val OptString) {
+	s.Phone = val
+}
+
+// Ref: #/components/schemas/ReceiptItem
+type ReceiptItem struct {
+	Description string `json:"description"`
+	Amount      Amount `json:"amount"`
+	// 1	Без НДС
+	// 2	НДС по ставке 0%
+	// 3	НДС по ставке 10%
+	// 4	НДС по ставке 20%
+	// 5	НДС по расчетной ставке 10/110
+	// 6	НДС по расчетной ставке 20/120
+	// 7	НДС по ставке 5%
+	// 8	НДС по ставке 7%
+	// 9	НДС по расчетной ставке 5/105
+	// 10	НДС по расчетной ставке 7/107.
+	VatCode        int                          `json:"vat_code"`
+	Quantity       int                          `json:"quantity"`
+	PaymentSubject OptReceiptItemPaymentSubject `json:"payment_subject"`
+	PaymentMode    OptReceiptItemPaymentMode    `json:"payment_mode"`
+}
+
+// GetDescription returns the value of Description.
+func (s *ReceiptItem) GetDescription() string {
+	return s.Description
+}
+
+// GetAmount returns the value of Amount.
+func (s *ReceiptItem) GetAmount() Amount {
+	return s.Amount
+}
+
+// GetVatCode returns the value of VatCode.
+func (s *ReceiptItem) GetVatCode() int {
+	return s.VatCode
+}
+
+// GetQuantity returns the value of Quantity.
+func (s *ReceiptItem) GetQuantity() int {
+	return s.Quantity
+}
+
+// GetPaymentSubject returns the value of PaymentSubject.
+func (s *ReceiptItem) GetPaymentSubject() OptReceiptItemPaymentSubject {
+	return s.PaymentSubject
+}
+
+// GetPaymentMode returns the value of PaymentMode.
+func (s *ReceiptItem) GetPaymentMode() OptReceiptItemPaymentMode {
+	return s.PaymentMode
+}
+
+// SetDescription sets the value of Description.
+func (s *ReceiptItem) SetDescription(val string) {
+	s.Description = val
+}
+
+// SetAmount sets the value of Amount.
+func (s *ReceiptItem) SetAmount(val Amount) {
+	s.Amount = val
+}
+
+// SetVatCode sets the value of VatCode.
+func (s *ReceiptItem) SetVatCode(val int) {
+	s.VatCode = val
+}
+
+// SetQuantity sets the value of Quantity.
+func (s *ReceiptItem) SetQuantity(val int) {
+	s.Quantity = val
+}
+
+// SetPaymentSubject sets the value of PaymentSubject.
+func (s *ReceiptItem) SetPaymentSubject(val OptReceiptItemPaymentSubject) {
+	s.PaymentSubject = val
+}
+
+// SetPaymentMode sets the value of PaymentMode.
+func (s *ReceiptItem) SetPaymentMode(val OptReceiptItemPaymentMode) {
+	s.PaymentMode = val
+}
+
+type ReceiptItemPaymentMode string
+
+const (
+	ReceiptItemPaymentModeFullPrepayment ReceiptItemPaymentMode = "full_prepayment"
+	ReceiptItemPaymentModeFullPayment    ReceiptItemPaymentMode = "full_payment"
+)
+
+// AllValues returns all ReceiptItemPaymentMode values.
+func (ReceiptItemPaymentMode) AllValues() []ReceiptItemPaymentMode {
+	return []ReceiptItemPaymentMode{
+		ReceiptItemPaymentModeFullPrepayment,
+		ReceiptItemPaymentModeFullPayment,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ReceiptItemPaymentMode) MarshalText() ([]byte, error) {
+	switch s {
+	case ReceiptItemPaymentModeFullPrepayment:
+		return []byte(s), nil
+	case ReceiptItemPaymentModeFullPayment:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ReceiptItemPaymentMode) UnmarshalText(data []byte) error {
+	switch ReceiptItemPaymentMode(data) {
+	case ReceiptItemPaymentModeFullPrepayment:
+		*s = ReceiptItemPaymentModeFullPrepayment
+		return nil
+	case ReceiptItemPaymentModeFullPayment:
+		*s = ReceiptItemPaymentModeFullPayment
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type ReceiptItemPaymentSubject string
+
+const (
+	ReceiptItemPaymentSubjectCommodity ReceiptItemPaymentSubject = "commodity"
+	ReceiptItemPaymentSubjectJob       ReceiptItemPaymentSubject = "job"
+	ReceiptItemPaymentSubjectService   ReceiptItemPaymentSubject = "service"
+	ReceiptItemPaymentSubjectPayment   ReceiptItemPaymentSubject = "payment"
+	ReceiptItemPaymentSubjectCasino    ReceiptItemPaymentSubject = "casino"
+	ReceiptItemPaymentSubjectAnother   ReceiptItemPaymentSubject = "another"
+)
+
+// AllValues returns all ReceiptItemPaymentSubject values.
+func (ReceiptItemPaymentSubject) AllValues() []ReceiptItemPaymentSubject {
+	return []ReceiptItemPaymentSubject{
+		ReceiptItemPaymentSubjectCommodity,
+		ReceiptItemPaymentSubjectJob,
+		ReceiptItemPaymentSubjectService,
+		ReceiptItemPaymentSubjectPayment,
+		ReceiptItemPaymentSubjectCasino,
+		ReceiptItemPaymentSubjectAnother,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ReceiptItemPaymentSubject) MarshalText() ([]byte, error) {
+	switch s {
+	case ReceiptItemPaymentSubjectCommodity:
+		return []byte(s), nil
+	case ReceiptItemPaymentSubjectJob:
+		return []byte(s), nil
+	case ReceiptItemPaymentSubjectService:
+		return []byte(s), nil
+	case ReceiptItemPaymentSubjectPayment:
+		return []byte(s), nil
+	case ReceiptItemPaymentSubjectCasino:
+		return []byte(s), nil
+	case ReceiptItemPaymentSubjectAnother:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ReceiptItemPaymentSubject) UnmarshalText(data []byte) error {
+	switch ReceiptItemPaymentSubject(data) {
+	case ReceiptItemPaymentSubjectCommodity:
+		*s = ReceiptItemPaymentSubjectCommodity
+		return nil
+	case ReceiptItemPaymentSubjectJob:
+		*s = ReceiptItemPaymentSubjectJob
+		return nil
+	case ReceiptItemPaymentSubjectService:
+		*s = ReceiptItemPaymentSubjectService
+		return nil
+	case ReceiptItemPaymentSubjectPayment:
+		*s = ReceiptItemPaymentSubjectPayment
+		return nil
+	case ReceiptItemPaymentSubjectCasino:
+		*s = ReceiptItemPaymentSubjectCasino
+		return nil
+	case ReceiptItemPaymentSubjectAnother:
+		*s = ReceiptItemPaymentSubjectAnother
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
 // Ref: #/components/schemas/RefundPayment
 type RefundPayment struct {
 	ID        string        `json:"id"`
@@ -1799,6 +2247,7 @@ type ReqPayment struct {
 	// Идентификатор сохраненного способа оплаты.
 	PaymentMethodID OptString   `json:"payment_method_id"`
 	Metadata        OptMetadata `json:"metadata"`
+	Receipt         OptReceipt  `json:"receipt"`
 }
 
 // GetAmount returns the value of Amount.
@@ -1836,6 +2285,11 @@ func (s *ReqPayment) GetMetadata() OptMetadata {
 	return s.Metadata
 }
 
+// GetReceipt returns the value of Receipt.
+func (s *ReqPayment) GetReceipt() OptReceipt {
+	return s.Receipt
+}
+
 // SetAmount sets the value of Amount.
 func (s *ReqPayment) SetAmount(val Amount) {
 	s.Amount = val
@@ -1869,6 +2323,11 @@ func (s *ReqPayment) SetPaymentMethodID(val OptString) {
 // SetMetadata sets the value of Metadata.
 func (s *ReqPayment) SetMetadata(val OptMetadata) {
 	s.Metadata = val
+}
+
+// SetReceipt sets the value of Receipt.
+func (s *ReqPayment) SetReceipt(val OptReceipt) {
+	s.Receipt = val
 }
 
 // ReqPaymentConfirmation represents sum type.

@@ -232,6 +232,8 @@ components:
           type: string
         metadata:
           $ref: "#/components/schemas/Metadata"
+        receipt:
+          $ref: "#/components/schemas/Receipt"
 
     PaymentConfirmationEmbedded:
       type: object
@@ -415,10 +417,65 @@ components:
           $ref: "#/components/schemas/Amount"
         payment_id:
           type: string
-# {
-#         "amount": {
-#           "value": "0.5",
-#           "currency": "RUB"
-#         },
-#         "payment_id": "2e2e9127-000f-5000-a000-18716a9ab170"
-#       }
+
+    Receipt:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/ReceiptItem"
+        customer:
+          $ref: "#/components/schemas/ReceiptCustomer"
+
+    ReceiptItem:
+      type: object
+      required: [description, amount, vat_code, quantity]
+      properties:
+        description:
+          type: string
+        amount:
+          $ref: "#/components/schemas/Amount"
+        vat_code:
+          type: integer
+          description: |
+                1	Без НДС
+                2	НДС по ставке 0%
+                3	НДС по ставке 10%
+                4	НДС по ставке 20%
+                5	НДС по расчетной ставке 10/110
+                6	НДС по расчетной ставке 20/120
+                7	НДС по ставке 5%
+                8	НДС по ставке 7%
+                9	НДС по расчетной ставке 5/105
+                10	НДС по расчетной ставке 7/107
+          minimum: 1
+          maximum: 10
+        quantity:
+          type: integer
+        payment_subject:
+          type: string
+          enum:
+            - commodity
+            - job
+            - service
+            - payment
+            - casino
+            - another
+        payment_mode:
+          type: string
+          enum:
+            - full_prepayment
+            - full_payment
+    
+    ReceiptCustomer:
+      type: object
+      properties:
+        full_name:
+          type: string
+        inn:
+          type: string
+        email:
+          type: string
+        phone: 
+          type: string
