@@ -1304,6 +1304,7 @@ func (s *PaymentCancellationDetails) SetReason(val OptPaymentCancellationDetails
 type PaymentCancellationDetailsReason string
 
 const (
+	PaymentCancellationDetailsReason3DSecureFailed               PaymentCancellationDetailsReason = "3d_secure_failed"
 	PaymentCancellationDetailsReasonGeneralDecline               PaymentCancellationDetailsReason = "general_decline"
 	PaymentCancellationDetailsReasonInsufficientFunds            PaymentCancellationDetailsReason = "insufficient_funds"
 	PaymentCancellationDetailsReasonRejectedByPayee              PaymentCancellationDetailsReason = "rejected_by_payee"
@@ -1314,11 +1315,29 @@ const (
 	PaymentCancellationDetailsReasonPaymentTruCodeNotFound       PaymentCancellationDetailsReason = "payment_tru_code_not_found"
 	PaymentCancellationDetailsReasonSomeArticlesAlreadyRefunded  PaymentCancellationDetailsReason = "some_articles_already_refunded"
 	PaymentCancellationDetailsReasonTooManyRefundingArticles     PaymentCancellationDetailsReason = "too_many_refunding_articles"
+	PaymentCancellationDetailsReasonCallIssuer                   PaymentCancellationDetailsReason = "call_issuer"
+	PaymentCancellationDetailsReasonCanceledByMerchant           PaymentCancellationDetailsReason = "canceled_by_merchant"
+	PaymentCancellationDetailsReasonCardExpired                  PaymentCancellationDetailsReason = "card_expired"
+	PaymentCancellationDetailsReasonCountryForbidden             PaymentCancellationDetailsReason = "country_forbidden"
+	PaymentCancellationDetailsReasonDealExpired                  PaymentCancellationDetailsReason = "deal_expired"
+	PaymentCancellationDetailsReasonExpiredOnCapture             PaymentCancellationDetailsReason = "expired_on_capture"
+	PaymentCancellationDetailsReasonExpiredOnConfirmation        PaymentCancellationDetailsReason = "expired_on_confirmation"
+	PaymentCancellationDetailsReasonFraudSuspected               PaymentCancellationDetailsReason = "fraud_suspected"
+	PaymentCancellationDetailsReasonIdentificationRequired       PaymentCancellationDetailsReason = "identification_required"
+	PaymentCancellationDetailsReasonInternalTimeout              PaymentCancellationDetailsReason = "internal_timeout"
+	PaymentCancellationDetailsReasonInvalidCardNumber            PaymentCancellationDetailsReason = "invalid_card_number"
+	PaymentCancellationDetailsReasonInvalidCsc                   PaymentCancellationDetailsReason = "invalid_csc"
+	PaymentCancellationDetailsReasonIssuerUnavailable            PaymentCancellationDetailsReason = "issuer_unavailable"
+	PaymentCancellationDetailsReasonPaymentMethodLimitExceeded   PaymentCancellationDetailsReason = "payment_method_limit_exceeded"
+	PaymentCancellationDetailsReasonPaymentMethodRestricted      PaymentCancellationDetailsReason = "payment_method_restricted"
+	PaymentCancellationDetailsReasonPermissionRevoked            PaymentCancellationDetailsReason = "permission_revoked"
+	PaymentCancellationDetailsReasonUnsupportedMobileOperator    PaymentCancellationDetailsReason = "unsupported_mobile_operator"
 )
 
 // AllValues returns all PaymentCancellationDetailsReason values.
 func (PaymentCancellationDetailsReason) AllValues() []PaymentCancellationDetailsReason {
 	return []PaymentCancellationDetailsReason{
+		PaymentCancellationDetailsReason3DSecureFailed,
 		PaymentCancellationDetailsReasonGeneralDecline,
 		PaymentCancellationDetailsReasonInsufficientFunds,
 		PaymentCancellationDetailsReasonRejectedByPayee,
@@ -1329,12 +1348,31 @@ func (PaymentCancellationDetailsReason) AllValues() []PaymentCancellationDetails
 		PaymentCancellationDetailsReasonPaymentTruCodeNotFound,
 		PaymentCancellationDetailsReasonSomeArticlesAlreadyRefunded,
 		PaymentCancellationDetailsReasonTooManyRefundingArticles,
+		PaymentCancellationDetailsReasonCallIssuer,
+		PaymentCancellationDetailsReasonCanceledByMerchant,
+		PaymentCancellationDetailsReasonCardExpired,
+		PaymentCancellationDetailsReasonCountryForbidden,
+		PaymentCancellationDetailsReasonDealExpired,
+		PaymentCancellationDetailsReasonExpiredOnCapture,
+		PaymentCancellationDetailsReasonExpiredOnConfirmation,
+		PaymentCancellationDetailsReasonFraudSuspected,
+		PaymentCancellationDetailsReasonIdentificationRequired,
+		PaymentCancellationDetailsReasonInternalTimeout,
+		PaymentCancellationDetailsReasonInvalidCardNumber,
+		PaymentCancellationDetailsReasonInvalidCsc,
+		PaymentCancellationDetailsReasonIssuerUnavailable,
+		PaymentCancellationDetailsReasonPaymentMethodLimitExceeded,
+		PaymentCancellationDetailsReasonPaymentMethodRestricted,
+		PaymentCancellationDetailsReasonPermissionRevoked,
+		PaymentCancellationDetailsReasonUnsupportedMobileOperator,
 	}
 }
 
 // MarshalText implements encoding.TextMarshaler.
 func (s PaymentCancellationDetailsReason) MarshalText() ([]byte, error) {
 	switch s {
+	case PaymentCancellationDetailsReason3DSecureFailed:
+		return []byte(s), nil
 	case PaymentCancellationDetailsReasonGeneralDecline:
 		return []byte(s), nil
 	case PaymentCancellationDetailsReasonInsufficientFunds:
@@ -1355,6 +1393,40 @@ func (s PaymentCancellationDetailsReason) MarshalText() ([]byte, error) {
 		return []byte(s), nil
 	case PaymentCancellationDetailsReasonTooManyRefundingArticles:
 		return []byte(s), nil
+	case PaymentCancellationDetailsReasonCallIssuer:
+		return []byte(s), nil
+	case PaymentCancellationDetailsReasonCanceledByMerchant:
+		return []byte(s), nil
+	case PaymentCancellationDetailsReasonCardExpired:
+		return []byte(s), nil
+	case PaymentCancellationDetailsReasonCountryForbidden:
+		return []byte(s), nil
+	case PaymentCancellationDetailsReasonDealExpired:
+		return []byte(s), nil
+	case PaymentCancellationDetailsReasonExpiredOnCapture:
+		return []byte(s), nil
+	case PaymentCancellationDetailsReasonExpiredOnConfirmation:
+		return []byte(s), nil
+	case PaymentCancellationDetailsReasonFraudSuspected:
+		return []byte(s), nil
+	case PaymentCancellationDetailsReasonIdentificationRequired:
+		return []byte(s), nil
+	case PaymentCancellationDetailsReasonInternalTimeout:
+		return []byte(s), nil
+	case PaymentCancellationDetailsReasonInvalidCardNumber:
+		return []byte(s), nil
+	case PaymentCancellationDetailsReasonInvalidCsc:
+		return []byte(s), nil
+	case PaymentCancellationDetailsReasonIssuerUnavailable:
+		return []byte(s), nil
+	case PaymentCancellationDetailsReasonPaymentMethodLimitExceeded:
+		return []byte(s), nil
+	case PaymentCancellationDetailsReasonPaymentMethodRestricted:
+		return []byte(s), nil
+	case PaymentCancellationDetailsReasonPermissionRevoked:
+		return []byte(s), nil
+	case PaymentCancellationDetailsReasonUnsupportedMobileOperator:
+		return []byte(s), nil
 	default:
 		return nil, errors.Errorf("invalid value: %q", s)
 	}
@@ -1363,6 +1435,9 @@ func (s PaymentCancellationDetailsReason) MarshalText() ([]byte, error) {
 // UnmarshalText implements encoding.TextUnmarshaler.
 func (s *PaymentCancellationDetailsReason) UnmarshalText(data []byte) error {
 	switch PaymentCancellationDetailsReason(data) {
+	case PaymentCancellationDetailsReason3DSecureFailed:
+		*s = PaymentCancellationDetailsReason3DSecureFailed
+		return nil
 	case PaymentCancellationDetailsReasonGeneralDecline:
 		*s = PaymentCancellationDetailsReasonGeneralDecline
 		return nil
@@ -1392,6 +1467,57 @@ func (s *PaymentCancellationDetailsReason) UnmarshalText(data []byte) error {
 		return nil
 	case PaymentCancellationDetailsReasonTooManyRefundingArticles:
 		*s = PaymentCancellationDetailsReasonTooManyRefundingArticles
+		return nil
+	case PaymentCancellationDetailsReasonCallIssuer:
+		*s = PaymentCancellationDetailsReasonCallIssuer
+		return nil
+	case PaymentCancellationDetailsReasonCanceledByMerchant:
+		*s = PaymentCancellationDetailsReasonCanceledByMerchant
+		return nil
+	case PaymentCancellationDetailsReasonCardExpired:
+		*s = PaymentCancellationDetailsReasonCardExpired
+		return nil
+	case PaymentCancellationDetailsReasonCountryForbidden:
+		*s = PaymentCancellationDetailsReasonCountryForbidden
+		return nil
+	case PaymentCancellationDetailsReasonDealExpired:
+		*s = PaymentCancellationDetailsReasonDealExpired
+		return nil
+	case PaymentCancellationDetailsReasonExpiredOnCapture:
+		*s = PaymentCancellationDetailsReasonExpiredOnCapture
+		return nil
+	case PaymentCancellationDetailsReasonExpiredOnConfirmation:
+		*s = PaymentCancellationDetailsReasonExpiredOnConfirmation
+		return nil
+	case PaymentCancellationDetailsReasonFraudSuspected:
+		*s = PaymentCancellationDetailsReasonFraudSuspected
+		return nil
+	case PaymentCancellationDetailsReasonIdentificationRequired:
+		*s = PaymentCancellationDetailsReasonIdentificationRequired
+		return nil
+	case PaymentCancellationDetailsReasonInternalTimeout:
+		*s = PaymentCancellationDetailsReasonInternalTimeout
+		return nil
+	case PaymentCancellationDetailsReasonInvalidCardNumber:
+		*s = PaymentCancellationDetailsReasonInvalidCardNumber
+		return nil
+	case PaymentCancellationDetailsReasonInvalidCsc:
+		*s = PaymentCancellationDetailsReasonInvalidCsc
+		return nil
+	case PaymentCancellationDetailsReasonIssuerUnavailable:
+		*s = PaymentCancellationDetailsReasonIssuerUnavailable
+		return nil
+	case PaymentCancellationDetailsReasonPaymentMethodLimitExceeded:
+		*s = PaymentCancellationDetailsReasonPaymentMethodLimitExceeded
+		return nil
+	case PaymentCancellationDetailsReasonPaymentMethodRestricted:
+		*s = PaymentCancellationDetailsReasonPaymentMethodRestricted
+		return nil
+	case PaymentCancellationDetailsReasonPermissionRevoked:
+		*s = PaymentCancellationDetailsReasonPermissionRevoked
+		return nil
+	case PaymentCancellationDetailsReasonUnsupportedMobileOperator:
+		*s = PaymentCancellationDetailsReasonUnsupportedMobileOperator
 		return nil
 	default:
 		return errors.Errorf("invalid value: %q", data)
