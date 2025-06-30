@@ -11,7 +11,7 @@ import (
 
 	"github.com/go-faster/jx"
 	"github.com/joho/godotenv"
-	"github.com/wildwind123/yookassa/ogencl"
+	"github.com/quri-dev/yookassa/ogencl"
 )
 
 type C struct{}

@@ -6,7 +6,7 @@ import (
 	"net/http/httputil"
 
 	"github.com/go-faster/errors"
-	"github.com/wildwind123/yookassa/ogencl"
+	"github.com/quri-dev/yookassa/ogencl"
 )
 
 type LoggingTransport struct {
