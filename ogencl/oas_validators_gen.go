@@ -182,6 +182,40 @@ func (s PaymentCancellationDetailsReason) Validate() error {
 		return nil
 	case "too_many_refunding_articles":
 		return nil
+	case "call_issuer":
+		return nil
+	case "canceled_by_merchant":
+		return nil
+	case "card_expired":
+		return nil
+	case "country_forbidden":
+		return nil
+	case "deal_expired":
+		return nil
+	case "expired_on_capture":
+		return nil
+	case "expired_on_confirmation":
+		return nil
+	case "fraud_suspected":
+		return nil
+	case "identification_required":
+		return nil
+	case "internal_timeout":
+		return nil
+	case "invalid_card_number":
+		return nil
+	case "invalid_csc":
+		return nil
+	case "issuer_unavailable":
+		return nil
+	case "payment_method_limit_exceeded":
+		return nil
+	case "payment_method_restricted":
+		return nil
+	case "permission_revoked":
+		return nil
+	case "unsupported_mobile_operator":
+		return nil
 	default:
 		return errors.Errorf("invalid value: %v", s)
 	}
