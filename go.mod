@@ -1,4 +1,4 @@
-module github.com/wildwind123/yookassa
+module github.com/quri-dev/yookassa
 
 go 1.22.4
 
